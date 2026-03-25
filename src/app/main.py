@@ -195,6 +195,7 @@ CALLBACK_ADMIN_SYSTEM_TZ_HCM = "admin_system_tz_hcm"
 
 user_context = {}
 user_last_menu_message = {}
+user_last_status_message = {}
 
 
 async def _delete_last_menu_message(context: ContextTypes.DEFAULT_TYPE, chat_id: int, user_id: int) -> None:
@@ -223,6 +224,37 @@ async def _clear_menu_message(update: Update, context: ContextTypes.DEFAULT_TYPE
     if not update.effective_user or not update.effective_chat:
         return
     await _delete_last_menu_message(context, update.effective_chat.id, update.effective_user.id)
+
+
+async def _delete_last_status_message(context: ContextTypes.DEFAULT_TYPE, chat_id: int, user_id: int) -> None:
+    last_message_id = user_last_status_message.get(user_id)
+    if not last_message_id:
+        return
+    try:
+        await context.bot.delete_message(chat_id=chat_id, message_id=last_message_id)
+    except Exception:
+        pass
+    finally:
+        user_last_status_message.pop(user_id, None)
+
+
+async def _send_status_message(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, reply_markup=None, parse_mode=None) -> None:
+    if not update.message or not update.effective_user or not update.effective_chat:
+        return
+    user_id = update.effective_user.id
+    chat_id = update.effective_chat.id
+    await _delete_last_status_message(context, chat_id, user_id)
+    sent = await update.message.reply_text(text, reply_markup=reply_markup, parse_mode=parse_mode)
+    user_last_status_message[user_id] = sent.message_id
+
+
+async def _clear_transient_messages(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not update.effective_user or not update.effective_chat:
+        return
+    user_id = update.effective_user.id
+    chat_id = update.effective_chat.id
+    await _delete_last_menu_message(context, chat_id, user_id)
+    await _delete_last_status_message(context, chat_id, user_id)
 
 
 result_query_service = ResultQueryService()
@@ -840,8 +872,8 @@ async def mn_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     user_id = update.effective_user.id
     _set_user_target_date(user_id, _today_iso())
     _set_user_region(user_id, "MN")
-    await _clear_menu_message(update, context)
-    await update.message.reply_text(_build_env_region_message(user_id, "MN"), reply_markup=ReplyKeyboardRemove())
+    await _clear_transient_messages(update, context)
+    await _send_status_message(update, context, _build_env_region_message(user_id, "MN"), reply_markup=ReplyKeyboardRemove())
 
 
 async def mt_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -850,8 +882,8 @@ async def mt_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     user_id = update.effective_user.id
     _set_user_target_date(user_id, _today_iso())
     _set_user_region(user_id, "MT")
-    await _clear_menu_message(update, context)
-    await update.message.reply_text(_build_env_region_message(user_id, "MT"), reply_markup=ReplyKeyboardRemove())
+    await _clear_transient_messages(update, context)
+    await _send_status_message(update, context, _build_env_region_message(user_id, "MT"), reply_markup=ReplyKeyboardRemove())
 
 
 async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -860,8 +892,8 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     user_id = update.effective_user.id
     _set_user_target_date(user_id, _today_iso())
     _set_user_region(user_id, "MB")
-    await _clear_menu_message(update, context)
-    await update.message.reply_text(_build_env_region_message(user_id, "MB"), reply_markup=ReplyKeyboardRemove())
+    await _clear_transient_messages(update, context)
+    await _send_status_message(update, context, _build_env_region_message(user_id, "MB"), reply_markup=ReplyKeyboardRemove())
 
 
 async def myid_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -901,6 +933,7 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     if not update.message or not update.effective_user:
         return
     _set_user_state(update.effective_user.id, UserState.IDLE)
+    await _clear_transient_messages(update, context)
     await _send_menu_message(update, context, _menu_anchor_text(), _build_main_menu_kb())
 
 
@@ -956,8 +989,8 @@ async def region_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     if region in VALID_REGIONS:
         _set_user_state(user_id, UserState.BET_INPUT)
         _set_user_region(user_id, region)
-        await _clear_menu_message(update, context)
-        await update.message.reply_text(_build_env_region_message(user_id, region), reply_markup=ReplyKeyboardRemove())
+        await _clear_transient_messages(update, context)
+        await _send_status_message(update, context, _build_env_region_message(user_id, region), reply_markup=ReplyKeyboardRemove())
     else:
         await update.message.reply_text("Invalid region. Please select MN, MT, or MB.")
 
@@ -1903,10 +1936,10 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             meta = result_data.get("meta")
             items = result_data.get("items", [])
             message_text = format_result_message(meta, items)
-            await _clear_menu_message(update, context)
+            await _clear_transient_messages(update, context)
             await update.message.reply_text(_as_monospace_html(message_text), parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
             # Show result action keyboard (ReplyKeyboard style)
-            await _send_menu_message(update, context, "Result actions:", _build_result_region_kb())
+            await _send_status_message(update, context, "Result actions:", reply_markup=_build_result_region_kb())
             return
         if text == "⬅ Back":
             _set_user_state(user_id, UserState.RESULT_DATE)
@@ -2024,12 +2057,12 @@ async def bet_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     region_group = _get_user_region(user_id)
     target_date = _get_user_target_date(user_id)
     if not region_group:
-        await _clear_menu_message(update, context)
+        await _clear_transient_messages(update, context)
         await update.message.reply_text("Please select region first.\nUse /mn /mt /mb", reply_markup=ReplyKeyboardRemove())
         return
     try:
         _, response_text = process_bet_message(user_id=str(user_id), region_group=region_group, text=text, target_date=target_date)
-        await _clear_menu_message(update, context)
+        await _clear_transient_messages(update, context)
         await update.message.reply_text(_as_monospace_html(response_text), parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
     except Exception as e:
         await update.message.reply_text(f"System Error: {str(e)}")
