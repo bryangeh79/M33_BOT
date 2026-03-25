@@ -45,6 +45,7 @@ from src.modules.report.constants.report_constants import (
     REPORT_TYPE_SETTLEMENT,
     REPORT_TYPE_TRANSACTION,
 )
+from src.modules.schedule.constants.region_schedule_map import get_allowed_regions
 from src.modules.report.formatters.number_detail_report_formatter import (
     format_report as format_number_detail_report,
 )
@@ -442,9 +443,24 @@ def _parse_custom_date_or_none(text: str) -> str | None:
 
 def _build_env_region_message(user_id: int, region: str) -> str:
     target_date = _get_user_target_date(user_id)
+    base = f"You are now in {region} bet mode.\nDate: {target_date}"
+
+    try:
+        target_date_obj = datetime.strptime(target_date, "%Y-%m-%d").date()
+        allowed_regions = get_allowed_regions(target_date_obj, region)
+    except Exception:
+        allowed_regions = []
+
+    region = str(region).upper()
+    if region in {"MN", "MT"} and allowed_regions:
+        region_codes = ", ".join(code.upper() for code in allowed_regions)
+        if target_date == _today_iso():
+            return f"{base} (Today)\n({region_codes})"
+        return f"{base}\n({region_codes})"
+
     if target_date == _today_iso():
-        return f"You are now in {region} bet mode.\nDate: {target_date} (Today)"
-    return f"You are now in {region} bet mode.\nDate: {target_date}"
+        return f"{base} (Today)"
+    return base
 
 
 def _get_user_result_draw_date(user_id: int) -> str | None:
