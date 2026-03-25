@@ -947,6 +947,7 @@ async def show_bet_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # 清理用户状态，确保没有旧信息遗留
     user_id = update.effective_user.id
+    await _clear_transient_messages(update, context)
     _set_user_state(user_id, UserState.IDLE)
     if not update.message or not update.effective_user:
         return
@@ -960,19 +961,19 @@ async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         await _send_menu_message(update, context, "Select region:", _build_region_kb())
     elif text == "Report":
         _set_user_state(user_id, UserState.REPORT_TYPE)
-        await _send_menu_message(update, context, "Select report type:", _build_report_type_kb())
+        await _send_status_message(update, context, "Select report type:", reply_markup=_build_report_type_kb())
     elif text == "Result":
         _set_user_state(user_id, UserState.RESULT_DATE)
-        await _send_menu_message(update, context, _build_result_menu_text(), _build_result_date_kb())
+        await _send_status_message(update, context, _build_result_menu_text(), reply_markup=_build_result_date_kb())
     elif text == "Other Day Input":
         _set_user_state(user_id, UserState.ODI_DATE)
-        await _send_menu_message(update, context, "Select date:", _build_odi_kb())
+        await _send_status_message(update, context, "Select date:", reply_markup=_build_odi_kb())
     elif text == "Admin":
         if not admin_auth_service.is_admin(user_id):
             await update.message.reply_text("您没有权限访问此功能。")
             return
         _set_user_state(user_id, UserState.ADMIN_MENU)
-        await _send_menu_message(update, context, _build_admin_menu_text(), _build_admin_menu_kb())
+        await _send_status_message(update, context, _build_admin_menu_text(), reply_markup=_build_admin_menu_kb())
     elif text == "Info":
         await _clear_menu_message(update, context)
         await update.message.reply_text(_as_monospace_html(_build_info_text()), parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
@@ -1691,7 +1692,7 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         if text.startswith("Today") or text.startswith("today"):
             _set_user_target_date(user_id, _today_iso())
             _set_user_state(user_id, UserState.BET_REGION)
-            await _send_menu_message(update, context, "Select region:", _build_region_kb())
+            await _send_status_message(update, context, "Select region:", reply_markup=_build_region_kb())
             return
         # Date button: "dd/mm"
         if re.match(r"^\d{2}/\d{2}$", text):
@@ -1704,12 +1705,12 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
                 return
             _set_user_target_date(user_id, target_date)
             _set_user_state(user_id, UserState.BET_REGION)
-            await _send_menu_message(update, context, "Select region:", _build_region_kb())
+            await _send_status_message(update, context, "Select region:", reply_markup=_build_region_kb())
             return
         # "Set Custom Date" button
         if text.lower() == "set custom date":
             _set_waiting_custom_date(user_id, True)
-            await _send_menu_message(update, context, "Please enter date (YYYY-MM-DD):", ReplyKeyboardRemove())
+            await _send_status_message(update, context, "Please enter date (YYYY-MM-DD):", reply_markup=ReplyKeyboardRemove())
             return
         # "⬅ Back" button
         if text == "⬅ Back":
@@ -1735,7 +1736,7 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         if text in type_map:
             _set_user_state(user_id, UserState.REPORT_DATE)
             user_context[user_id]["report_type"] = type_map[text]
-            await _send_menu_message(update, context, "Select date:", _build_report_date_kb())
+            await _send_status_message(update, context, "Select date:", reply_markup=_build_report_date_kb())
             return
         if text == "⬅ Back":
             _set_user_state(user_id, UserState.IDLE)
@@ -1792,7 +1793,7 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         # "⬅ Back" → return to report type selection
         if text == "⬅ Back":
             _set_user_state(user_id, UserState.REPORT_TYPE)
-            await _send_menu_message(update, context, "Select report type:", _build_report_type_kb())
+            await _send_status_message(update, context, "Select report type:", reply_markup=_build_report_type_kb())
             return
         # Menu button fallback
         if text in MENU_BUTTONS:
@@ -1895,7 +1896,7 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             draw_date = _today_iso()
             _set_user_result_draw_date(user_id, draw_date)
             _set_user_state(user_id, UserState.RESULT_REGION)
-            await _send_menu_message(update, context, "Select region:", _build_result_region_kb())
+            await _send_status_message(update, context, "Select region:", reply_markup=_build_result_region_kb())
             return
         # Date button: "dd/mm"
         if re.match(r"^\d{2}/\d{2}$", text):
@@ -1904,11 +1905,11 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             try:
                 draw_date = date(year, int(month), int(day)).isoformat()
             except ValueError:
-                await _send_menu_message(update, context, "❌ Invalid date.", _build_result_date_kb())
+                await _send_status_message(update, context, "❌ Invalid date.", reply_markup=_build_result_date_kb())
                 return
             _set_user_result_draw_date(user_id, draw_date)
             _set_user_state(user_id, UserState.RESULT_REGION)
-            await _send_menu_message(update, context, "Select region:", _build_result_region_kb())
+            await _send_status_message(update, context, "Select region:", reply_markup=_build_result_region_kb())
             return
         # "⬅ Back" button
         if text == "⬅ Back":
@@ -1943,7 +1944,7 @@ async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             return
         if text == "⬅ Back":
             _set_user_state(user_id, UserState.RESULT_DATE)
-            await _send_menu_message(update, context, _build_result_menu_text(), _build_result_date_kb())
+            await _send_status_message(update, context, _build_result_menu_text(), reply_markup=_build_result_date_kb())
             return
         # Menu button fallback while in RESULT_REGION → go to IDLE then handle
         if text in MENU_BUTTONS:
