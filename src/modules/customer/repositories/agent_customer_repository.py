@@ -2,15 +2,18 @@ import os
 import sqlite3
 from pathlib import Path
 
+from src.app.database import get_db_path
+
 class AgentCustomerRepository:
     DEFAULT_AGENT_ID = "DEFAULT"
 
     def __init__(self, db_path: str | Path | None = None):
-        self.db_path = Path(db_path) if db_path else Path(os.getenv("DB_PATH", "data/m33_lotto.db"))
+        self.db_path = Path(db_path) if db_path else None
 
     def _get_connection(self) -> sqlite3.Connection:
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        conn = sqlite3.connect(str(self.db_path))
+        db_path = self.db_path or get_db_path()
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        conn = sqlite3.connect(str(db_path))
         conn.row_factory = sqlite3.Row
         return conn
 
