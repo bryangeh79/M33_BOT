@@ -358,10 +358,10 @@ async def _clear_transient_messages(update: Update, context: ContextTypes.DEFAUL
 result_query_service = None
 result_fetch_service = None
 
-transaction_report_service = TransactionReportService()
-number_detail_report_service = NumberDetailReportService()
-settlement_report_service = SettlementReportService()
-over_limit_report_service = OverLimitReportService()
+transaction_report_service = None
+number_detail_report_service = None
+settlement_report_service = None
+over_limit_report_service = None
 
 admin_auth_service = None
 admin_settings_service = None
@@ -735,6 +735,8 @@ def validate_environment() -> None:
 def initialize_database() -> None:
     global admin_auth_service, admin_settings_service, agent_customer_repository, user_pref_repo
     global result_query_service, result_fetch_service
+    global transaction_report_service, number_detail_report_service
+    global settlement_report_service, over_limit_report_service
 
     log_step("🗄 Initializing database ...")
 
@@ -751,6 +753,14 @@ def initialize_database() -> None:
         result_fetch_service = ResultFetchService()
     if result_query_service is None:
         result_query_service = ResultQueryService()
+    if transaction_report_service is None:
+        transaction_report_service = TransactionReportService()
+    if number_detail_report_service is None:
+        number_detail_report_service = NumberDetailReportService()
+    if settlement_report_service is None:
+        settlement_report_service = SettlementReportService()
+    if over_limit_report_service is None:
+        over_limit_report_service = OverLimitReportService()
 
     init_database()
     admin_auth_service.init_and_sync()
