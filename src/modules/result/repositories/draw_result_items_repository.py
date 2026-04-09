@@ -1,11 +1,11 @@
-from src.app.database import DB_PATH
+from src.app.database import get_db_path
 import sqlite3
 from datetime import datetime
 
 
 class DrawResultItemsRepository:
-    def __init__(self, db_path=DB_PATH):
-        self.db_path = db_path
+    def __init__(self, db_path=None):
+        self.db_path = db_path or get_db_path()
 
     def insert_items(self, draw_result_id, items):
         with sqlite3.connect(self.db_path) as conn:

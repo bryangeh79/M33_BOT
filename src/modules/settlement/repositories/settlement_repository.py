@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 from pathlib import Path
 from typing import List
@@ -8,12 +9,9 @@ from typing import List
 from src.modules.settlement.models.settlement_result import SettlementResult
 
 
-DB_PATH = Path("data/m33_lotto.db")
-
-
 class SettlementRepository:
-    def __init__(self, db_path: Path = DB_PATH):
-        self.db_path = db_path
+    def __init__(self, db_path: Path | None = None):
+        self.db_path = db_path or Path(os.getenv("DB_PATH", "data/m33_lotto.db"))
 
     def _get_connection(self):
         self.db_path.parent.mkdir(parents=True, exist_ok=True)

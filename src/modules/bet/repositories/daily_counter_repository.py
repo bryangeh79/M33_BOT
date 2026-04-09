@@ -4,14 +4,14 @@ from datetime import date
 from pathlib import Path
 
 
-# 从环境变量获取路径，确保是Path对象
-db_path_str = os.getenv("DB_PATH", "data/m33_lotto.db")
-DB_PATH = Path(db_path_str)
+def _get_db_path() -> Path:
+    return Path(os.getenv("DB_PATH", "data/m33_lotto.db"))
 
 
 def _get_connection():
-    Path(DB_PATH).parent.mkdir(parents=True, exist_ok=True)
-    return sqlite3.connect(str(DB_PATH))
+    db_path = _get_db_path()
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+    return sqlite3.connect(str(db_path))
 
 
 def init_daily_counter_table():

@@ -1,11 +1,11 @@
 import json
 import sqlite3
 
-from src.app.database import DB_PATH
+from src.app.database import get_db_path
 
 
 def _get_connection():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(str(get_db_path()))
     conn.row_factory = sqlite3.Row
     return conn
 

@@ -2,14 +2,14 @@ import json
 import sqlite3
 from decimal import Decimal
 
-from src.app.database import DB_PATH
+from src.app.database import get_db_path
 
 
 class SettlementReportRepository:
     REGION_GROUPS = ("MN", "MT", "MB")
 
     def _get_connection(self):
-        conn = sqlite3.connect(DB_PATH)
+        conn = sqlite3.connect(str(get_db_path()))
         conn.row_factory = sqlite3.Row
         return conn
 

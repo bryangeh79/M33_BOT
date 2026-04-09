@@ -3,15 +3,12 @@ import sqlite3
 from pathlib import Path
 from typing import Any
 
-DB_PATH = os.getenv("DB_PATH", "data/m33_lotto.db")
-
-
 class AdminUserRepository:
     def __init__(self, db_path: str | Path | None = None):
         if db_path:
             self.db_path = Path(db_path)
         else:
-            self.db_path = Path(DB_PATH)
+            self.db_path = Path(os.getenv("DB_PATH", "data/m33_lotto.db"))
 
     def _get_connection(self) -> sqlite3.Connection:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)

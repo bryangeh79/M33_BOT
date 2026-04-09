@@ -22,11 +22,14 @@ from src.modules.bet.repositories.daily_counter_repository import (
 from src.modules.customer.repositories.agent_customer_repository import AgentCustomerRepository
 
 import os
-DB_PATH = Path(os.getenv("DB_PATH", "data/m33_lotto.db"))
 SCHEMA_PATH = Path("src/data/schema/create_schema.sql")
 admin_settings_service = AdminSettingsService()
 agent_customer_repository = AgentCustomerRepository()
 DEFAULT_AGENT_ID = AgentCustomerRepository.DEFAULT_AGENT_ID
+
+
+def _get_db_path() -> Path:
+    return Path(os.getenv("DB_PATH", "data/m33_lotto.db"))
 
 
 def _today_iso_local() -> str:
@@ -35,8 +38,7 @@ def _today_iso_local() -> str:
 
 
 def _get_connection():
-    from pathlib import Path
-    path_obj = Path(DB_PATH)
+    path_obj = _get_db_path()
     path_obj.parent.mkdir(parents=True, exist_ok=True)
     return sqlite3.connect(str(path_obj))
 

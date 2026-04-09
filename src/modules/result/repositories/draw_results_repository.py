@@ -1,11 +1,11 @@
-from src.app.database import DB_PATH
+from src.app.database import get_db_path
 import sqlite3
 from datetime import datetime
 
 
 class DrawResultsRepository:
-    def __init__(self, db_path=DB_PATH):
-        self.db_path = db_path
+    def __init__(self, db_path=None):
+        self.db_path = db_path or get_db_path()
 
     def get_result(self, draw_date, region_code):
         with sqlite3.connect(self.db_path) as conn:

@@ -2,12 +2,9 @@ import os
 import sqlite3
 from pathlib import Path
 
-DB_PATH = os.getenv("DB_PATH", "data/m33_lotto.db")
-
-
 class BonusPayoutRepository:
     def __init__(self, db_path: str | Path | None = None):
-        self.db_path = Path(db_path) if db_path else Path(DB_PATH)
+        self.db_path = Path(db_path) if db_path else Path(os.getenv("DB_PATH", "data/m33_lotto.db"))
 
     def _get_connection(self) -> sqlite3.Connection:
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
