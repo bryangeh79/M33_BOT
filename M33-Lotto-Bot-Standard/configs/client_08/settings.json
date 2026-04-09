@@ -1,0 +1,25 @@
+{
+    "client_id": "08",
+    "client_name": "客户01",
+    "features": {
+        "enable_bet": true,
+        "enable_report": true,
+        "enable_settlement": true,
+        "enable_admin": true,
+        "enable_export": true
+    },
+    "ui": {
+        "currency_symbol": "₫",
+        "date_format": "YYYY-MM-DD",
+        "time_format": "HH:mm:ss",
+        "number_format": "en-US"
+    },
+    "limits": {
+        "max_bet_amount": 1000000,
+        "max_daily_bets": 1000
+    },
+    "commission": {
+        "agent_rate": 0.05,
+        "admin_rate": 0.02
+    }
+}

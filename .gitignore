@@ -1,0 +1,38 @@
+# Secrets and local env
+.env
+.env.*
+!.env.template
+configs/**/.env
+
+# Personal/private workspace context
+memory/
+HEARTBEAT.md
+USER.md
+SOUL.md
+TOOLS.md
+.claude/
+.openclaw/
+.clawnore
+
+# Python cache
+__pycache__/
+*.py[cod]
+src/**/__pycache__/
+
+# Runtime data and logs
+logs/
+app.log
+*.log
+data/
+state/
+
+# Local/runtime config variants
+configs/runtime_bot_*/
+
+# Generated reports and exports
+*.html
+*.zip
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

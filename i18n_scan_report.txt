@@ -1,0 +1,2295 @@
+﻿I18N SCAN REPORT
+Root: C:\AI_WORKSPACE\M33-Lotto-Bot-VN
+Generated: 4/2/2026 12:44:28 PM
+
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\app\main.py
+  [button] line 9: from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton, Update
+  [info] line 10: from telegram.ext import (
+  [prompt] line 13: CallbackQueryHandler,
+  [menu] line 22: from src.modules.admin.services.admin_auth_service import AdminAuthService
+  [menu] line 23: from src.modules.admin.services.admin_settings_service import AdminSettingsService
+  [prompt] line 31: REPORT_CALLBACK_BACK_TO_MENU,
+  [prompt] line 32: REPORT_CALLBACK_CLOSE,
+  [prompt] line 33: REPORT_CALLBACK_DATE_PREFIX,
+  [prompt] line 34: REPORT_CALLBACK_EXPORT_PREFIX,
+  [prompt] line 35: REPORT_CALLBACK_MENU,
+  [prompt] line 36: REPORT_CALLBACK_TYPE_PREFIX,
+  [formatter] line 38: REPORT_LABEL_NUMBER_DETAIL,
+  [formatter] line 43: REPORT_TYPE_NUMBER_DETAIL,
+  [formatter] line 48: from src.modules.schedule.constants.region_schedule_map import get_allowed_regions
+  [formatter] line 49: from src.modules.report.formatters.number_detail_report_formatter import (
+  [formatter] line 50: format_report as format_number_detail_report,
+  [formatter] line 59: build_number_detail_report_html,
+  [info] line 63: format_settlement_report_telegram,
+  [formatter] line 72: from src.modules.report.services.number_detail_report_service import (
+  [formatter] line 73: NumberDetailReportService,
+  [prompt] line 85: CALLBACK_RESULT_CHANGE_DATE,
+  [prompt] line 86: CALLBACK_RESULT_CLOSE,
+  [prompt] line 87: CALLBACK_RESULT_DATE_PREFIX,
+  [prompt] line 88: CALLBACK_RESULT_MENU,
+  [prompt] line 89: CALLBACK_RESULT_REFRESH_PREFIX,
+  [prompt] line 90: CALLBACK_RESULT_VIEW_PREFIX,
+  [formatter] line 115: States replace scattered boolean flags (waiting_custom_date, region, etc.)
+  [formatter] line 119: IDLE â†’ BET_REGION          (user taps "Bet")
+  [formatter] line 120: BET_REGION â†’ BET_INPUT     (user taps MN/MT/MB)
+  [formatter] line 123: ODI_DATE â†’ BET_REGION      (user picks date)
+  [formatter] line 125: RESULT_DATE â†’ RESULT_REGION (user picks date)
+  [prompt] line 126: RESULT_REGION â†’ IDLE       (user views result / back)
+  [menu] line 127: IDLE â†’ ADMIN_MENU          (user taps "Admin")
+  [prompt] line 128: ADMIN_MENU â†’ IDLE          (user taps "â¬… Back")
+  [prompt] line 129: * â†’ IDLE                   (default fallback / menu button tap)
+  [prompt] line 132: BET_REGION = "bet_region"           # Selecting MN/MT/MB
+  [menu] line 137: ADMIN_WAITING = "admin_waiting"    # Waiting for admin text input
+  [prompt] line 139: RESULT_REGION = "result_region"    # Selecting result region
+  [menu] line 140: ADMIN_MENU = "admin_menu"          # Admin top-level menu
+  [formatter] line 144: UserState.BET_REGION,
+  [menu] line 149: UserState.ADMIN_WAITING,
+  [formatter] line 151: UserState.RESULT_REGION,
+  [menu] line 152: UserState.ADMIN_MENU,
+  [prompt] line 155: # State â†’ keyboard builder mapping (used for consistent back/menu transitions)
+  [formatter] line 157: VALID_REGIONS = {"MN", "MT", "MB"}
+  [info] line 158: MENU_BUTTONS_LIST = ["Bet", "Report", "Result", "Other Day Input", "Admin", "Info"]
+  [menu] line 161: ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID")
+  [menu] line 162: DEFAULT_ADMIN_USER_IDS = os.getenv("DEFAULT_ADMIN_USER_IDS", "")
+  [info] line 163: VERSION_FILE = Path("VERSION.txt")
+  [prompt] line 165: MENU_BUTTONS = MENU_BUTTONS_LIST  # backward compat alias
+  [prompt] line 167: CALLBACK_ODI_MENU = "odi_menu"
+  [prompt] line 168: CALLBACK_ODI_DATE_PREFIX = "odi_date:"
+  [prompt] line 169: CALLBACK_ODI_SET_CUSTOM = "odi_set_custom"
+  [prompt] line 170: CALLBACK_ODI_SET_TODAY = "odi_set_today"
+  [prompt] line 171: CALLBACK_ODI_CLOSE = "odi_close"
+  [prompt] line 173: CALLBACK_ADMIN_MENU = "admin_menu"
+  [prompt] line 174: CALLBACK_ADMIN_SET_ADMIN = "admin_set_admin"
+  [prompt] line 175: CALLBACK_ADMIN_VIEW_ADMINS = "admin_view_admins"
+  [prompt] line 176: CALLBACK_ADMIN_ADD_ADMIN = "admin_add_admin"
+  [prompt] line 177: CALLBACK_ADMIN_REMOVE_ADMIN = "admin_remove_admin"
+  [prompt] line 178: CALLBACK_ADMIN_BACK = "admin_back"
+  [prompt] line 179: CALLBACK_ADMIN_CLOSE = "admin_close"
+  [prompt] line 181: CALLBACK_ADMIN_AGENT_MENU = "admin_agent_menu"
+  [prompt] line 182: CALLBACK_ADMIN_AGENT_VIEW = "admin_agent_view"
+  [prompt] line 183: CALLBACK_ADMIN_AGENT_EDIT = "admin_agent_edit"
+  [prompt] line 185: CALLBACK_ADMIN_BONUS_MENU = "admin_bonus_menu"
+  [prompt] line 186: CALLBACK_ADMIN_BONUS_VIEW = "admin_bonus_view"
+  [prompt] line 187: CALLBACK_ADMIN_BONUS_EDIT = "admin_bonus_edit"
+  [prompt] line 189: CALLBACK_ADMIN_LIMIT_MENU = "admin_limit_menu"
+  [prompt] line 190: CALLBACK_ADMIN_LIMIT_VIEW = "admin_limit_view"
+  [prompt] line 191: CALLBACK_ADMIN_LIMIT_EDIT = "admin_limit_edit"
+  [prompt] line 192: CALLBACK_ADMIN_LIMIT_ACTION_MENU = "admin_limit_action_menu"
+  [prompt] line 193: CALLBACK_ADMIN_LIMIT_ACTION_ACCEPT = "admin_limit_action_accept"
+  [prompt] line 194: CALLBACK_ADMIN_LIMIT_ACTION_REJECT = "admin_limit_action_reject"
+  [prompt] line 195: CALLBACK_ADMIN_NOTIFICATIONS_MENU = "admin_notifications_menu"
+  [prompt] line 196: CALLBACK_ADMIN_NOTIFICATIONS_VIEW = "admin_notifications_view"
+  [prompt] line 197: CALLBACK_ADMIN_NOTIFICATIONS_ON = "admin_notifications_on"
+  [prompt] line 198: CALLBACK_ADMIN_NOTIFICATIONS_OFF = "admin_notifications_off"
+  [prompt] line 199: CALLBACK_ADMIN_TIME_LIMIT_MENU = "admin_time_limit_menu"
+  [prompt] line 200: CALLBACK_ADMIN_TIME_LIMIT_VIEW = "admin_time_limit_view"
+  [prompt] line 201: CALLBACK_ADMIN_TIME_LIMIT_EDIT = "admin_time_limit_edit"
+  [prompt] line 202: CALLBACK_ADMIN_SYSTEM_TZ_MENU = "admin_system_tz_menu"
+  [prompt] line 203: CALLBACK_ADMIN_SYSTEM_TZ_VIEW = "admin_system_tz_view"
+  [prompt] line 204: CALLBACK_ADMIN_SYSTEM_TZ_KL = "admin_system_tz_kl"
+  [prompt] line 205: CALLBACK_ADMIN_SYSTEM_TZ_HCM = "admin_system_tz_hcm"
+  [prompt] line 224: async def _send_menu_message(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, reply_markup) -> None:
+  [prompt] line 230: sent = await update.message.reply_text(text, reply_markup=reply_markup)
+  [prompt] line 234: async def _clear_menu_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 252: async def _send_status_message(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, reply_markup=None, parse_mode=None) -> None:
+  [prompt] line 258: sent = await update.message.reply_text(text, reply_markup=reply_markup, parse_mode=parse_mode)
+  [prompt] line 262: async def _clear_transient_messages(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [formatter] line 275: number_detail_report_service = NumberDetailReportService()
+  [menu] line 279: admin_auth_service = AdminAuthService(default_admin_ids_str=DEFAULT_ADMIN_USER_IDS)
+  [menu] line 280: admin_settings_service = AdminSettingsService()
+  [prompt] line 290: return admin_settings_service.get_timezone()
+  [prompt] line 299: def _today_local_date() -> date:
+  [prompt] line 310: def _today_kl_iso() -> str:
+  [formatter] line 314: def _should_start_auto_fetch(region_group: str, now_kl: datetime) -> bool:
+  [formatter] line 315: start_time = AUTO_FETCH_START_TIMES[region_group]
+  [formatter] line 327: for region_group in ("MN", "MT", "MB"):
+  [formatter] line 328: if not _should_start_auto_fetch(region_group, now_kl):
+  [success] line 331: if completed.get(region_group) == target_date:
+  [formatter] line 335: fetch_result = result_fetch_service.fetch_and_store(target_date, region_group)
+  [formatter] line 336: is_complete = result_fetch_service.is_result_complete(target_date, region_group)
+  [success] line 339: completed[region_group] = target_date
+  [formatter] line 341: f"âœ… Auto result fetch complete | {region_group} | {target_date} | status={fetch_result.get('status')}"
+  [formatter] line 345: log_key = f"{target_date}:{region_group}"
+  [formatter] line 350: f"â³ Auto result fetch pending | {region_group} | {target_date} | status={fetch_result.get('status')}"
+  [error] line 353: log_key = f"error:{target_date}:{region_group}"
+  [error] line 357: log_step(f"âš  Auto result fetch failed | {region_group} | {target_date} | {exc}")
+  [button] line 363: def _build_main_menu_kb() -> ReplyKeyboardMarkup:
+  [button] line 365: return ReplyKeyboardMarkup(
+  [button] line 366: [[KeyboardButton("Bet"), KeyboardButton("Report"), KeyboardButton("Result")],
+  [button] line 367: [KeyboardButton("Other Day Input"), KeyboardButton("Admin"), KeyboardButton("Info")]],
+  [button] line 371: def _build_region_kb() -> ReplyKeyboardMarkup:
+  [prompt] line 372: """ReplyKeyboard for region selection state (BET_REGION)."""
+  [button] line 373: return ReplyKeyboardMarkup(
+  [button] line 374: [[KeyboardButton("MN"), KeyboardButton("MT"), KeyboardButton("MB")],
+  [button] line 375: [KeyboardButton("â¬… Back")]],
+  [button] line 379: def _build_odi_kb() -> ReplyKeyboardMarkup:
+  [prompt] line 381: today = _today_local_date()
+  [prompt] line 382: prev_dates = [today - timedelta(days=i) for i in range(3, 0, -1)]
+  [prompt] line 383: next_dates = [today + timedelta(days=i) for i in range(1, 4)]
+  [button] line 384: row_prev = [KeyboardButton(d.strftime("%d/%m")) for d in prev_dates]
+  [button] line 385: row_today = [KeyboardButton(f"Today {today.strftime('%d/%m')}")]
+  [button] line 386: row_next = [KeyboardButton(d.strftime("%d/%m")) for d in next_dates]
+  [button] line 387: return ReplyKeyboardMarkup(
+  [button] line 388: [row_prev, row_today, row_next, [KeyboardButton("Set Custom Date"), KeyboardButton("â¬… Back")]],
+  [prompt] line 398: #   "target_date": ISO date string (default today),
+  [formatter] line 399: #   "region": "MN"|"MT"|MB"|None,
+  [prompt] line 400: #   "waiting_custom_date": bool (legacy, kept for backward compat),
+  [prompt] line 401: #   "admin_waiting_action": str|None (legacy, kept for backward compat),
+  [formatter] line 404: #   - Transition to IDLE clears region, waiting_custom_date, admin_waiting_action
+  [formatter] line 405: #   - Transition to BET_REGION clears region
+  [prompt] line 412: "target_date": _today_iso(),
+  [formatter] line 413: "region": None,
+  [menu] line 415: "admin_waiting_action": None,
+  [formatter] line 432: user_context[user_id]["region"] = None
+  [menu] line 434: user_context[user_id]["admin_waiting_action"] = None
+  [formatter] line 436: user_context[user_id]["result_region"] = None
+  [formatter] line 437: elif new_state == UserState.BET_REGION:
+  [formatter] line 438: user_context[user_id]["region"] = None
+  [prompt] line 439: elif new_state == UserState.RESULT_DATE:
+  [formatter] line 441: user_context[user_id]["result_region"] = None
+  [menu] line 442: elif new_state == UserState.ADMIN_MENU:
+  [menu] line 443: # Keep admin_waiting_action for text input flow
+  [menu] line 460: if ADMIN_CHAT_ID:
+  [menu] line 461: log_step(f"âœ… ADMIN_CHAT_ID loaded: {ADMIN_CHAT_ID}")
+  [info] line 463: log_step("âš  ADMIN_CHAT_ID not set, startup Telegram notification will be skipped")
+  [menu] line 465: if DEFAULT_ADMIN_USER_IDS:
+  [menu] line 466: log_step(f"âœ… DEFAULT_ADMIN_USER_IDS loaded: {DEFAULT_ADMIN_USER_IDS}")
+  [menu] line 468: log_step("âš  DEFAULT_ADMIN_USER_IDS not set")
+  [menu] line 474: admin_auth_service.init_and_sync()
+  [menu] line 475: admin_settings_service.init_and_sync()
+  [menu] line 493: if not ADMIN_CHAT_ID:
+  [menu] line 498: chat_id=ADMIN_CHAT_ID,
+  [menu] line 505: log_step("âœ… Startup notification sent to admin")
+  [error] line 507: log_step(f"âš  Failed to send startup notification to admin: {e}")
+  [prompt] line 513: def _today_iso() -> str:
+  [prompt] line 514: return _today_local_date().isoformat()
+  [formatter] line 526: def _get_user_region(user_id: int) -> str | None:
+  [prompt] line 527: return _get_user_env(user_id)["region"]
+  [formatter] line 530: def _set_user_region(user_id: int, region: str | None) -> None:
+  [formatter] line 532: user_context[user_id]["region"] = region.upper() if region else None
+  [prompt] line 535: def _set_user_target_date(user_id: int, target_date: str) -> None:
+  [formatter] line 538: user_context[user_id]["region"] = None
+  [menu] line 551: def _set_admin_waiting_action(user_id: int, action: str | None) -> None:
+  [menu] line 553: user_context[user_id]["admin_waiting_action"] = action
+  [menu] line 556: def _get_admin_waiting_action(user_id: int) -> str | None:
+  [prompt] line 558: return user_context[user_id].get("admin_waiting_action")
+  [formatter] line 569: def _build_env_region_message(user_id: int, region: str) -> str:
+  [prompt] line 571: base = f"You are now in {region} bet mode.\nDate: {target_date}"
+  [formatter] line 575: allowed_regions = get_allowed_regions(target_date_obj, region)
+  [formatter] line 577: allowed_regions = []
+  [formatter] line 579: region = str(region).upper()
+  [formatter] line 580: if region in {"MN", "MT"} and allowed_regions:
+  [formatter] line 581: region_codes = ", ".join(code.upper() for code in allowed_regions)
+  [prompt] line 582: if target_date == _today_iso():
+  [prompt] line 583: return f"{base} (Today)\n({region_codes})"
+  [prompt] line 584: return f"{base}\n({region_codes})"
+  [prompt] line 586: if target_date == _today_iso():
+  [prompt] line 587: return f"{base} (Today)"
+  [prompt] line 595: def _set_user_result_draw_date(user_id: int, draw_date: str) -> None:
+  [formatter] line 600: def _get_user_result_region(user_id: int) -> str | None:
+  [prompt] line 601: return _get_user_env(user_id).get("result_region")
+  [formatter] line 604: def _set_user_result_region(user_id: int, region: str | None) -> None:
+  [formatter] line 606: user_context[user_id]["result_region"] = region.upper() if region else None
+  [info] line 617: def _get_app_version() -> str:
+  [info] line 619: if VERSION_FILE.exists():
+  [prompt] line 620: return VERSION_FILE.read_text(encoding="utf-8").strip() or "unknown"
+  [info] line 626: def _build_info_text() -> str:
+  [info] line 627: version = _get_app_version()
+  [info] line 630: "INFO",
+  [formatter] line 632: "REGION CODE",
+  [info] line 678: "FOR FURTHER INFORMATION",
+  [info] line 679: "Telegram: @M33_VN",
+  [info] line 680: f"Version : {version}",
+  [button] line 689: def _build_report_type_kb() -> ReplyKeyboardMarkup:
+  [button] line 691: return ReplyKeyboardMarkup(
+  [button] line 692: [[KeyboardButton(REPORT_LABEL_TRANSACTION), KeyboardButton(REPORT_LABEL_SETTLEMENT)],
+  [button] line 693: [KeyboardButton(REPORT_LABEL_NUMBER_DETAIL), KeyboardButton(REPORT_LABEL_OVER_LIMIT)],
+  [button] line 694: [KeyboardButton("â¬… Back")]],
+  [button] line 698: def _build_report_date_kb() -> ReplyKeyboardMarkup:
+  [prompt] line 700: today = _today_local_date()
+  [prompt] line 701: dates = [today - timedelta(days=i) for i in range(7)]
+  [button] line 702: row1 = [KeyboardButton(f"Today {dates[0].strftime('%d/%m')}")]
+  [button] line 703: row2 = [KeyboardButton(d.strftime("%d/%m")) for d in dates[1:3]]
+  [button] line 704: row3 = [KeyboardButton(d.strftime("%d/%m")) for d in dates[3:5]]
+  [button] line 705: row4 = [KeyboardButton(d.strftime("%d/%m")) for d in dates[5:7]]
+  [button] line 706: return ReplyKeyboardMarkup(
+  [button] line 707: [row1, row2, row3, row4, [KeyboardButton("â¬… Back")]],
+  [button] line 714: def _build_report_menu_keyboard() -> InlineKeyboardMarkup:
+  [button] line 717: InlineKeyboardButton(REPORT_LABEL_TRANSACTION, callback_data=f"{REPORT_CALLBACK_TYPE_PREFIX}{REPORT_TYPE_TRANSACTION}"),
+  [button] line 718: InlineKeyboardButton(REPORT_LABEL_SETTLEMENT, callback_data=f"{REPORT_CALLBACK_TYPE_PREFIX}{REPORT_TYPE_SETTLEMENT}"),
+  [button] line 721: InlineKeyboardButton(REPORT_LABEL_NUMBER_DETAIL, callback_data=f"{REPORT_CALLBACK_TYPE_PREFIX}{REPORT_TYPE_NUMBER_DETAIL}"),
+  [button] line 722: InlineKeyboardButton(REPORT_LABEL_OVER_LIMIT, callback_data=f"{REPORT_CALLBACK_TYPE_PREFIX}{REPORT_TYPE_OVER_LIMIT}"),
+  [button] line 724: [InlineKeyboardButton("âŒ Close", callback_data=REPORT_CALLBACK_CLOSE)],
+  [button] line 726: return InlineKeyboardMarkup(keyboard)
+  [formatter] line 733: REPORT_TYPE_NUMBER_DETAIL: REPORT_LABEL_NUMBER_DETAIL,
+  [button] line 739: def _build_report_date_keyboard(report_type: str) -> InlineKeyboardMarkup:
+  [prompt] line 740: today = _today_local_date()
+  [prompt] line 741: dates = [today - timedelta(days=i) for i in range(7)]
+  [button] line 742: keyboard: list[list[InlineKeyboardButton]] = []
+  [button] line 746: InlineKeyboardButton(
+  [prompt] line 747: f"Today {first.strftime('%d/%m')}",
+  [prompt] line 748: callback_data=f"{REPORT_CALLBACK_DATE_PREFIX}{report_type}:{first.isoformat()}",
+  [button] line 752: row: list[InlineKeyboardButton] = []
+  [button] line 755: InlineKeyboardButton(
+  [prompt] line 757: callback_data=f"{REPORT_CALLBACK_DATE_PREFIX}{report_type}:{d.isoformat()}",
+  [button] line 767: keyboard.append([InlineKeyboardButton("â¬… Back", callback_data=REPORT_CALLBACK_BACK_TO_MENU)])
+  [button] line 768: return InlineKeyboardMarkup(keyboard)
+  [button] line 771: def _build_report_action_keyboard(report_type: str, target_date: str) -> InlineKeyboardMarkup:
+  [button] line 773: [InlineKeyboardButton("ðŸ“„ Export HTML", callback_data=f"{REPORT_CALLBACK_EXPORT_PREFIX}{report_type}:{target_date}")],
+  [button] line 774: [InlineKeyboardButton("ðŸ“… Change Date", callback_data=f"{REPORT_CALLBACK_TYPE_PREFIX}{report_type}")],
+  [button] line 775: [InlineKeyboardButton("â¬… Back", callback_data=REPORT_CALLBACK_BACK_TO_MENU)],
+  [button] line 777: return InlineKeyboardMarkup(keyboard)
+  [button] line 780: def _build_coming_soon_keyboard() -> InlineKeyboardMarkup:
+  [button] line 781: return InlineKeyboardMarkup([[InlineKeyboardButton("â¬… Back", callback_data=REPORT_CALLBACK_BACK_TO_MENU)]])
+  [prompt] line 784: def _report_filename(report_type: str, target_date: str) -> str:
+  [formatter] line 787: if report_type == REPORT_TYPE_NUMBER_DETAIL:
+  [prompt] line 788: return f"number_detail_report_{target_date}.html"
+  [prompt] line 796: def _generate_report_text(report_type: str, target_date: str) -> str | None:
+  [formatter] line 801: if report_type == REPORT_TYPE_NUMBER_DETAIL:
+  [formatter] line 802: report_data = number_detail_report_service.generate_report(target_date)
+  [prompt] line 803: return format_number_detail_report(report_data)
+  [menu] line 805: current_rate = ReportNormalizer.to_decimal(admin_settings_service.get_agent_commission_rate())
+  [prompt] line 807: return format_settlement_report_telegram(report_data)
+  [info] line 814: # Admin helpers
+  [menu] line 816: def _build_admin_menu_text() -> str:
+  [prompt] line 817: return "Admin"
+  [button] line 820: def _build_admin_menu_keyboard() -> InlineKeyboardMarkup:
+  [button] line 822: [InlineKeyboardButton("1. Agent Comm Setting", callback_data=CALLBACK_ADMIN_AGENT_MENU)],
+  [button] line 823: [InlineKeyboardButton("2. Bonus Payout Setting", callback_data=CALLBACK_ADMIN_BONUS_MENU)],
+  [button] line 824: [InlineKeyboardButton("3. Over Limit Setting", callback_data=CALLBACK_ADMIN_LIMIT_MENU)],
+  [button] line 825: [InlineKeyboardButton("4. Notifications", callback_data=CALLBACK_ADMIN_NOTIFICATIONS_MENU)],
+  [button] line 826: [InlineKeyboardButton("5. Bet Time Limit", callback_data=CALLBACK_ADMIN_TIME_LIMIT_MENU)],
+  [button] line 827: [InlineKeyboardButton("6. System Time Zone", callback_data=CALLBACK_ADMIN_SYSTEM_TZ_MENU)],
+  [button] line 828: [InlineKeyboardButton("7. Set Admin", callback_data=CALLBACK_ADMIN_SET_ADMIN)],
+  [button] line 829: [InlineKeyboardButton("âŒ Close", callback_data=CALLBACK_ADMIN_CLOSE)],
+  [button] line 831: return InlineKeyboardMarkup(keyboard)
+  [button] line 834: def _build_admin_menu_kb() -> ReplyKeyboardMarkup:
+  [menu] line 835: """ReplyKeyboard for admin menu (top-level)."""
+  [button] line 836: return ReplyKeyboardMarkup(
+  [button] line 837: [[KeyboardButton("1. Agent Comm Setting"), KeyboardButton("2. Bonus Payout Setting")],
+  [button] line 838: [KeyboardButton("3. Over Limit Setting"), KeyboardButton("4. Notifications")],
+  [button] line 839: [KeyboardButton("5. Bet Time Limit"), KeyboardButton("6. System Time Zone")],
+  [button] line 840: [KeyboardButton("7. Set Admin"), KeyboardButton("â¬… Back")]],
+  [menu] line 845: def _build_set_admin_text() -> str:
+  [prompt] line 846: return "ðŸ‘‘ Set Admin\n\nPlease choose an action:"
+  [button] line 849: def _build_set_admin_keyboard() -> InlineKeyboardMarkup:
+  [button] line 851: [InlineKeyboardButton("View Admin List", callback_data=CALLBACK_ADMIN_VIEW_ADMINS)],
+  [button] line 852: [InlineKeyboardButton("Add Admin", callback_data=CALLBACK_ADMIN_ADD_ADMIN)],
+  [button] line 853: [InlineKeyboardButton("Remove Admin", callback_data=CALLBACK_ADMIN_REMOVE_ADMIN)],
+  [button] line 854: [InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_BACK)],
+  [button] line 856: return InlineKeyboardMarkup(keyboard)
+  [button] line 859: def _build_agent_comm_keyboard() -> InlineKeyboardMarkup:
+  [button] line 861: [InlineKeyboardButton("View Current Agent Comm", callback_data=CALLBACK_ADMIN_AGENT_VIEW)],
+  [button] line 862: [InlineKeyboardButton("Edit Agent Comm", callback_data=CALLBACK_ADMIN_AGENT_EDIT)],
+  [button] line 863: [InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_BACK)],
+  [button] line 865: return InlineKeyboardMarkup(keyboard)
+  [button] line 868: def _build_bonus_payout_keyboard() -> InlineKeyboardMarkup:
+  [button] line 870: [InlineKeyboardButton("View Current Bonus Payout", callback_data=CALLBACK_ADMIN_BONUS_VIEW)],
+  [button] line 871: [InlineKeyboardButton("Edit Bonus Payout", callback_data=CALLBACK_ADMIN_BONUS_EDIT)],
+  [button] line 872: [InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_BACK)],
+  [button] line 874: return InlineKeyboardMarkup(keyboard)
+  [button] line 877: def _build_over_limit_keyboard() -> InlineKeyboardMarkup:
+  [button] line 879: [InlineKeyboardButton("View Current Over Limit", callback_data=CALLBACK_ADMIN_LIMIT_VIEW)],
+  [button] line 880: [InlineKeyboardButton("Edit Over Limit", callback_data=CALLBACK_ADMIN_LIMIT_EDIT)],
+  [button] line 881: [InlineKeyboardButton("Set Over Limit Action", callback_data=CALLBACK_ADMIN_LIMIT_ACTION_MENU)],
+  [button] line 882: [InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_BACK)],
+  [button] line 884: return InlineKeyboardMarkup(keyboard)
+  [button] line 887: def _build_over_limit_action_keyboard() -> InlineKeyboardMarkup:
+  [button] line 889: [InlineKeyboardButton("Continue Accepting", callback_data=CALLBACK_ADMIN_LIMIT_ACTION_ACCEPT)],
+  [button] line 890: [InlineKeyboardButton("Reject Bet", callback_data=CALLBACK_ADMIN_LIMIT_ACTION_REJECT)],
+  [button] line 891: [InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_LIMIT_MENU)],
+  [button] line 893: return InlineKeyboardMarkup(keyboard)
+  [button] line 896: def _build_notifications_keyboard() -> InlineKeyboardMarkup:
+  [button] line 898: [InlineKeyboardButton("View Current Notification Settings", callback_data=CALLBACK_ADMIN_NOTIFICATIONS_VIEW)],
+  [button] line 900: InlineKeyboardButton("ON", callback_data=CALLBACK_ADMIN_NOTIFICATIONS_ON),
+  [button] line 901: InlineKeyboardButton("OFF", callback_data=CALLBACK_ADMIN_NOTIFICATIONS_OFF),
+  [button] line 903: [InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_BACK)],
+  [button] line 905: return InlineKeyboardMarkup(keyboard)
+  [button] line 908: def _build_time_limit_keyboard() -> InlineKeyboardMarkup:
+  [button] line 910: [InlineKeyboardButton("View Current Cutoff Time", callback_data=CALLBACK_ADMIN_TIME_LIMIT_VIEW)],
+  [button] line 911: [InlineKeyboardButton("Edit Cutoff Time", callback_data=CALLBACK_ADMIN_TIME_LIMIT_EDIT)],
+  [button] line 912: [InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_BACK)],
+  [button] line 914: return InlineKeyboardMarkup(keyboard)
+  [button] line 917: def _build_system_timezone_keyboard() -> InlineKeyboardMarkup:
+  [button] line 919: [InlineKeyboardButton("View Current Time Zone", callback_data=CALLBACK_ADMIN_SYSTEM_TZ_VIEW)],
+  [button] line 921: InlineKeyboardButton("Kuala Lumpur", callback_data=CALLBACK_ADMIN_SYSTEM_TZ_KL),
+  [button] line 922: InlineKeyboardButton("Ho Chi Minh", callback_data=CALLBACK_ADMIN_SYSTEM_TZ_HCM),
+  [button] line 924: [InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_BACK)],
+  [button] line 926: return InlineKeyboardMarkup(keyboard)
+  [menu] line 929: def _format_admin_list_text() -> str:
+  [menu] line 930: admins = admin_auth_service.list_admins()
+  [menu] line 931: if not admins:
+  [prompt] line 932: return "ðŸ‘‘ Admin List\n\nNo admin found."
+  [menu] line 933: lines = ["ðŸ‘‘ Admin List", ""]
+  [menu] line 934: for idx, item in enumerate(admins, start=1):
+  [prompt] line 944: async def settlement_today_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 948: target_date = _today_iso()
+  [menu] line 949: current_rate = ReportNormalizer.to_decimal(admin_settings_service.get_agent_commission_rate())
+  [info] line 954: text = format_settlement_report_telegram(report_data)
+  [prompt] line 956: await update.message.reply_text(_as_monospace_html(text), parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
+  [prompt] line 962: async def mn_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 966: _set_user_target_date(user_id, _today_iso())
+  [formatter] line 967: _set_user_region(user_id, "MN")
+  [formatter] line 969: await _send_status_message(update, context, _build_env_region_message(user_id, "MN"), reply_markup=ReplyKeyboardRemove())
+  [prompt] line 972: async def mt_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 976: _set_user_target_date(user_id, _today_iso())
+  [formatter] line 977: _set_user_region(user_id, "MT")
+  [formatter] line 979: await _send_status_message(update, context, _build_env_region_message(user_id, "MT"), reply_markup=ReplyKeyboardRemove())
+  [prompt] line 982: async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 986: _set_user_target_date(user_id, _today_iso())
+  [formatter] line 987: _set_user_region(user_id, "MB")
+  [formatter] line 989: await _send_status_message(update, context, _build_env_region_message(user_id, "MB"), reply_markup=ReplyKeyboardRemove())
+  [prompt] line 992: async def myid_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 996: await update.message.reply_text(f"Your Telegram user_id: {update.effective_user.id}", reply_markup=ReplyKeyboardRemove())
+  [prompt] line 999: async def delete_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1005: await update.message.reply_text("âŒ Usage: /delete N1")
+  [prompt] line 1011: await update.message.reply_text(_as_monospace_html(_build_delete_success_message(response_text)), parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
+  [prompt] line 1014: async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1025: async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1033: async def show_bet_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1040: async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [formatter] line 1052: _set_user_state(user_id, UserState.BET_REGION)
+  [prompt] line 1053: _set_user_target_date(user_id, _today_iso())
+  [prompt] line 1054: await _send_menu_message(update, context, "Select region:", _build_region_kb())
+  [prompt] line 1063: await _send_status_message(update, context, "Select date:", reply_markup=_build_odi_kb())
+  [menu] line 1064: elif text == "Admin":
+  [menu] line 1065: if not admin_auth_service.is_admin(user_id):
+  [prompt] line 1066: await update.message.reply_text("æ‚¨æ²¡æœ‰æƒé™è®¿é—®æ­¤åŠŸèƒ½ã€‚")
+  [menu] line 1068: _set_user_state(user_id, UserState.ADMIN_MENU)
+  [menu] line 1069: await _send_status_message(update, context, _build_admin_menu_text(), reply_markup=_build_admin_menu_kb())
+  [info] line 1070: elif text == "Info":
+  [prompt] line 1072: await update.message.reply_text(_as_monospace_html(_build_info_text()), parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
+  [prompt] line 1077: async def region_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [formatter] line 1081: region = (update.message.text or "").strip().upper()
+  [formatter] line 1083: if region in VALID_REGIONS:
+  [formatter] line 1085: _set_user_region(user_id, region)
+  [formatter] line 1087: await _send_status_message(update, context, _build_env_region_message(user_id, region), reply_markup=ReplyKeyboardRemove())
+  [prompt] line 1089: await update.message.reply_text("Invalid region. Please select MN, MT, or MB.")
+  [prompt] line 1095: async def handle_report_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1096: query = update.callback_query
+  [prompt] line 1099: await query.answer()
+  [prompt] line 1100: await query.edit_message_text(text=REPORT_MENU_TITLE, reply_markup=_build_report_menu_keyboard())
+  [prompt] line 1103: async def handle_report_type(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1104: query = update.callback_query
+  [prompt] line 1107: await query.answer()
+  [prompt] line 1108: report_type = query.data.replace(REPORT_CALLBACK_TYPE_PREFIX, "", 1)
+  [prompt] line 1109: await query.edit_message_text(text=_build_report_date_text(report_type), reply_markup=_build_report_date_keyboard(report_type))
+  [prompt] line 1112: async def handle_report_date(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1113: query = update.callback_query
+  [prompt] line 1116: await query.answer()
+  [prompt] line 1117: payload = query.data.replace(REPORT_CALLBACK_DATE_PREFIX, "", 1)
+  [prompt] line 1121: await query.edit_message_text("Invalid report request.")
+  [formatter] line 1127: elif report_type == REPORT_TYPE_NUMBER_DETAIL:
+  [formatter] line 1128: report_data = number_detail_report_service.generate_report(target_date)
+  [formatter] line 1129: text = format_number_detail_report(report_data)
+  [menu] line 1131: current_rate = ReportNormalizer.to_decimal(admin_settings_service.get_agent_commission_rate())
+  [info] line 1133: text = format_settlement_report_telegram(report_data)
+  [prompt] line 1138: await query.edit_message_text(text=REPORT_COMING_SOON_TEXT, reply_markup=_build_coming_soon_keyboard())
+  [prompt] line 1141: await query.edit_message_text(text=_as_monospace_html(text), reply_markup=_build_report_action_keyboard(report_type, target_date), parse_mode="HTML")
+  [prompt] line 1144: async def handle_report_export(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1145: query = update.callback_query
+  [prompt] line 1148: await query.answer()
+  [prompt] line 1149: payload = query.data.replace(REPORT_CALLBACK_EXPORT_PREFIX, "", 1)
+  [prompt] line 1153: await query.edit_message_text("Invalid export request.")
+  [formatter] line 1159: elif report_type == REPORT_TYPE_NUMBER_DETAIL:
+  [formatter] line 1160: report_data = number_detail_report_service.generate_report(target_date)
+  [formatter] line 1161: html = build_number_detail_report_html(report_data)
+  [menu] line 1163: current_rate = ReportNormalizer.to_decimal(admin_settings_service.get_agent_commission_rate())
+  [prompt] line 1170: await query.answer("Export not available.", show_alert=True)
+  [prompt] line 1183: async def handle_report_close(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1184: query = update.callback_query
+  [prompt] line 1187: await query.answer()
+  [prompt] line 1193: await query.edit_message_text("Closed.")
+  [menu] line 1199: # Admin UI
+  [prompt] line 1201: async def handle_admin_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1202: query = update.callback_query
+  [prompt] line 1205: await query.answer()
+  [menu] line 1206: if not admin_auth_service.is_admin(query.from_user.id):
+  [prompt] line 1207: await query.edit_message_text("æ‚¨æ²¡æœ‰æƒé™è®¿é—®æ­¤åŠŸèƒ½ã€‚")
+  [prompt] line 1209: await query.edit_message_text(text=_build_admin_menu_text(), reply_markup=_build_admin_menu_keyboard())
+  [prompt] line 1212: async def handle_admin_set_admin_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1213: query = update.callback_query
+  [prompt] line 1216: await query.answer()
+  [menu] line 1217: if not admin_auth_service.is_admin(query.from_user.id):
+  [prompt] line 1218: await query.edit_message_text("æ‚¨æ²¡æœ‰æƒé™è®¿é—®æ­¤åŠŸèƒ½ã€‚")
+  [prompt] line 1220: await query.edit_message_text(text=_build_set_admin_text(), reply_markup=_build_set_admin_keyboard())
+  [prompt] line 1223: async def handle_admin_view_admins(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1224: query = update.callback_query
+  [prompt] line 1227: await query.answer()
+  [menu] line 1228: if not admin_auth_service.is_admin(query.from_user.id):
+  [prompt] line 1229: await query.edit_message_text("æ‚¨æ²¡æœ‰æƒé™è®¿é—®æ­¤åŠŸèƒ½ã€‚")
+  [prompt] line 1231: await query.edit_message_text(text=_format_admin_list_text(), reply_markup=_build_set_admin_keyboard())
+  [prompt] line 1234: async def handle_admin_add_admin_prompt(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1235: query = update.callback_query
+  [prompt] line 1238: await query.answer()
+  [menu] line 1239: if not admin_auth_service.is_admin(query.from_user.id):
+  [prompt] line 1240: await query.edit_message_text("æ‚¨æ²¡æœ‰æƒé™è®¿é—®æ­¤åŠŸèƒ½ã€‚")
+  [menu] line 1242: _set_admin_waiting_action(query.from_user.id, "ADD_ADMIN")
+  [prompt] line 1243: await query.edit_message_text(
+  [prompt] line 1244: text="Please enter Telegram user id to add as ADMIN:",
+  [button] line 1245: reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_SET_ADMIN)]]),
+  [prompt] line 1249: async def handle_admin_remove_admin_prompt(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1250: query = update.callback_query
+  [prompt] line 1253: await query.answer()
+  [menu] line 1254: if not admin_auth_service.is_admin(query.from_user.id):
+  [prompt] line 1255: await query.edit_message_text("æ‚¨æ²¡æœ‰æƒé™è®¿é—®æ­¤åŠŸèƒ½ã€‚")
+  [menu] line 1257: _set_admin_waiting_action(query.from_user.id, "REMOVE_ADMIN")
+  [prompt] line 1258: await query.edit_message_text(
+  [prompt] line 1259: text="Please enter Telegram user id to remove from ADMIN:",
+  [button] line 1260: reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_SET_ADMIN)]]),
+  [prompt] line 1264: async def handle_admin_agent_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1265: query = update.callback_query
+  [prompt] line 1268: await query.answer()
+  [prompt] line 1269: await query.edit_message_text(text="Agent Comm Setting", reply_markup=_build_agent_comm_keyboard())
+  [prompt] line 1272: async def handle_admin_agent_view(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1273: query = update.callback_query
+  [prompt] line 1276: await query.answer()
+  [menu] line 1277: rate = admin_settings_service.get_agent_commission_rate()
+  [prompt] line 1278: await query.edit_message_text(text=f"Agent Commission Rate\n\nCurrent: {rate}%", reply_markup=_build_agent_comm_keyboard())
+  [prompt] line 1281: async def handle_admin_agent_edit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1282: query = update.callback_query
+  [prompt] line 1285: await query.answer()
+  [menu] line 1286: _set_admin_waiting_action(query.from_user.id, "SET_AGENT_COMM")
+  [prompt] line 1287: await query.edit_message_text(
+  [prompt] line 1288: text="Please enter new commission rate (%):",
+  [button] line 1289: reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_AGENT_MENU)]]),
+  [prompt] line 1293: async def handle_admin_bonus_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1294: query = update.callback_query
+  [prompt] line 1297: await query.answer()
+  [prompt] line 1298: await query.edit_message_text(text="Bonus Payout Setting", reply_markup=_build_bonus_payout_keyboard())
+  [prompt] line 1301: async def handle_admin_bonus_view(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1302: query = update.callback_query
+  [prompt] line 1305: await query.answer()
+  [prompt] line 1306: await query.edit_message_text(text=admin_settings_service.format_bonus_payout_text(), reply_markup=_build_bonus_payout_keyboard())
+  [prompt] line 1309: async def handle_admin_bonus_edit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1310: query = update.callback_query
+  [prompt] line 1313: await query.answer()
+  [menu] line 1314: _set_admin_waiting_action(query.from_user.id, "SET_BONUS_PAYOUT_BULK")
+  [menu] line 1315: template = admin_settings_service.build_bonus_edit_template()
+  [prompt] line 1316: await query.edit_message_text(
+  [prompt] line 1317: text=f"Please edit Bonus Payout and send back in this format:\n\n{template}",
+  [button] line 1318: reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_BONUS_MENU)]]),
+  [prompt] line 1322: async def handle_admin_limit_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1323: query = update.callback_query
+  [prompt] line 1326: await query.answer()
+  [prompt] line 1327: await query.edit_message_text(text="Over Limit Setting", reply_markup=_build_over_limit_keyboard())
+  [prompt] line 1330: async def handle_admin_limit_view(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1331: query = update.callback_query
+  [prompt] line 1334: await query.answer()
+  [prompt] line 1335: await query.edit_message_text(text=admin_settings_service.format_limit_text(), reply_markup=_build_over_limit_keyboard())
+  [prompt] line 1338: async def handle_admin_limit_edit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1339: query = update.callback_query
+  [prompt] line 1342: await query.answer()
+  [menu] line 1343: _set_admin_waiting_action(query.from_user.id, "SET_OVER_LIMIT_BULK")
+  [menu] line 1344: template = admin_settings_service.build_limit_edit_template()
+  [prompt] line 1345: await query.edit_message_text(
+  [prompt] line 1346: text=f"Please edit Over Limit and send back in this format:\n\n{template}",
+  [button] line 1347: reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_LIMIT_MENU)]]),
+  [prompt] line 1351: async def handle_admin_limit_action_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1352: query = update.callback_query
+  [prompt] line 1355: await query.answer()
+  [menu] line 1356: current_action = admin_settings_service.get_over_limit_action()
+  [prompt] line 1357: await query.edit_message_text(text=f"Over Limit Action\n\nCurrent: {current_action}", reply_markup=_build_over_limit_action_keyboard())
+  [prompt] line 1360: async def handle_admin_limit_action_accept(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1361: query = update.callback_query
+  [prompt] line 1364: await query.answer()
+  [menu] line 1365: admin_settings_service.set_over_limit_action("ACCEPT")
+  [prompt] line 1366: await query.edit_message_text(text="âœ… Over Limit Action set to ACCEPT", reply_markup=_build_over_limit_action_keyboard())
+  [prompt] line 1369: async def handle_admin_limit_action_reject(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1370: query = update.callback_query
+  [prompt] line 1373: await query.answer()
+  [menu] line 1374: admin_settings_service.set_over_limit_action("REJECT")
+  [prompt] line 1375: await query.edit_message_text(text="âœ… Over Limit Action set to REJECT", reply_markup=_build_over_limit_action_keyboard())
+  [prompt] line 1378: async def handle_admin_notifications_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1379: query = update.callback_query
+  [prompt] line 1382: await query.answer()
+  [prompt] line 1383: await query.edit_message_text(text="Notifications", reply_markup=_build_notifications_keyboard())
+  [prompt] line 1386: async def handle_admin_notifications_view(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1387: query = update.callback_query
+  [prompt] line 1390: await query.answer()
+  [prompt] line 1391: await query.edit_message_text(text=admin_settings_service.format_notification_text(), reply_markup=_build_notifications_keyboard())
+  [prompt] line 1394: async def handle_admin_notifications_on(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1395: query = update.callback_query
+  [prompt] line 1398: await query.answer()
+  [menu] line 1399: admin_settings_service.set_customer_notification_enabled(True)
+  [prompt] line 1400: await query.edit_message_text(text="âœ… Customer Notification set to ON", reply_markup=_build_notifications_keyboard())
+  [prompt] line 1403: async def handle_admin_notifications_off(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1404: query = update.callback_query
+  [prompt] line 1407: await query.answer()
+  [menu] line 1408: admin_settings_service.set_customer_notification_enabled(False)
+  [prompt] line 1409: await query.edit_message_text(text="âœ… Customer Notification set to OFF", reply_markup=_build_notifications_keyboard())
+  [prompt] line 1412: async def handle_admin_time_limit_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1413: query = update.callback_query
+  [prompt] line 1416: await query.answer()
+  [prompt] line 1417: await query.edit_message_text(text="Bet Time Limit", reply_markup=_build_time_limit_keyboard())
+  [prompt] line 1420: async def handle_admin_time_limit_view(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1421: query = update.callback_query
+  [prompt] line 1424: await query.answer()
+  [prompt] line 1425: await query.edit_message_text(text=admin_settings_service.format_cutoff_time_text(), reply_markup=_build_time_limit_keyboard())
+  [prompt] line 1428: async def handle_admin_time_limit_edit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1429: query = update.callback_query
+  [prompt] line 1432: await query.answer()
+  [menu] line 1433: _set_admin_waiting_action(query.from_user.id, "SET_CUTOFF_TIME_BULK")
+  [menu] line 1434: template = admin_settings_service.build_cutoff_time_edit_template()
+  [prompt] line 1435: await query.edit_message_text(
+  [prompt] line 1436: text=f"Please edit Cutoff Time and send back in this format:\n\n{template}",
+  [button] line 1437: reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_ADMIN_TIME_LIMIT_MENU)]]),
+  [prompt] line 1441: async def handle_admin_system_tz_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1442: query = update.callback_query
+  [prompt] line 1445: await query.answer()
+  [prompt] line 1446: await query.edit_message_text(text="System Time Zone", reply_markup=_build_system_timezone_keyboard())
+  [prompt] line 1449: async def handle_admin_system_tz_view(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1450: query = update.callback_query
+  [prompt] line 1453: await query.answer()
+  [prompt] line 1454: await query.edit_message_text(text=admin_settings_service.format_system_timezone_text(), reply_markup=_build_system_timezone_keyboard())
+  [prompt] line 1457: async def handle_admin_system_tz_kl(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1458: query = update.callback_query
+  [prompt] line 1461: await query.answer()
+  [menu] line 1462: admin_settings_service.set_system_timezone_name("Asia/Kuala_Lumpur")
+  [prompt] line 1463: await query.edit_message_text(text="âœ… System Time Zone set to Asia/Kuala_Lumpur", reply_markup=_build_system_timezone_keyboard())
+  [prompt] line 1466: async def handle_admin_system_tz_hcm(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1467: query = update.callback_query
+  [prompt] line 1470: await query.answer()
+  [menu] line 1471: admin_settings_service.set_system_timezone_name("Asia/Ho_Chi_Minh")
+  [prompt] line 1472: await query.edit_message_text(text="âœ… System Time Zone set to Asia/Ho_Chi_Minh", reply_markup=_build_system_timezone_keyboard())
+  [prompt] line 1475: async def handle_admin_back(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1476: query = update.callback_query
+  [prompt] line 1479: await query.answer()
+  [menu] line 1480: if not admin_auth_service.is_admin(query.from_user.id):
+  [prompt] line 1481: await query.edit_message_text("æ‚¨æ²¡æœ‰æƒé™è®¿é—®æ­¤åŠŸèƒ½ã€‚")
+  [prompt] line 1483: await query.edit_message_text(text=_build_admin_menu_text(), reply_markup=_build_admin_menu_keyboard())
+  [prompt] line 1486: async def handle_admin_close(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [prompt] line 1487: query = update.callback_query
+  [prompt] line 1490: await query.answer()
+  [prompt] line 1496: await query.edit_message_text("Closed.")
+  [button] line 1508: def _build_other_day_keyboard() -> InlineKeyboardMarkup:
+  [prompt] line 1509: today = _today_local_date()
+  [prompt] line 1510: prev_dates = [today - timedelta(days=i) for i in range(3, 0, -1)]
+  [prompt] line 1511: next_dates = [today + timedelta(days=i) for i in range(1, 4)]
+  [button] line 1513: [InlineKeyboardButton(d.strftime("%d/%m"), callback_data=f"{CALLBACK_ODI_DATE_PREFIX}{d.isoformat()}") for d in prev_dates],
+  [button] line 1514: [InlineKeyboardButton(f"Today {today.strftime('%d/%m')}", callback_data=CALLBACK_ODI_SET_TODAY)],
+  [button] line 1515: [InlineKeyboardButton(d.strftime("%d/%m"), callback_data=f"{CALLBACK_ODI_DATE_PREFIX}{d.isoformat()}") for d in next_dates],
+  [button] line 1516: [InlineKeyboardButton("Set Custom Date", callback_data=CALLBACK_ODI_SET_CUSTOM)],
+  [button] line 1517: [InlineKeyboardButton("âŒ Close", callback_data=CALLBACK_ODI_CLOSE)],
+  [button] line 1519: return InlineKeyboardMarkup(keyboard)
+  [prompt] line 1522: async def handle_other_day_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1523: query = update.callback_query
+  [prompt] line 1528: await query.answer()
+  [prompt] line 1529: await query.edit_message_text(text=_build_other_day_menu_text(user_id), reply_markup=_build_other_day_keyboard())
+  [prompt] line 1532: async def handle_other_day_select_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1533: query = update.callback_query
+  [prompt] line 1538: await query.answer()
+  [prompt] line 1539: target_date = query.data.replace(CALLBACK_ODI_DATE_PREFIX, "", 1)
+  [prompt] line 1541: await query.edit_message_text(text="Other Day Input")
+  [prompt] line 1543: await query.message.reply_text("Bet", reply_markup=get_bet_menu_keyboard())
+  [prompt] line 1546: async def handle_other_day_set_today(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1547: query = update.callback_query
+  [prompt] line 1552: await query.answer()
+  [prompt] line 1553: _set_user_target_date(user_id, _today_iso())
+  [prompt] line 1554: await query.edit_message_text(text="Other Day Input")
+  [prompt] line 1556: await query.message.reply_text("Bet", reply_markup=get_bet_menu_keyboard())
+  [prompt] line 1559: async def handle_other_day_set_custom(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1560: query = update.callback_query
+  [prompt] line 1565: await query.answer()
+  [prompt] line 1567: await query.edit_message_text(text="Custom Date\n\nYYYY-MM-DD")
+  [prompt] line 1570: async def handle_other_day_close(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1571: query = update.callback_query
+  [prompt] line 1574: await query.answer()
+  [prompt] line 1580: await query.edit_message_text("Closed.")
+  [prompt] line 1592: def _build_result_region_text(draw_date: str) -> str:
+  [button] line 1596: def _build_result_date_kb() -> ReplyKeyboardMarkup:
+  [prompt] line 1598: today = _today_local_date()
+  [prompt] line 1599: dates = [today - timedelta(days=i) for i in range(7)]
+  [button] line 1600: row1 = [KeyboardButton(f"Today {dates[0].strftime('%d/%m')}")]
+  [button] line 1601: row2 = [KeyboardButton(d.strftime("%d/%m")) for d in dates[1:3]]
+  [button] line 1602: row3 = [KeyboardButton(d.strftime("%d/%m")) for d in dates[3:5]]
+  [button] line 1603: row4 = [KeyboardButton(d.strftime("%d/%m")) for d in dates[5:7]]
+  [button] line 1604: return ReplyKeyboardMarkup(
+  [button] line 1605: [row1, row2, row3, row4, [KeyboardButton("â¬… Back")]],
+  [button] line 1610: def _build_result_region_kb() -> ReplyKeyboardMarkup:
+  [prompt] line 1611: """ReplyKeyboard for result region selection (RESULT_REGION)."""
+  [button] line 1612: return ReplyKeyboardMarkup(
+  [button] line 1613: [[KeyboardButton("MN"), KeyboardButton("MT"), KeyboardButton("MB")],
+  [button] line 1614: [KeyboardButton("â¬… Back")]],
+  [button] line 1619: def _build_result_date_keyboard() -> InlineKeyboardMarkup:
+  [prompt] line 1620: today = _today_local_date()
+  [prompt] line 1621: dates = [today - timedelta(days=i) for i in range(7)]
+  [button] line 1624: keyboard.append([InlineKeyboardButton(f"Today {first.strftime('%d/%m')}", callback_data=f"{CALLBACK_RESULT_DATE_PREFIX}{first.isoformat()}")])
+  [button] line 1627: row.append(InlineKeyboardButton(d.strftime("%d/%m"), callback_data=f"{CALLBACK_RESULT_DATE_PREFIX}{d.isoformat()}"))
+  [button] line 1633: keyboard.append([InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_RESULT_CLOSE)])
+  [button] line 1634: return InlineKeyboardMarkup(keyboard)
+  [button] line 1637: def _build_result_region_keyboard(draw_date: str) -> InlineKeyboardMarkup:
+  [button] line 1640: InlineKeyboardButton("MN", callback_data=f"{CALLBACK_RESULT_VIEW_PREFIX}{draw_date}:MN"),
+  [button] line 1641: InlineKeyboardButton("MT", callback_data=f"{CALLBACK_RESULT_VIEW_PREFIX}{draw_date}:MT"),
+  [button] line 1642: InlineKeyboardButton("MB", callback_data=f"{CALLBACK_RESULT_VIEW_PREFIX}{draw_date}:MB"),
+  [button] line 1644: [InlineKeyboardButton("â¬… Back", callback_data=CALLBACK_RESULT_MENU)],
+  [button] line 1646: return InlineKeyboardMarkup(keyboard)
+  [button] line 1649: def _build_result_action_keyboard(draw_date: str, current_region: str, has_result: bool) -> InlineKeyboardMarkup:
+  [button] line 1651: [InlineKeyboardButton("ðŸ”„ Refresh", callback_data=f"{CALLBACK_RESULT_REFRESH_PREFIX}{draw_date}:{current_region}")],
+  [button] line 1653: InlineKeyboardButton("MN", callback_data=f"{CALLBACK_RESULT_VIEW_PREFIX}{draw_date}:MN"),
+  [button] line 1654: InlineKeyboardButton("MT", callback_data=f"{CALLBACK_RESULT_VIEW_PREFIX}{draw_date}:MT"),
+  [button] line 1655: InlineKeyboardButton("MB", callback_data=f"{CALLBACK_RESULT_VIEW_PREFIX}{draw_date}:MB"),
+  [button] line 1657: [InlineKeyboardButton("ðŸ“… Change Date", callback_data=CALLBACK_RESULT_CHANGE_DATE)],
+  [button] line 1658: [InlineKeyboardButton("âŒ Close" if has_result else "â¬… Back", callback_data=CALLBACK_RESULT_CLOSE if has_result else CALLBACK_RESULT_MENU)],
+  [button] line 1660: return InlineKeyboardMarkup(keyboard)
+  [prompt] line 1663: async def handle_result_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1664: query = update.callback_query
+  [prompt] line 1667: await query.answer()
+  [prompt] line 1668: await query.edit_message_text(text=_build_result_menu_text(), reply_markup=_build_result_date_keyboard())
+  [prompt] line 1671: async def handle_result_date_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1672: query = update.callback_query
+  [prompt] line 1675: await query.answer()
+  [prompt] line 1676: draw_date = query.data.replace(CALLBACK_RESULT_DATE_PREFIX, "", 1)
+  [prompt] line 1677: await query.edit_message_text(text=_build_result_region_text(draw_date), reply_markup=_build_result_region_keyboard(draw_date))
+  [prompt] line 1680: async def handle_result_view(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1681: query = update.callback_query
+  [prompt] line 1684: await query.answer()
+  [prompt] line 1685: payload = query.data.replace(CALLBACK_RESULT_VIEW_PREFIX, "", 1)
+  [formatter] line 1687: draw_date, region_code = payload.split(":")
+  [prompt] line 1689: await query.edit_message_text("Invalid result request.")
+  [formatter] line 1692: result_data = result_query_service.get_or_fetch(draw_date, region_code)
+  [prompt] line 1697: await query.edit_message_text(text=_as_monospace_html(message_text), reply_markup=_build_result_action_keyboard(draw_date, region_code, has_result), parse_mode="HTML")
+  [prompt] line 1700: async def handle_result_refresh(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1701: query = update.callback_query
+  [prompt] line 1704: await query.answer()
+  [prompt] line 1705: payload = query.data.replace(CALLBACK_RESULT_REFRESH_PREFIX, "", 1)
+  [formatter] line 1707: draw_date, region_code = payload.split(":")
+  [prompt] line 1709: await query.edit_message_text("Invalid refresh request.")
+  [formatter] line 1711: result_fetch_service.fetch_and_store(draw_date, region_code)
+  [formatter] line 1712: result_data = result_query_service.get_or_fetch(draw_date, region_code)
+  [prompt] line 1717: await query.edit_message_text(text=_as_monospace_html(message_text), reply_markup=_build_result_action_keyboard(draw_date, region_code, has_result), parse_mode="HTML")
+  [prompt] line 1720: async def handle_result_change_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1721: query = update.callback_query
+  [prompt] line 1724: await query.answer()
+  [prompt] line 1725: await query.edit_message_text(text=_build_result_menu_text(), reply_markup=_build_result_date_keyboard())
+  [prompt] line 1728: async def handle_result_close(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1729: query = update.callback_query
+  [prompt] line 1732: await query.answer()
+  [prompt] line 1738: await query.edit_message_text("Closed.")
+  [prompt] line 1743: async def result_entry_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 1746: await update.message.reply_text(text=_build_result_menu_text(), reply_markup=_build_result_date_keyboard())
+  [prompt] line 1752: async def text_router(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [formatter] line 1761: # â”€â”€ State: BET_REGION (Phase 1.1 reply-keyboard region picker) â”€â”€
+  [formatter] line 1762: if state == UserState.BET_REGION:
+  [formatter] line 1763: region = text.upper()
+  [formatter] line 1764: if region in VALID_REGIONS:
+  [formatter] line 1766: _set_user_region(user_id, region)
+  [prompt] line 1768: await update.message.reply_text(_build_env_region_message(user_id, region), reply_markup=ReplyKeyboardRemove())
+  [prompt] line 1770: if text == "â¬… Back":
+  [prompt] line 1774: # Menu button fallback while in BET_REGION â†’ go to IDLE then handle
+  [prompt] line 1779: await update.message.reply_text("Please select a region (MN / MT / MB).", reply_markup=_build_region_kb())
+  [prompt] line 1783: if state == UserState.ODI_DATE:
+  [prompt] line 1784: # "Today dd/mm" button
+  [prompt] line 1785: if text.startswith("Today") or text.startswith("today"):
+  [prompt] line 1786: _set_user_target_date(user_id, _today_iso())
+  [formatter] line 1787: _set_user_state(user_id, UserState.BET_REGION)
+  [prompt] line 1788: await _send_status_message(update, context, "Select region:", reply_markup=_build_region_kb())
+  [prompt] line 1793: year = _today_local_date().year
+  [error] line 1797: await _send_menu_message(update, context, "âŒ Invalid date.", _build_odi_kb())
+  [formatter] line 1800: _set_user_state(user_id, UserState.BET_REGION)
+  [prompt] line 1801: await _send_status_message(update, context, "Select region:", reply_markup=_build_region_kb())
+  [prompt] line 1806: await _send_status_message(update, context, "Please enter date (YYYY-MM-DD):", reply_markup=ReplyKeyboardRemove())
+  [prompt] line 1808: # "â¬… Back" button
+  [prompt] line 1809: if text == "â¬… Back":
+  [prompt] line 1813: # Menu button fallback while in ODI_DATE â†’ go to IDLE then handle
+  [prompt] line 1818: await _send_menu_message(update, context, "Please select a date.", _build_odi_kb())
+  [formatter] line 1826: REPORT_LABEL_NUMBER_DETAIL: REPORT_TYPE_NUMBER_DETAIL,
+  [prompt] line 1832: await _send_status_message(update, context, "Select date:", reply_markup=_build_report_date_kb())
+  [prompt] line 1834: if text == "â¬… Back":
+  [prompt] line 1842: await update.message.reply_text("Please select a report type.", reply_markup=_build_report_type_kb())
+  [prompt] line 1846: if state == UserState.REPORT_DATE:
+  [prompt] line 1848: # "Today dd/mm" button
+  [prompt] line 1849: if text.startswith("Today") or text.startswith("today"):
+  [prompt] line 1850: target_date = _today_iso()
+  [prompt] line 1854: await update.message.reply_text(
+  [formatter] line 1856: parse_mode="HTML",
+  [prompt] line 1860: await update.message.reply_text(REPORT_COMING_SOON_TEXT, reply_markup=ReplyKeyboardRemove())
+  [prompt] line 1867: year = _today_local_date().year
+  [error] line 1871: await _send_menu_message(update, context, "âŒ Invalid date.", _build_report_date_kb())
+  [prompt] line 1876: await update.message.reply_text(
+  [formatter] line 1878: parse_mode="HTML",
+  [prompt] line 1882: await update.message.reply_text(REPORT_COMING_SOON_TEXT, reply_markup=ReplyKeyboardRemove())
+  [prompt] line 1886: # "â¬… Back" â†’ return to report type selection
+  [prompt] line 1887: if text == "â¬… Back":
+  [prompt] line 1891: # Menu button fallback
+  [prompt] line 1896: await _send_menu_message(update, context, "Please select a date.", _build_report_date_kb())
+  [menu] line 1899: # â”€â”€ State: ADMIN_WAITING (legacy admin text input) â”€â”€
+  [menu] line 1900: admin_waiting_action = _get_admin_waiting_action(user_id)
+  [menu] line 1901: if admin_waiting_action:
+  [menu] line 1902: if not admin_auth_service.is_admin(user_id):
+  [menu] line 1903: _set_admin_waiting_action(user_id, None)
+  [prompt] line 1905: await update.message.reply_text("æ‚¨æ²¡æœ‰æƒé™è®¿é—®æ­¤åŠŸèƒ½ã€‚")
+  [menu] line 1909: _set_admin_waiting_action(user_id, None)
+  [menu] line 1915: if admin_waiting_action == "ADD_ADMIN":
+  [prompt] line 1917: await update.message.reply_text("âŒ Invalid user id. Please enter digits only.")
+  [menu] line 1919: admin_auth_service.add_admin(text)
+  [menu] line 1920: _set_admin_waiting_action(user_id, None)
+  [prompt] line 1921: await update.message.reply_text(f"âœ… Admin added\nUser ID: {text}")
+  [prompt] line 1922: await update.message.reply_text(text=_build_set_admin_text(), reply_markup=_build_set_admin_keyboard())
+  [menu] line 1925: if admin_waiting_action == "REMOVE_ADMIN":
+  [prompt] line 1927: await update.message.reply_text("âŒ Invalid user id. Please enter digits only.")
+  [menu] line 1929: _, message = admin_auth_service.remove_admin(text)
+  [menu] line 1930: _set_admin_waiting_action(user_id, None)
+  [prompt] line 1931: await update.message.reply_text(message)
+  [prompt] line 1932: await update.message.reply_text(text=_build_set_admin_text(), reply_markup=_build_set_admin_keyboard())
+  [menu] line 1935: if admin_waiting_action == "SET_AGENT_COMM":
+  [menu] line 1936: normalized = admin_settings_service.set_agent_commission_rate(text)
+  [menu] line 1937: _set_admin_waiting_action(user_id, None)
+  [prompt] line 1938: await update.message.reply_text(f"âœ… Agent Commission updated\nCurrent: {normalized}%")
+  [prompt] line 1939: await update.message.reply_text(text="Agent Comm Setting", reply_markup=_build_agent_comm_keyboard())
+  [menu] line 1942: if admin_waiting_action == "SET_BONUS_PAYOUT_BULK":
+  [menu] line 1943: admin_settings_service.update_bonus_payout_bulk(text)
+  [menu] line 1944: _set_admin_waiting_action(user_id, None)
+  [prompt] line 1945: await update.message.reply_text("âœ… Bonus Payout updated")
+  [prompt] line 1946: await update.message.reply_text(text=admin_settings_service.format_bonus_payout_text(), reply_markup=_build_bonus_payout_keyboard())
+  [menu] line 1949: if admin_waiting_action == "SET_OVER_LIMIT_BULK":
+  [menu] line 1950: admin_settings_service.update_limit_bulk(text)
+  [menu] line 1951: _set_admin_waiting_action(user_id, None)
+  [prompt] line 1952: await update.message.reply_text("âœ… Over Limit updated")
+  [prompt] line 1953: await update.message.reply_text(text=admin_settings_service.format_limit_text(), reply_markup=_build_over_limit_keyboard())
+  [menu] line 1956: if admin_waiting_action == "SET_CUTOFF_TIME_BULK":
+  [menu] line 1957: admin_settings_service.update_cutoff_time_bulk(text)
+  [menu] line 1958: _set_admin_waiting_action(user_id, None)
+  [prompt] line 1959: await update.message.reply_text("âœ… Cutoff Time updated")
+  [prompt] line 1960: await update.message.reply_text(text=admin_settings_service.format_cutoff_time_text(), reply_markup=_build_time_limit_keyboard())
+  [prompt] line 1963: await update.message.reply_text(f"âŒ {str(e)}")
+  [prompt] line 1974: if not parsed_date:
+  [prompt] line 1975: await update.message.reply_text("âŒ Invalid date format.\nPlease use YYYY-MM-DD")
+  [prompt] line 1979: _set_user_region(user_id, None)  # force re-select via /mn /mt /mb
+  [prompt] line 1981: await update.message.reply_text("Other Day Input", reply_markup=ReplyKeyboardRemove())
+  [prompt] line 1986: if state == UserState.RESULT_DATE:
+  [prompt] line 1987: # "Today dd/mm" button
+  [prompt] line 1988: if text.startswith("Today") or text.startswith("today"):
+  [prompt] line 1989: draw_date = _today_iso()
+  [formatter] line 1991: _set_user_state(user_id, UserState.RESULT_REGION)
+  [prompt] line 1992: await _send_status_message(update, context, "Select region:", reply_markup=_build_result_region_kb())
+  [prompt] line 1997: year = _today_local_date().year
+  [error] line 2001: await _send_status_message(update, context, "âŒ Invalid date.", reply_markup=_build_result_date_kb())
+  [formatter] line 2004: _set_user_state(user_id, UserState.RESULT_REGION)
+  [prompt] line 2005: await _send_status_message(update, context, "Select region:", reply_markup=_build_result_region_kb())
+  [prompt] line 2007: # "â¬… Back" button
+  [prompt] line 2008: if text == "â¬… Back":
+  [prompt] line 2012: # Menu button fallback while in RESULT_DATE â†’ go to IDLE then handle
+  [prompt] line 2017: await _send_menu_message(update, context, "Please select a date.", _build_result_date_kb())
+  [formatter] line 2020: # â”€â”€ State: RESULT_REGION (Phase 1.3 ReplyKeyboard region picker) â”€â”€
+  [formatter] line 2021: if state == UserState.RESULT_REGION:
+  [formatter] line 2022: region = text.upper()
+  [formatter] line 2023: if region in VALID_REGIONS:
+  [formatter] line 2024: _set_user_result_region(user_id, region)
+  [prompt] line 2026: if not draw_date:
+  [prompt] line 2027: draw_date = _today_iso()
+  [formatter] line 2029: result_data = result_query_service.get_or_fetch(draw_date, region)
+  [prompt] line 2034: await update.message.reply_text(_as_monospace_html(message_text), parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
+  [formatter] line 2036: await _send_status_message(update, context, "Result actions:", reply_markup=_build_result_region_kb())
+  [prompt] line 2038: if text == "â¬… Back":
+  [prompt] line 2042: # Menu button fallback while in RESULT_REGION â†’ go to IDLE then handle
+  [prompt] line 2047: await update.message.reply_text("Please select a region (MN / MT / MB).", reply_markup=_build_result_region_kb())
+  [menu] line 2050: # â”€â”€ State: ADMIN_MENU (Phase 1.4 ReplyKeyboard admin menu) â”€â”€
+  [menu] line 2051: if state == UserState.ADMIN_MENU:
+  [menu] line 2099: normalized_text == "7. set admin"
+  [menu] line 2100: or normalized_text.endswith("set admin")
+  [menu] line 2102: await _send_menu_message(update, context, _build_set_admin_text(), _build_set_admin_keyboard())
+  [prompt] line 2105: if text == "â¬… Back":
+  [prompt] line 2115: await _send_menu_message(update, context, "Please select an admin option.", _build_admin_menu_kb())
+  [prompt] line 2118: # â”€â”€ Main menu buttons (IDLE or fallback) â”€â”€
+  [prompt] line 2127: await update.message.reply_text("âŒ Usage: delete N1")
+  [prompt] line 2133: await update.message.reply_text(_as_monospace_html(_build_delete_success_message(response_text)), parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
+  [formatter] line 2136: # â”€â”€ Bet input (state BET_INPUT or legacy region set) â”€â”€
+  [formatter] line 2137: current_region = _get_user_region(user_id)
+  [formatter] line 2138: if current_region:
+  [prompt] line 2143: await update.message.reply_text("Please select region first.\nUse /mn /mt /mb", reply_markup=ReplyKeyboardRemove())
+  [prompt] line 2146: async def bet_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+  [formatter] line 2151: region_group = _get_user_region(user_id)
+  [formatter] line 2153: if not region_group:
+  [prompt] line 2155: await update.message.reply_text("Please select region first.\nUse /mn /mt /mb", reply_markup=ReplyKeyboardRemove())
+  [formatter] line 2158: _, response_text = process_bet_message(user_id=str(user_id), region_group=region_group, text=text, target_date=target_date)
+  [prompt] line 2160: await update.message.reply_text(_as_monospace_html(response_text), parse_mode="HTML", reply_markup=ReplyKeyboardRemove())
+  [prompt] line 2162: await update.message.reply_text(f"System Error: {str(e)}")
+  [info] line 2169: log_step("ðŸ¤– Building Telegram application ...")
+  [prompt] line 2180: application.add_handler(CommandHandler("settlement", settlement_today_command))
+  [prompt] line 2182: application.add_handler(CallbackQueryHandler(handle_report_menu, pattern=f"^{REPORT_CALLBACK_MENU}$"))
+  [prompt] line 2183: application.add_handler(CallbackQueryHandler(handle_report_type, pattern=f"^{REPORT_CALLBACK_TYPE_PREFIX}"))
+  [prompt] line 2184: application.add_handler(CallbackQueryHandler(handle_report_date, pattern=f"^{REPORT_CALLBACK_DATE_PREFIX}"))
+  [prompt] line 2185: application.add_handler(CallbackQueryHandler(handle_report_export, pattern=f"^{REPORT_CALLBACK_EXPORT_PREFIX}"))
+  [prompt] line 2186: application.add_handler(CallbackQueryHandler(handle_report_menu, pattern=f"^{REPORT_CALLBACK_BACK_TO_MENU}$"))
+  [prompt] line 2187: application.add_handler(CallbackQueryHandler(handle_report_close, pattern=f"^{REPORT_CALLBACK_CLOSE}$"))
+  [prompt] line 2189: application.add_handler(CallbackQueryHandler(handle_admin_menu, pattern=f"^{CALLBACK_ADMIN_MENU}$"))
+  [prompt] line 2190: application.add_handler(CallbackQueryHandler(handle_admin_set_admin_menu, pattern=f"^{CALLBACK_ADMIN_SET_ADMIN}$"))
+  [prompt] line 2191: application.add_handler(CallbackQueryHandler(handle_admin_view_admins, pattern=f"^{CALLBACK_ADMIN_VIEW_ADMINS}$"))
+  [prompt] line 2192: application.add_handler(CallbackQueryHandler(handle_admin_add_admin_prompt, pattern=f"^{CALLBACK_ADMIN_ADD_ADMIN}$"))
+  [prompt] line 2193: application.add_handler(CallbackQueryHandler(handle_admin_remove_admin_prompt, pattern=f"^{CALLBACK_ADMIN_REMOVE_ADMIN}$"))
+  [prompt] line 2194: application.add_handler(CallbackQueryHandler(handle_admin_agent_menu, pattern=f"^{CALLBACK_ADMIN_AGENT_MENU}$"))
+  [prompt] line 2195: application.add_handler(CallbackQueryHandler(handle_admin_agent_view, pattern=f"^{CALLBACK_ADMIN_AGENT_VIEW}$"))
+  [prompt] line 2196: application.add_handler(CallbackQueryHandler(handle_admin_agent_edit, pattern=f"^{CALLBACK_ADMIN_AGENT_EDIT}$"))
+  [prompt] line 2197: application.add_handler(CallbackQueryHandler(handle_admin_bonus_menu, pattern=f"^{CALLBACK_ADMIN_BONUS_MENU}$"))
+  [prompt] line 2198: application.add_handler(CallbackQueryHandler(handle_admin_bonus_view, pattern=f"^{CALLBACK_ADMIN_BONUS_VIEW}$"))
+  [prompt] line 2199: application.add_handler(CallbackQueryHandler(handle_admin_bonus_edit, pattern=f"^{CALLBACK_ADMIN_BONUS_EDIT}$"))
+  [prompt] line 2200: application.add_handler(CallbackQueryHandler(handle_admin_limit_menu, pattern=f"^{CALLBACK_ADMIN_LIMIT_MENU}$"))
+  [prompt] line 2201: application.add_handler(CallbackQueryHandler(handle_admin_limit_view, pattern=f"^{CALLBACK_ADMIN_LIMIT_VIEW}$"))
+  [prompt] line 2202: application.add_handler(CallbackQueryHandler(handle_admin_limit_edit, pattern=f"^{CALLBACK_ADMIN_LIMIT_EDIT}$"))
+  [prompt] line 2203: application.add_handler(CallbackQueryHandler(handle_admin_limit_action_menu, pattern=f"^{CALLBACK_ADMIN_LIMIT_ACTION_MENU}$"))
+  [prompt] line 2204: application.add_handler(CallbackQueryHandler(handle_admin_limit_action_accept, pattern=f"^{CALLBACK_ADMIN_LIMIT_ACTION_ACCEPT}$"))
+  [prompt] line 2205: application.add_handler(CallbackQueryHandler(handle_admin_limit_action_reject, pattern=f"^{CALLBACK_ADMIN_LIMIT_ACTION_REJECT}$"))
+  [prompt] line 2206: application.add_handler(CallbackQueryHandler(handle_admin_notifications_menu, pattern=f"^{CALLBACK_ADMIN_NOTIFICATIONS_MENU}$"))
+  [prompt] line 2207: application.add_handler(CallbackQueryHandler(handle_admin_notifications_view, pattern=f"^{CALLBACK_ADMIN_NOTIFICATIONS_VIEW}$"))
+  [prompt] line 2208: application.add_handler(CallbackQueryHandler(handle_admin_notifications_on, pattern=f"^{CALLBACK_ADMIN_NOTIFICATIONS_ON}$"))
+  [prompt] line 2209: application.add_handler(CallbackQueryHandler(handle_admin_notifications_off, pattern=f"^{CALLBACK_ADMIN_NOTIFICATIONS_OFF}$"))
+  [prompt] line 2210: application.add_handler(CallbackQueryHandler(handle_admin_time_limit_menu, pattern=f"^{CALLBACK_ADMIN_TIME_LIMIT_MENU}$"))
+  [prompt] line 2211: application.add_handler(CallbackQueryHandler(handle_admin_time_limit_view, pattern=f"^{CALLBACK_ADMIN_TIME_LIMIT_VIEW}$"))
+  [prompt] line 2212: application.add_handler(CallbackQueryHandler(handle_admin_time_limit_edit, pattern=f"^{CALLBACK_ADMIN_TIME_LIMIT_EDIT}$"))
+  [prompt] line 2213: application.add_handler(CallbackQueryHandler(handle_admin_system_tz_menu, pattern=f"^{CALLBACK_ADMIN_SYSTEM_TZ_MENU}$"))
+  [prompt] line 2214: application.add_handler(CallbackQueryHandler(handle_admin_system_tz_view, pattern=f"^{CALLBACK_ADMIN_SYSTEM_TZ_VIEW}$"))
+  [prompt] line 2215: application.add_handler(CallbackQueryHandler(handle_admin_system_tz_kl, pattern=f"^{CALLBACK_ADMIN_SYSTEM_TZ_KL}$"))
+  [prompt] line 2216: application.add_handler(CallbackQueryHandler(handle_admin_system_tz_hcm, pattern=f"^{CALLBACK_ADMIN_SYSTEM_TZ_HCM}$"))
+  [prompt] line 2217: application.add_handler(CallbackQueryHandler(handle_admin_back, pattern=f"^{CALLBACK_ADMIN_BACK}$"))
+  [prompt] line 2218: application.add_handler(CallbackQueryHandler(handle_admin_close, pattern=f"^{CALLBACK_ADMIN_CLOSE}$"))
+  [prompt] line 2220: application.add_handler(CallbackQueryHandler(handle_other_day_menu, pattern=f"^{CALLBACK_ODI_MENU}$"))
+  [prompt] line 2221: application.add_handler(CallbackQueryHandler(handle_other_day_select_date, pattern=f"^{CALLBACK_ODI_DATE_PREFIX}"))
+  [prompt] line 2222: application.add_handler(CallbackQueryHandler(handle_other_day_set_custom, pattern=f"^{CALLBACK_ODI_SET_CUSTOM}$"))
+  [prompt] line 2223: application.add_handler(CallbackQueryHandler(handle_other_day_set_today, pattern=f"^{CALLBACK_ODI_SET_TODAY}$"))
+  [prompt] line 2224: application.add_handler(CallbackQueryHandler(handle_other_day_close, pattern=f"^{CALLBACK_ODI_CLOSE}$"))
+  [prompt] line 2226: # Keep old InlineKeyboard handlers as fallback
+  [prompt] line 2227: application.add_handler(CallbackQueryHandler(handle_result_menu, pattern=f"^{CALLBACK_RESULT_MENU}$"))
+  [prompt] line 2228: application.add_handler(CallbackQueryHandler(handle_result_date_select, pattern=f"^{CALLBACK_RESULT_DATE_PREFIX}"))
+  [prompt] line 2229: application.add_handler(CallbackQueryHandler(handle_result_view, pattern=f"^{CALLBACK_RESULT_VIEW_PREFIX}"))
+  [prompt] line 2230: application.add_handler(CallbackQueryHandler(handle_result_refresh, pattern=f"^{CALLBACK_RESULT_REFRESH_PREFIX}"))
+  [prompt] line 2231: application.add_handler(CallbackQueryHandler(handle_result_change_date, pattern=f"^{CALLBACK_RESULT_CHANGE_DATE}$"))
+  [prompt] line 2232: application.add_handler(CallbackQueryHandler(handle_result_close, pattern=f"^{CALLBACK_RESULT_CLOSE}$"))
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\bot\handlers\main_menu_keyboard.py
+  [button] line 1: from telegram import ReplyKeyboardMarkup
+  [info] line 7: ["Admin", "Info"]
+  [button] line 9: return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\bot\handlers\report_handler.py
+  [info] line 1: from telegram import Update
+  [info] line 2: from telegram.ext import ContextTypes
+  [info] line 8: format_settlement_report_telegram,
+  [prompt] line 15: async def report_entry(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 20: await update.message.reply_text(
+  [formatter] line 21: "ðŸ“Š Settlement Report\nè¯·è¾“å…¥æ—¥æœŸ (YYYY-MM-DD)"
+  [prompt] line 25: async def handle_report_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
+  [prompt] line 34: await update.message.reply_text("âŒ æ—¥æœŸæ ¼å¼é”™è¯¯ï¼Œè¯·è¾“å…¥ YYYY-MM-DD")
+  [menu] line 42: agent_commission_rate=0,  # ä¹‹åŽæŽ¥ admin
+  [info] line 45: message = format_settlement_report_telegram(report)
+  [prompt] line 47: await update.message.reply_text(message)
+  [prompt] line 50: await update.message.reply_text(f"âŒ ç”ŸæˆæŠ¥è¡¨å¤±è´¥: {str(e)}")
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\bot\handlers\report_menu_handler.py
+  [button] line 1: from telegram import ReplyKeyboardMarkup
+  [formatter] line 6: ["ðŸ“˜ Settlement Report"],
+  [prompt] line 8: ["â¬…ï¸ Back"]
+  [button] line 10: return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+  [prompt] line 14: await update.message.reply_text(
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\bot\menus\bet_menu.py
+  [button] line 1: from telegram import ReplyKeyboardMarkup
+  [button] line 7: return ReplyKeyboardMarkup(BET_MENU_BUTTONS, one_time_keyboard=True, resize_keyboard=True)
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\bot\menus\main_menu.py
+  [button] line 1: from telegram import ReplyKeyboardMarkup
+  [info] line 4: MAIN_MENU_BUTTONS = [["Bet", "Report"], ["Result", "Other Day Input"], ["Admin", "Info"]]
+  [button] line 7: return ReplyKeyboardMarkup(MAIN_MENU_BUTTONS, one_time_keyboard=True, resize_keyboard=True)
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\admin\repositories\admin_user_repository.py
+  [menu] line 8: class AdminUserRepository:
+  [menu] line 24: CREATE TABLE IF NOT EXISTS admin_users (
+  [menu] line 46: FROM admin_users
+  [menu] line 57: def upsert_admin(self, user_id: str, username: str | None = None) -> None:
+  [menu] line 70: UPDATE admin_users
+  [menu] line 72: role = 'ADMIN',
+  [menu] line 82: UPDATE admin_users
+  [menu] line 83: SET role = 'ADMIN',
+  [menu] line 93: INSERT INTO admin_users (
+  [menu] line 99: VALUES (?, ?, 'ADMIN', 1)
+  [menu] line 113: UPDATE admin_users
+  [menu] line 125: def list_active_admins(self) -> list[dict[str, Any]]:
+  [menu] line 132: FROM admin_users
+  [menu] line 133: WHERE role = 'ADMIN'
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\admin\services\admin_auth_service.py
+  [menu] line 3: from src.modules.admin.repositories.admin_user_repository import AdminUserRepository
+  [menu] line 6: class AdminAuthService:
+  [menu] line 9: repo: AdminUserRepository | None = None,
+  [menu] line 10: default_admin_ids_str: str | None = None,
+  [menu] line 12: self.repo = repo or AdminUserRepository()
+  [menu] line 13: self.default_admin_ids = self._parse_default_admin_ids(default_admin_ids_str)
+  [menu] line 16: def _parse_default_admin_ids(raw: str | None) -> set[str]:
+  [menu] line 23: self.sync_default_admins()
+  [menu] line 25: def sync_default_admins(self) -> None:
+  [menu] line 26: for user_id in self.default_admin_ids:
+  [menu] line 27: self.repo.upsert_admin(user_id=user_id, username=None)
+  [menu] line 29: def is_default_admin(self, user_id: str | int) -> bool:
+  [prompt] line 30: return str(user_id).strip() in self.default_admin_ids
+  [menu] line 32: def is_admin(self, user_id: str | int) -> bool:
+  [menu] line 34: if self.is_default_admin(user_id):
+  [menu] line 40: str(row.get('role', '')).upper() == 'ADMIN'
+  [menu] line 44: def add_admin(self, user_id: str | int, username: str | None = None) -> None:
+  [menu] line 45: self.repo.upsert_admin(user_id=str(user_id).strip(), username=username)
+  [menu] line 47: def remove_admin(self, user_id: str | int) -> tuple[bool, str]:
+  [menu] line 49: if self.is_default_admin(user_id):
+  [prompt] line 50: return False, 'âŒ This admin is protected by DEFAULT_ADMIN_USER_IDS'
+  [error] line 53: return False, 'âŒ User not found in admin database'
+  [prompt] line 55: return True, f'âœ… Admin removed\nUser ID: {user_id}'
+  [menu] line 57: def list_admins(self) -> list[dict[str, Any]]:
+  [menu] line 58: rows = self.repo.list_active_admins()
+  [menu] line 66: 'role': 'ADMIN',
+  [menu] line 67: 'is_default': self.is_default_admin(user_id),
+  [menu] line 71: for user_id in sorted(self.default_admin_ids):
+  [menu] line 77: 'role': 'ADMIN',
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\admin\services\admin_settings_service.py
+  [error] line 4: from decimal import Decimal, InvalidOperation
+  [error] line 5: from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+  [menu] line 7: from src.modules.admin.repositories.agent_commission_repository import (
+  [menu] line 10: from src.modules.admin.repositories.bet_limit_repository import BetLimitRepository
+  [menu] line 11: from src.modules.admin.repositories.bonus_payout_repository import (
+  [menu] line 14: from src.modules.admin.repositories.risk_control_repository import (
+  [menu] line 19: class AdminSettingsService:
+  [formatter] line 115: for region_group, default_time in self.CUTOFF_TIME_DEFAULTS.items():
+  [formatter] line 116: self.risk_repo.ensure_default(self.CUTOFF_TIME_KEYS[region_group], default_time)
+  [error] line 123: except (InvalidOperation, ValueError):
+  [error] line 124: raise ValueError(f"Invalid numeric value: {value}")
+  [formatter] line 134: def _region_prefix(region_group: str) -> str:
+  [prompt] line 135: return "MB" if str(region_group).upper().strip() == "MB" else "MNMT"
+  [error] line 143: raise ValueError(f"Invalid time format: {value}. Use HH:MM")
+  [error] line 173: raise ValueError("Invalid over limit action")
+  [error] line 196: raise ValueError("Invalid system time zone")
+  [prompt] line 203: return ZoneInfo(timezone_name)
+  [error] line 204: except ZoneInfoNotFoundError:
+  [formatter] line 207: def get_cutoff_time(self, region_group: str) -> str:
+  [formatter] line 208: normalized_region = str(region_group).upper().strip()
+  [formatter] line 209: setting_key = self.CUTOFF_TIME_KEYS.get(normalized_region)
+  [error] line 211: raise ValueError(f"Unsupported region group: {region_group}")
+  [formatter] line 213: self.risk_repo.get(setting_key, self.CUTOFF_TIME_DEFAULTS[normalized_region])
+  [formatter] line 214: or self.CUTOFF_TIME_DEFAULTS[normalized_region]
+  [formatter] line 217: def set_cutoff_time(self, region_group: str, value: str) -> str:
+  [formatter] line 218: normalized_region = str(region_group).upper().strip()
+  [formatter] line 219: setting_key = self.CUTOFF_TIME_KEYS.get(normalized_region)
+  [error] line 221: raise ValueError(f"Unsupported region group: {region_group}")
+  [error] line 264: raise ValueError(f"Invalid line: {line}")
+  [formatter] line 266: region_group = key.strip().upper()
+  [formatter] line 267: if region_group not in self.CUTOFF_TIME_KEYS:
+  [error] line 268: raise ValueError(f"Invalid region: {region_group}")
+  [formatter] line 269: values[region_group] = self._normalize_time_str(value)
+  [formatter] line 275: for region_group, time_value in values.items():
+  [formatter] line 276: self.set_cutoff_time(region_group, time_value)
+  [formatter] line 292: def get_bonus_payout_value(self, region_group: str, local_key: str) -> str:
+  [formatter] line 293: full_key = f"{self._region_prefix(region_group)}_{local_key}"
+  [formatter] line 299: def get_limit_value(self, region_group: str, local_key: str) -> str:
+  [formatter] line 300: full_key = f"{self._region_prefix(region_group)}_{local_key}"
+  [error] line 441: raise ValueError(f"Invalid line: {raw}")
+  [error] line 447: raise ValueError(f"Invalid key in {current_section}: {key}")
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\bet\calculators\bet_total_calculator.py
+  [formatter] line 4: def calculate_total(parsed_bet: dict, region_group: str):
+  [formatter] line 6: è®¡ç®—å•è¡ŒæŠ•æ³¨ total
+  [formatter] line 12: region_group = region_group.upper()
+  [formatter] line 18: numbers = parsed_bet["numbers"]
+  [formatter] line 19: group_count = len(numbers) * (len(numbers) - 1) // 2
+  [formatter] line 21: if region_group in {"MN", "MT"}:
+  [formatter] line 23: elif region_group == "MB":
+  [error] line 26: raise ValueError("Invalid region group for DA")
+  [formatter] line 28: total = amount * multiplier * Decimal(str(group_count))
+  [formatter] line 33: "numbers": numbers,
+  [formatter] line 34: "number": " ".join(numbers),
+  [formatter] line 39: "total": total,
+  [formatter] line 44: if region_group == "MB":
+  [formatter] line 48: numbers = parsed_bet["numbers"]
+  [formatter] line 50: region_group_count = len(prefixes) * (len(prefixes) - 1) // 2
+  [formatter] line 51: number_group_count = len(numbers) * (len(numbers) - 1) // 2
+  [formatter] line 54: total = (
+  [formatter] line 57: * Decimal(str(region_group_count))
+  [formatter] line 58: * Decimal(str(number_group_count))
+  [formatter] line 65: "numbers": numbers,
+  [formatter] line 66: "number": " ".join(numbers),
+  [formatter] line 70: "region_group_count": region_group_count,
+  [formatter] line 71: "number_group_count": number_group_count,
+  [formatter] line 72: "total": total,
+  [formatter] line 76: number = str(parsed_bet["number"])
+  [formatter] line 77: digits = len(number)
+  [formatter] line 80: if region_group in {"MN", "MT"}:
+  [error] line 88: raise ValueError("Invalid LO digit length")
+  [formatter] line 89: elif region_group == "MB":
+  [error] line 97: raise ValueError("Invalid LO digit length")
+  [error] line 99: raise ValueError("Invalid region group")
+  [error] line 103: raise ValueError("DD only accepts 2-digit numbers")
+  [formatter] line 105: if region_group in {"MN", "MT"}:
+  [formatter] line 107: elif region_group == "MB":
+  [error] line 110: raise ValueError("Invalid region group")
+  [error] line 114: raise ValueError("XC only accepts 3-digit or 4-digit numbers")
+  [formatter] line 116: if region_group in {"MN", "MT"}:
+  [formatter] line 118: elif region_group == "MB":
+  [error] line 121: raise ValueError("Invalid region group")
+  [formatter] line 126: total = amount * multiplier
+  [formatter] line 131: "number": number,
+  [formatter] line 135: "total": total,
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\bet\formatters\bet_error_formatter.py
+  [error] line 4: åŽŸè¾“å…¥è¡Œ Invalid Input
+  [error] line 9: return "Invalid Input"
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\bet\formatters\bet_slip_formatter.py
+  [formatter] line 44: mode_tokens: list[str] = []
+  [formatter] line 45: number_tokens: list[str] = []
+  [formatter] line 49: number_tokens.append(token)
+  [formatter] line 51: mode_tokens.append(token.upper())
+  [formatter] line 53: mode = " ".join(mode_tokens) if mode_tokens else "-"
+  [formatter] line 54: numbers = " ".join(number_tokens) if number_tokens else "-"
+  [prompt] line 56: return mode, numbers, bet_type, bet_value
+  [formatter] line 60: region_group: str,
+  [formatter] line 61: ticket_numbers: list[str],
+  [prompt] line 63: target_date: str | None = None,
+  [formatter] line 70: "region": "MN",
+  [formatter] line 75: "mode": "DN",
+  [formatter] line 76: "numbers": "11 22",
+  [formatter] line 82: "total": "180",
+  [formatter] line 85: if not calculated_results or not ticket_numbers:
+  [formatter] line 87: "region": region_group.upper(),
+  [formatter] line 91: "total": "0",
+  [formatter] line 94: ticket_no = ticket_numbers[0]
+  [prompt] line 95: today = date.today().isoformat()
+  [formatter] line 98: grand_total = Decimal("0")
+  [formatter] line 102: amount = result["total"]
+  [formatter] line 104: mode, numbers, bet_type, bet_value = _split_raw_input(raw_input)
+  [formatter] line 108: "mode": mode,
+  [formatter] line 109: "numbers": numbers,
+  [formatter] line 115: grand_total += amount
+  [formatter] line 118: "region": region_group.upper(),
+  [prompt] line 120: "target_date": target_date if target_date and target_date != today else None,
+  [formatter] line 122: "total": _format_decimal(grand_total),
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\bet\formatters\bet_success_formatter.py
+  [formatter] line 15: def _mode_with_amount(result: dict) -> str:
+  [formatter] line 16: display_mode = _safe_text(result.get("display_mode", "")).upper() or "-"
+  [formatter] line 19: if display_mode == "DA":
+  [formatter] line 21: if display_mode == "DX":
+  [prompt] line 24: return display_mode
+  [formatter] line 28: region_values: list[str] = []
+  [formatter] line 29: number_values: list[str] = []
+  [formatter] line 30: mode_values: list[str] = []
+  [formatter] line 31: total_values: list[str] = []
+  [formatter] line 34: region_label = _safe_text(result.get("region_label", "")).upper() or "-"
+  [formatter] line 35: numbers = result.get("numbers", [])
+  [formatter] line 36: if isinstance(numbers, list) and numbers:
+  [formatter] line 37: numbers_str = " ".join(str(x).strip() for x in numbers if str(x).strip())
+  [formatter] line 39: numbers_str = _safe_text(result.get("numbers_str", "")) or "-"
+  [formatter] line 41: display_mode = _mode_with_amount(result)
+  [formatter] line 42: total = _format_decimal(result.get("total", Decimal("0")))
+  [formatter] line 44: region_values.append(region_label)
+  [formatter] line 45: number_values.append(numbers_str)
+  [formatter] line 46: mode_values.append(display_mode)
+  [formatter] line 47: total_values.append(total)
+  [formatter] line 50: "region": max([len("Region"), 6] + [len(x) for x in region_values]),
+  [formatter] line 51: "number": max([len("Number"), 8] + [len(x) for x in number_values]),
+  [formatter] line 52: "mode": max([len("Mode"), 4] + [len(x) for x in mode_values]),
+  [formatter] line 53: "total": max([len("Total"), 5] + [len(x) for x in total_values]),
+  [formatter] line 59: f"{'Region'.ljust(widths['region'])} | "
+  [formatter] line 60: f"{'Number'.ljust(widths['number'])} | "
+  [formatter] line 61: f"{'Mode'.ljust(widths['mode'])} | "
+  [formatter] line 62: f"{'Total'.rjust(widths['total'])}"
+  [formatter] line 67: region_label = _safe_text(result.get("region_label", "")).upper() or "-"
+  [formatter] line 69: numbers = result.get("numbers", [])
+  [formatter] line 70: if isinstance(numbers, list) and numbers:
+  [formatter] line 71: numbers_str = " ".join(str(x).strip() for x in numbers if str(x).strip())
+  [formatter] line 73: numbers_str = _safe_text(result.get("numbers_str", "")) or "-"
+  [formatter] line 75: display_mode = _mode_with_amount(result)
+  [formatter] line 76: total = _format_decimal(result.get("total", Decimal("0")))
+  [formatter] line 79: f"{region_label.ljust(widths['region'])} | "
+  [formatter] line 80: f"{numbers_str.ljust(widths['number'])} | "
+  [formatter] line 81: f"{display_mode.ljust(widths['mode'])} | "
+  [formatter] line 82: f"{total.rjust(widths['total'])}"
+  [formatter] line 87: region_group: str,
+  [formatter] line 88: ticket_numbers: list[str],
+  [prompt] line 90: target_date: str | None = None,
+  [formatter] line 92: if not calculated_results or not ticket_numbers:
+  [error] line 93: return "Invalid Input"
+  [formatter] line 95: ticket_no = ticket_numbers[0]
+  [formatter] line 101: ticket_line = f"ðŸŽ« : {region_group} Â· {ticket_no}"
+  [formatter] line 102: total_value = sum(
+  [formatter] line 103: (result.get("total", Decimal("0")) for result in calculated_results),
+  [formatter] line 106: total_line = f"ðŸ’° Total: {_format_decimal(total_value)}"
+  [prompt] line 108: today = date.today().isoformat()
+  [formatter] line 110: body_candidates = [ticket_line, header_row, total_line] + data_rows
+  [prompt] line 111: if target_date and target_date != today:
+  [success] line 119: lines.append("âœ… Bet Accepted")
+  [prompt] line 123: if target_date and target_date != today:
+  [formatter] line 131: lines.append(total_line)
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\bet\parsers\bet_message_parser.py
+  [formatter] line 16: def _group_prefixes(region_group: str):
+  [formatter] line 17: region_group = region_group.upper()
+  [formatter] line 18: if region_group == "MN":
+  [formatter] line 20: if region_group == "MT":
+  [info] line 27: æŠŠ Telegram å‘æ¥çš„æ–‡æœ¬å¼ºåˆ¶æ ‡å‡†åŒ–æˆå¤šè¡Œåˆ—è¡¨
+  [formatter] line 57: def _build_display_mode(bet_type: str, amount: Decimal) -> str:
+  [formatter] line 68: def parse_bet_message(text: str, region_group: str):
+  [formatter] line 98: region_group = region_group.upper()
+  [formatter] line 132: display_mode = _build_display_mode(bet_type, amount)
+  [formatter] line 135: if region_group in {"MN", "MT"}:
+  [formatter] line 136: valid_prefixes = _group_prefixes(region_group)
+  [formatter] line 149: number_tokens = middle_tokens[1:]
+  [formatter] line 159: if not number_tokens or any(not token.isdigit() for token in number_tokens):
+  [formatter] line 170: "display_raw_input": f"{prefix} {' '.join(number_tokens)} {display_mode.lower()}",
+  [formatter] line 171: "display_mode": display_mode,
+  [formatter] line 172: "group_numbers": number_tokens[:],
+  [formatter] line 175: "numbers": number_tokens,
+  [formatter] line 182: numbers = []
+  [formatter] line 183: number_section_started = False
+  [error] line 184: structure_invalid = False
+  [formatter] line 188: number_section_started = True
+  [formatter] line 189: numbers.append(token)
+  [formatter] line 191: if number_section_started:
+  [error] line 192: structure_invalid = True
+  [error] line 195: structure_invalid = True
+  [error] line 199: if structure_invalid or not prefixes or not numbers:
+  [formatter] line 211: "display_raw_input": f"{' '.join(prefixes)} {' '.join(numbers)} {display_mode.lower()}",
+  [formatter] line 212: "display_mode": display_mode,
+  [formatter] line 213: "group_numbers": numbers[:],
+  [formatter] line 216: "numbers": numbers,
+  [formatter] line 223: # ä»ç„¶æ‹†å¼€ç»™ calculator / DB ç”¨ï¼Œä½†é¢å¤–ä¿ç•™ group_numbers + display_mode
+  [formatter] line 225: for number in numbers:
+  [formatter] line 228: "raw_input": f"{prefix} {number} {bet_type}{_format_amount_text(amount)}n",
+  [formatter] line 229: "display_raw_input": f"{prefix} {' '.join(numbers)} {display_mode.lower()}",
+  [formatter] line 230: "display_mode": display_mode,
+  [formatter] line 231: "group_numbers": numbers[:],
+  [formatter] line 234: "number": number,
+  [formatter] line 239: elif region_group == "MB":
+  [formatter] line 267: numbers = middle_tokens
+  [formatter] line 281: "display_raw_input": f"mb {' '.join(numbers)} {display_mode.lower()}",
+  [formatter] line 282: "display_mode": display_mode,
+  [formatter] line 283: "group_numbers": numbers[:],
+  [formatter] line 286: "numbers": numbers,
+  [formatter] line 292: for number in numbers:
+  [formatter] line 295: "raw_input": f"{number} {bet_type}{_format_amount_text(amount)}n",
+  [formatter] line 296: "display_raw_input": f"mb {' '.join(numbers)} {display_mode.lower()}",
+  [formatter] line 297: "display_mode": display_mode,
+  [formatter] line 298: "group_numbers": numbers[:],
+  [formatter] line 301: "number": number,
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\bet\repositories\daily_counter_repository.py
+  [formatter] line 22: region_group TEXT NOT NULL,
+  [formatter] line 25: UNIQUE(counter_date, region_group)
+  [prompt] line 33: def reserve_ticket_numbers(region_group: str, count: int, target_date: str | None = None) -> list[str]:
+  [formatter] line 35: æŒ‰ bet_date + region_group å‘å·
+  [formatter] line 44: region_group = region_group.upper()
+  [prompt] line 45: counter_date = target_date or date.today().isoformat()
+  [formatter] line 53: if region_group not in prefix_map:
+  [error] line 54: raise ValueError("Invalid region group")
+  [formatter] line 56: prefix = prefix_map[region_group]
+  [formatter] line 62: INSERT OR IGNORE INTO daily_counters (counter_date, region_group, last_counter)
+  [formatter] line 64: """, (counter_date, region_group))
+  [formatter] line 69: WHERE counter_date = ? AND region_group = ?
+  [formatter] line 70: """, (counter_date, region_group))
+  [formatter] line 81: WHERE counter_date = ? AND region_group = ?
+  [formatter] line 82: """, (end, counter_date, region_group))
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\bet\services\bet_message_service.py
+  [menu] line 10: from src.modules.admin.services.admin_settings_service import AdminSettingsService
+  [formatter] line 13: from src.modules.bet.calculators.bet_total_calculator import calculate_total
+  [formatter] line 18: reserve_ticket_numbers,
+  [menu] line 24: admin_settings_service = AdminSettingsService()
+  [prompt] line 29: def _today_iso_local() -> str:
+  [menu] line 30: timezone_value = admin_settings_service.get_timezone()
+  [info] line 40: cursor.execute(f"PRAGMA table_info({table_name})")
+  [formatter] line 63: if not _column_exists(cursor, "bet_items", "numbers_json"):
+  [formatter] line 64: cursor.execute("ALTER TABLE bet_items ADD COLUMN numbers_json TEXT")
+  [formatter] line 66: if not _column_exists(cursor, "bet_items", "regions_json"):
+  [formatter] line 67: cursor.execute("ALTER TABLE bet_items ADD COLUMN regions_json TEXT")
+  [formatter] line 96: def _number_mode_from_result(result: dict) -> str:
+  [formatter] line 102: number = str(result.get("number", ""))
+  [prompt] line 103: return f"{len(number)}c"
+  [prompt] line 107: return _number_mode_from_result(result).upper()
+  [formatter] line 116: def _region_code_from_result(result: dict) -> str:
+  [formatter] line 122: def _numbers_from_result(result: dict) -> list[str]:
+  [formatter] line 123: numbers = result.get("numbers")
+  [formatter] line 124: if isinstance(numbers, list) and numbers:
+  [prompt] line 125: return [str(x).strip() for x in numbers if str(x).strip()]
+  [formatter] line 127: number = str(result.get("number", "")).strip()
+  [prompt] line 128: return [number] if number else []
+  [formatter] line 131: def _regions_from_result(result: dict) -> list[str]:
+  [formatter] line 159: regions = _regions_from_result(result)
+  [prompt] line 160: return len(regions) > 1
+  [formatter] line 165: number_mode = _number_mode_from_result(result).upper()
+  [prompt] line 168: return f"{number_mode}_LO"
+  [prompt] line 176: return f"{number_mode}_XC"
+  [formatter] line 183: numbers = _numbers_from_result(result)
+  [formatter] line 184: regions = [r.lower() for r in _regions_from_result(result)]
+  [prompt] line 187: return tuple(sorted(numbers))
+  [prompt] line 189: return tuple(sorted(regions) + sorted(numbers))
+  [formatter] line 191: first_number = numbers[0] if numbers else ""
+  [formatter] line 192: first_region = regions[0] if regions else ""
+  [prompt] line 193: return (first_region, first_number)
+  [prompt] line 196: def _load_existing_exposure(target_date: str, region_group: str) -> dict[tuple[str, str, tuple[str, ...]], Decimal]:
+  [formatter] line 204: region_code,
+  [formatter] line 206: number_mode,
+  [formatter] line 208: numbers_json,
+  [formatter] line 209: regions_json
+  [formatter] line 214: AND bb.region_group = ?
+  [formatter] line 218: (target_date, region_group),
+  [formatter] line 228: number_mode = str(row["number_mode"] or "").strip().upper()
+  [formatter] line 229: local_key = _over_limit_local_key({"type": bet_type, "number_mode": number_mode, "number": "00" if number_mode == "2C" else "000"})
+  [formatter] line 232: numbers = json.loads(row["numbers_json"]) if row["numbers_json"] else []
+  [formatter] line 234: numbers = []
+  [formatter] line 235: if not isinstance(numbers, list):
+  [formatter] line 236: numbers = []
+  [formatter] line 237: numbers = [str(x).strip() for x in numbers if str(x).strip()]
+  [formatter] line 240: regions = json.loads(row["regions_json"]) if row["regions_json"] else []
+  [formatter] line 242: regions = []
+  [formatter] line 243: if not isinstance(regions, list):
+  [formatter] line 244: regions = []
+  [formatter] line 245: regions = [str(x).strip().lower() for x in regions if str(x).strip()]
+  [formatter] line 246: if not regions:
+  [formatter] line 247: raw_region = str(row["region_code"] or "").strip().lower()
+  [formatter] line 248: regions = [part.strip() for part in raw_region.split(",") if part.strip()]
+  [formatter] line 252: "number_mode": number_mode.lower(),
+  [formatter] line 253: "numbers": numbers,
+  [formatter] line 254: "number": numbers[0] if numbers else "",
+  [formatter] line 255: "prefixes": regions,
+  [formatter] line 256: "prefix": regions[0] if regions else "",
+  [formatter] line 260: exposure[(region_group, local_key, scope_key)] = exposure.get(
+  [formatter] line 261: (region_group, local_key, scope_key), Decimal("0")
+  [prompt] line 267: def _check_over_limit(target_date: str, region_group: str, calculated_results: list[dict]) -> dict[str, Any]:
+  [formatter] line 268: exposure = _load_existing_exposure(target_date, region_group)
+  [formatter] line 277: current_amount = exposure.get((region_group, local_key, scope_key), Decimal("0"))
+  [formatter] line 280: limit_amount = _to_decimal(admin_settings_service.get_limit_value(region_group, local_key))
+  [formatter] line 296: exposure[(region_group, local_key, scope_key)] = next_amount
+  [menu] line 301: "action": admin_settings_service.get_over_limit_action(),
+  [menu] line 302: "notify_customer": admin_settings_service.is_customer_notification_enabled(),
+  [prompt] line 326: def _is_same_day_target(target_date: str) -> bool:
+  [menu] line 327: timezone = admin_settings_service.get_timezone()
+  [prompt] line 331: def _check_cutoff_time(target_date: str, region_group: str) -> dict[str, Any]:
+  [formatter] line 335: normalized_region = str(region_group).upper().strip()
+  [menu] line 336: timezone = admin_settings_service.get_timezone()
+  [formatter] line 338: cutoff_time = admin_settings_service.get_cutoff_time(normalized_region)
+  [formatter] line 350: "region_group": normalized_region,
+  [formatter] line 359: def _build_cutoff_closed_message(region_group: str, cutoff_time: str) -> str:
+  [formatter] line 363: f"{str(region_group).upper()} closed at {_format_cutoff_display(cutoff_time)}",
+  [error] line 368: def _should_bypass_history_validation(error: str, target_date: str) -> bool:
+  [formatter] line 399: def _prepend_test_mode_notice(response_text: str) -> str:
+  [formatter] line 400: notice = "âš  TEST MODE Â· HISTORY BET ALLOWED FOR ADMIN"
+  [formatter] line 450: æŒ‰â€œåŒºåŸŸ + åŽŸå§‹å·ç ç»„ + mode + amountâ€é‡æ–°ç»„åˆæˆåŠŸå›žæ‰§æ˜¾ç¤ºã€‚
+  [formatter] line 459: region_label = ",".join(
+  [formatter] line 465: region_label = str(result.get("prefix", "")).strip().upper()
+  [formatter] line 467: if not region_label:
+  [formatter] line 468: region_label = "-"
+  [formatter] line 470: group_numbers = _safe_list(result.get("group_numbers"))
+  [formatter] line 471: if not group_numbers:
+  [formatter] line 472: group_numbers = _numbers_from_result(result)
+  [formatter] line 474: numbers_str = " ".join(group_numbers) if group_numbers else "-"
+  [formatter] line 475: display_mode = str(result.get("display_mode", "")).strip().upper()
+  [formatter] line 479: key = (region_label, numbers_str, display_mode, amount_text)
+  [formatter] line 483: "region_label": region_label,
+  [formatter] line 484: "numbers": group_numbers,
+  [formatter] line 485: "numbers_str": numbers_str,
+  [formatter] line 486: "display_mode": display_mode or "-",
+  [formatter] line 488: "total": Decimal("0"),
+  [formatter] line 494: grouped[key]["total"] += result.get("total", Decimal("0"))
+  [formatter] line 501: region_group: str,
+  [prompt] line 503: target_date: str,
+  [formatter] line 506: region_group = region_group.upper()
+  [formatter] line 512: parsed_bets = parse_bet_message(bet_text, region_group)
+  [error] line 515: return False, format_error_response(["Invalid Input"])
+  [error] line 521: valid, error = validate_bet(parsed_bet, region_group, target_date=target_date)
+  [error] line 530: parsed_bet.get("raw_input", "Invalid Input"),
+  [error] line 536: error_line = f"{raw_input} Invalid Input"
+  [formatter] line 547: calculated = calculate_total(parsed_bet, region_group)
+  [formatter] line 557: calculated["group_numbers"] = _safe_list(parsed_bet.get("group_numbers"))
+  [formatter] line 558: calculated["display_mode"] = str(parsed_bet.get("display_mode", "")).strip().upper()
+  [formatter] line 571: cutoff_check = _check_cutoff_time(target_date, region_group)
+  [prompt] line 573: return False, _build_cutoff_closed_message(region_group, cutoff_check["cutoff_time"])
+  [formatter] line 575: over_limit_check = _check_over_limit(target_date, region_group, calculated_results)
+  [menu] line 576: if over_limit_check["has_over_limit"] and over_limit_check["action"] == admin_settings_service.RISK_ACTION_REJECT:
+  [formatter] line 579: ticket_numbers = reserve_ticket_numbers(region_group, 1, target_date=target_date)
+  [formatter] line 580: ticket_no = ticket_numbers[0]
+  [formatter] line 582: batch_total = sum(result["total"] for result in calculated_results)
+  [prompt] line 583: today = _today_iso_local()
+  [formatter] line 584: batch_code = f"{region_group}-{target_date}-{ticket_no}"
+  [formatter] line 597: region_group,
+  [formatter] line 602: batch_total,
+  [formatter] line 612: region_group,
+  [prompt] line 613: today,
+  [formatter] line 617: _format_decimal(batch_total),
+  [formatter] line 627: numbers = _numbers_from_result(result)
+  [formatter] line 628: regions = _regions_from_result(result)
+  [formatter] line 636: region_group,
+  [formatter] line 637: region_code,
+  [formatter] line 640: number_mode,
+  [formatter] line 643: numbers_json,
+  [formatter] line 644: regions_json,
+  [formatter] line 646: total,
+  [formatter] line 655: region_group,
+  [formatter] line 656: _region_code_from_result(result),
+  [formatter] line 659: _number_mode_from_result(result),
+  [formatter] line 662: json.dumps(numbers, ensure_ascii=False),
+  [formatter] line 663: json.dumps(regions, ensure_ascii=False),
+  [formatter] line 665: _format_decimal(result["total"]),
+  [prompt] line 673: conn.rollback()
+  [formatter] line 682: region_group,
+  [formatter] line 694: response_text = _prepend_test_mode_notice(response_text)
+  [prompt] line 699: def delete_ticket(ticket_no: str, target_date: str):
+  [prompt] line 703: today_iso = _today_iso_local()
+  [formatter] line 714: bb.region_group
+  [prompt] line 729: if target_date == today_iso:
+  [error] line 731: return False, f"âŒ Ticket not found: {ticket_no}\nDate: {target_date}"
+  [formatter] line 733: batch_id, batch_status, region_group = row
+  [prompt] line 736: if target_date == today_iso:
+  [prompt] line 738: return False, f"âŒ Ticket already deleted: {ticket_no}\nDate: {target_date}"
+  [prompt] line 766: if target_date == today_iso:
+  [prompt] line 767: return True, f"ðŸ—‘ Deleted Â· {region_group} Â· {ticket_no}"
+  [prompt] line 769: return True, f"ðŸ—‘ Deleted Â· {region_group} Â· {ticket_no}\nDate: {target_date}"
+  [prompt] line 772: conn.rollback()
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\bet\validators\bet_message_validator.py
+  [formatter] line 18: def _valid_prefixes(region_group: str):
+  [formatter] line 19: region_group = region_group.upper()
+  [formatter] line 20: if region_group == "MN":
+  [formatter] line 22: if region_group == "MT":
+  [prompt] line 27: def _normalize_target_date(target_date) -> date:
+  [prompt] line 34: return date.today()
+  [formatter] line 37: def validate_bet(parsed_bet: dict, region_group: str, target_date=None):
+  [formatter] line 47: region_group = region_group.upper()
+  [error] line 51: return False, "Invalid structure"
+  [error] line 53: raw_input = parsed_bet.get("source_line", parsed_bet.get("raw_input", "Invalid Input"))
+  [error] line 58: return False, f"{raw_input} Invalid Input"
+  [error] line 61: return False, f"{raw_input} Invalid Input"
+  [error] line 64: return False, f"{raw_input} Invalid Input"
+  [formatter] line 67: if region_group == "MB":
+  [error] line 69: return False, f"{raw_input} Invalid Input"
+  [formatter] line 72: numbers = parsed_bet.get("numbers", [])
+  [formatter] line 73: if not isinstance(numbers, list) or len(numbers) < 2:
+  [error] line 74: return False, f"{raw_input} Invalid Input"
+  [formatter] line 76: for number in numbers:
+  [formatter] line 77: number = str(number)
+  [formatter] line 78: if not number.isdigit() or len(number) != 2:
+  [error] line 79: return False, f"{raw_input} Invalid Input"
+  [formatter] line 81: if len(set(numbers)) != len(numbers):
+  [error] line 82: return False, f"{raw_input} Invalid Input"
+  [formatter] line 86: number = str(parsed_bet.get("number", ""))
+  [formatter] line 87: if not number.isdigit():
+  [error] line 88: return False, f"{raw_input} Invalid Input"
+  [formatter] line 90: digits = len(number)
+  [error] line 92: return False, f"{raw_input} Invalid Input"
+  [error] line 95: return False, f"{raw_input} Invalid Input"
+  [error] line 98: return False, f"{raw_input} Invalid Input"
+  [formatter] line 103: valid_prefixes = _valid_prefixes(region_group)
+  [formatter] line 107: numbers = parsed_bet.get("numbers", [])
+  [error] line 110: return False, f"{raw_input} Invalid Input"
+  [formatter] line 112: schedule_result = validate_schedule(region_group, prefix, target_date_obj)
+  [prompt] line 114: return False, f"{raw_input} Region not open for selected date"
+  [formatter] line 116: if not isinstance(numbers, list) or len(numbers) < 2:
+  [error] line 117: return False, f"{raw_input} Invalid Input"
+  [formatter] line 119: for number in numbers:
+  [formatter] line 120: number = str(number)
+  [formatter] line 121: if not number.isdigit() or len(number) != 2:
+  [error] line 122: return False, f"{raw_input} Invalid Input"
+  [formatter] line 124: if len(set(numbers)) != len(numbers):
+  [error] line 125: return False, f"{raw_input} Invalid Input"
+  [formatter] line 131: numbers = parsed_bet.get("numbers", [])
+  [error] line 134: return False, f"{raw_input} Invalid Input"
+  [error] line 140: return False, f"{raw_input} Invalid Input"
+  [formatter] line 142: schedule_result = validate_schedule(region_group, normalized_prefix, target_date_obj)
+  [prompt] line 144: return False, f"{raw_input} Region not open for selected date"
+  [error] line 147: return False, f"{raw_input} Invalid Input"
+  [formatter] line 149: if not isinstance(numbers, list) or len(numbers) < 2:
+  [error] line 150: return False, f"{raw_input} Invalid Input"
+  [formatter] line 152: for number in numbers:
+  [formatter] line 153: number = str(number)
+  [formatter] line 154: if not number.isdigit() or len(number) != 2:
+  [error] line 155: return False, f"{raw_input} Invalid Input"
+  [formatter] line 157: if len(set(numbers)) != len(numbers):
+  [error] line 158: return False, f"{raw_input} Invalid Input"
+  [formatter] line 164: number = str(parsed_bet.get("number", ""))
+  [error] line 167: return False, f"{raw_input} Invalid Input"
+  [formatter] line 169: schedule_result = validate_schedule(region_group, prefix, target_date_obj)
+  [prompt] line 171: return False, f"{raw_input} Region not open for selected date"
+  [formatter] line 173: if not number.isdigit():
+  [error] line 174: return False, f"{raw_input} Invalid Input"
+  [formatter] line 176: digits = len(number)
+  [error] line 178: return False, f"{raw_input} Invalid Input"
+  [error] line 181: return False, f"{raw_input} Invalid Input"
+  [error] line 184: return False, f"{raw_input} Invalid Input"
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\bet\validators\bet_region_validator.py
+  [formatter] line 3: from src.modules.schedule.services.region_schedule_service import (
+  [formatter] line 4: validate_region_for_date,
+  [prompt] line 8: def validate_bet_region(region: str, bet_date: date):
+  [formatter] line 13: result = validate_region_for_date(region, bet_date)
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\constants\report_constants.py
+  [formatter] line 5: REPORT_TYPE_NUMBER_DETAIL = "number_detail"
+  [formatter] line 10: REPORT_LABEL_NUMBER_DETAIL = "Number Detail"
+  [prompt] line 13: REPORT_CALLBACK_MENU = "report:menu"
+  [prompt] line 14: REPORT_CALLBACK_CLOSE = "report:close"
+  [prompt] line 15: REPORT_CALLBACK_BACK_TO_MENU = "report:back"
+  [prompt] line 17: REPORT_CALLBACK_TYPE_PREFIX = "report:type:"
+  [prompt] line 18: REPORT_CALLBACK_DATE_PREFIX = "report:date:"
+  [prompt] line 19: REPORT_CALLBACK_EXPORT_PREFIX = "report:export:"
+  [formatter] line 23: REPORT_REGION_GROUPS = ["MN", "MT", "MB"]
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\exporters\over_limit_report_html_exporter.py
+  [prompt] line 13: body_parts.append(f"<p><strong>Date:</strong> {escape(str(data['date']))}</p>")
+  [formatter] line 18: for region_group in ("MN", "MT", "MB"):
+  [formatter] line 19: region_data = groups.get(region_group, {})
+  [formatter] line 20: region_html = _render_region_group(region_group, region_data)
+  [formatter] line 21: if region_html:
+  [formatter] line 23: body_parts.append(region_html)
+  [formatter] line 31: f"<p><strong>Total Over Limit:</strong> {escape(str(summary.get('total_over_count', 0)))}</p>"
+  [prompt] line 60: background: #f5f5f5;
+  [formatter] line 67: .region-block {{
+  [formatter] line 79: def _render_region_group(region_group: str, region_data: dict[str, Any]) -> str:
+  [formatter] line 82: section_2c = _render_normal_section("2c", region_group, region_data.get("2c", {}))
+  [formatter] line 83: section_3c = _render_normal_section("3c", region_group, region_data.get("3c", {}))
+  [formatter] line 84: section_4c = _render_normal_section("4c", region_group, region_data.get("4c", {}))
+  [formatter] line 85: da_section = _render_da_section(region_data.get("da", {}))
+  [formatter] line 86: dx_section = _render_dx_section(region_data.get("dx", []))
+  [formatter] line 91: sections.append(f"<div class='region-block'><h2>{escape(region_group)}</h2>")
+  [formatter] line 109: region_group: str,
+  [formatter] line 117: if region_group == "MB" and len(section_data) == 1:
+  [formatter] line 118: only_region = next(iter(section_data.keys()))
+  [formatter] line 119: items = section_data[only_region]
+  [formatter] line 125: f"<td>{escape(str(item['number']))}</td>"
+  [formatter] line 133: "<thead><tr><th>Number</th><th>Play</th><th>Over</th></tr></thead>"
+  [formatter] line 139: for region_code in sorted(section_data.keys()):
+  [formatter] line 141: for item in section_data[region_code]:
+  [formatter] line 144: f"<td>{escape(str(item['number']))}</td>"
+  [formatter] line 150: parts.append(f"<h3>{escape(region_code)}</h3>")
+  [formatter] line 153: "<thead><tr><th>Number</th><th>Play</th><th>Over</th></tr></thead>"
+  [formatter] line 167: for region_code in sorted(da_data.keys()):
+  [formatter] line 169: for item in da_data[region_code]:
+  [formatter] line 172: f"<td>{escape(str(item['number_group']))}</td>"
+  [formatter] line 177: parts.append(f"<h3>{escape(region_code)}</h3>")
+  [formatter] line 180: "<thead><tr><th>Number Group</th><th>Over</th></tr></thead>"
+  [formatter] line 196: f"<td>{escape(str(item['region_combo']))}</td>"
+  [formatter] line 197: f"<td>{escape(str(item['number_group']))}</td>"
+  [formatter] line 205: "<thead><tr><th>Region Combo</th><th>Number Group</th><th>Over</th></tr></thead>"
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\formatters\number_detail_report_formatter.py
+  [formatter] line 6: from src.modules.report.constants.report_constants import REPORT_REGION_GROUPS
+  [formatter] line 32: def _bet_type_to_section(bet_type: str, number_key: str) -> tuple[str | None, str]:
+  [formatter] line 42: token = str(number_key or "").strip().split()[0] if str(number_key or "").strip() else ""
+  [formatter] line 54: def _group_region_items(region_data: dict[str, Any]) -> dict[tuple[str, str], list[dict[str, str]]]:
+  [formatter] line 56: bet_types = region_data.get("bet_types", {}) or {}
+  [info] line 59: telegram_items = payload.get("telegram_items", []) or []
+  [info] line 61: for item in telegram_items:
+  [formatter] line 62: region_key = str(item.get("region_key", "")).strip().lower()
+  [formatter] line 63: number_key = str(item.get("number_key", "")).strip()
+  [formatter] line 66: section, normalized_bet_type = _bet_type_to_section(bet_type, number_key)
+  [formatter] line 73: "region": region_key,
+  [formatter] line 74: "number": number_key,
+  [formatter] line 75: "mode": normalized_bet_type,
+  [formatter] line 76: "total": amount,
+  [formatter] line 81: rows.sort(key=lambda x: (x["region"], x["number"], x["mode"]))
+  [formatter] line 87: region_w = max(len("Region"), max((len(r["region"]) for r in rows), default=6))
+  [formatter] line 88: number_w = max(len("Number"), max((len(r["number"]) for r in rows), default=6))
+  [formatter] line 89: mode_w = max(len("Mode"), max((len(r["mode"]) for r in rows), default=4))
+  [formatter] line 90: total_w = max(len("Total"), max((len(r["total"]) for r in rows), default=5))
+  [formatter] line 93: f"{'Region'.ljust(region_w)}  {'Number'.ljust(number_w)}  {'Mode'.ljust(mode_w)}  {'Total'.rjust(total_w)}"
+  [formatter] line 98: f"{row['region'].ljust(region_w)}  "
+  [formatter] line 99: f"{row['number'].ljust(number_w)}  "
+  [formatter] line 100: f"{row['mode'].ljust(mode_w)}  "
+  [formatter] line 101: f"{row['total'].rjust(total_w)}"
+  [formatter] line 114: regions = data.get("regions", {}) or {}
+  [formatter] line 118: lines.append("ðŸ”¢ Number Detail Report")
+  [formatter] line 122: first_region = True
+  [formatter] line 124: for region_group in REPORT_REGION_GROUPS:
+  [formatter] line 125: region_data = regions.get(region_group, {}) or {}
+  [formatter] line 126: grouped = _group_region_items(region_data)
+  [formatter] line 128: if not first_region:
+  [formatter] line 132: first_region = False
+  [formatter] line 134: lines.append(region_group)
+  [formatter] line 138: for section_name, mode_list in SECTION_ORDER:
+  [formatter] line 141: for mode in mode_list:
+  [formatter] line 142: rows = grouped.get((section_name, mode), [])
+  [formatter] line 151: lines.append(SECTION_TITLE_MAP[(section_name, mode)])
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\formatters\over_limit_report_formatter.py
+  [formatter] line 37: region_w = max(len("Region"), max((len(r["region"]) for r in rows), default=6))
+  [formatter] line 38: number_w = max(len("Number"), max((len(r["number"]) for r in rows), default=6))
+  [formatter] line 39: mode_w = max(len("Mode"), max((len(r["mode"]) for r in rows), default=4))
+  [formatter] line 40: total_w = max(len("Total"), max((len(r["total"]) for r in rows), default=5))
+  [formatter] line 43: f"{'Region'.ljust(region_w)}  {'Number'.ljust(number_w)}  {'Mode'.ljust(mode_w)}  {'Total'.rjust(total_w)}"
+  [formatter] line 48: f"{row['region'].ljust(region_w)}  "
+  [formatter] line 49: f"{row['number'].ljust(number_w)}  "
+  [formatter] line 50: f"{row['mode'].ljust(mode_w)}  "
+  [formatter] line 51: f"{row['total'].rjust(total_w)}"
+  [formatter] line 57: def _collect_region_rows(region_data: dict[str, Any]) -> dict[tuple[str, str], list[dict[str, str]]]:
+  [formatter] line 61: section_2c = region_data.get("2c", {}) or {}
+  [formatter] line 62: for region_code, items in section_2c.items():
+  [formatter] line 64: mode = str(item.get("play_type", "")).upper().strip()
+  [formatter] line 65: key = ("2C", mode)
+  [formatter] line 68: "region": str(region_code).lower(),
+  [formatter] line 69: "number": str(item.get("number", "")).strip(),
+  [formatter] line 70: "mode": mode,
+  [formatter] line 71: "total": _fmt_amount(item.get("over_amount", 0)),
+  [formatter] line 76: da_data = region_data.get("da", {}) or {}
+  [formatter] line 77: for region_code, items in da_data.items():
+  [formatter] line 82: "region": str(region_code).lower(),
+  [formatter] line 83: "number": str(item.get("number_group", "")).strip(),
+  [formatter] line 84: "mode": "DA",
+  [formatter] line 85: "total": _fmt_amount(item.get("over_amount", 0)),
+  [formatter] line 90: dx_data = region_data.get("dx", []) or []
+  [formatter] line 95: "region": str(item.get("region_combo", "")).lower(),
+  [formatter] line 96: "number": str(item.get("number_group", "")).strip(),
+  [formatter] line 97: "mode": "DX",
+  [formatter] line 98: "total": _fmt_amount(item.get("over_amount", 0)),
+  [formatter] line 103: section_3c = region_data.get("3c", {}) or {}
+  [formatter] line 104: for region_code, items in section_3c.items():
+  [formatter] line 106: mode = str(item.get("play_type", "")).upper().strip()
+  [formatter] line 107: key = ("3C", mode)
+  [formatter] line 110: "region": str(region_code).lower(),
+  [formatter] line 111: "number": str(item.get("number", "")).strip(),
+  [formatter] line 112: "mode": mode,
+  [formatter] line 113: "total": _fmt_amount(item.get("over_amount", 0)),
+  [formatter] line 118: section_4c = region_data.get("4c", {}) or {}
+  [formatter] line 119: for region_code, items in section_4c.items():
+  [formatter] line 121: mode = str(item.get("play_type", "")).upper().strip()
+  [formatter] line 122: key = ("4C", mode)
+  [formatter] line 125: "region": str(region_code).lower(),
+  [formatter] line 126: "number": str(item.get("number", "")).strip(),
+  [formatter] line 127: "mode": mode,
+  [formatter] line 128: "total": _fmt_amount(item.get("over_amount", 0)),
+  [formatter] line 133: rows.sort(key=lambda x: (x["region"], x["number"], x["mode"]))
+  [formatter] line 148: first_region = True
+  [formatter] line 150: for region_group in ("MN", "MT", "MB"):
+  [formatter] line 151: region_data = groups.get(region_group, {}) or {}
+  [formatter] line 152: grouped = _collect_region_rows(region_data)
+  [formatter] line 154: if not first_region:
+  [formatter] line 158: first_region = False
+  [formatter] line 160: lines.append(region_group)
+  [formatter] line 164: for section_name, mode_list in SECTION_ORDER:
+  [formatter] line 167: for mode in mode_list:
+  [formatter] line 168: rows = grouped.get((section_name, mode), [])
+  [formatter] line 176: lines.append(SECTION_TITLE_MAP[(section_name, mode)])
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\formatters\over_limit_report_html_exporter.py
+  [formatter] line 37: def _collect_region_rows(region_data: dict[str, Any]) -> dict[tuple[str, str], list[dict[str, str]]]:
+  [formatter] line 40: section_2c = region_data.get("2c", {}) or {}
+  [formatter] line 41: for region_code, items in section_2c.items():
+  [formatter] line 43: mode = str(item.get("play_type", "")).upper().strip()
+  [formatter] line 44: key = ("2C", mode)
+  [formatter] line 47: "region": str(region_code).lower(),
+  [formatter] line 48: "number": str(item.get("number", "")).strip(),
+  [formatter] line 49: "mode": mode,
+  [formatter] line 54: da_data = region_data.get("da", {}) or {}
+  [formatter] line 55: for region_code, items in da_data.items():
+  [formatter] line 60: "region": str(region_code).lower(),
+  [formatter] line 61: "number": str(item.get("number_group", "")).strip(),
+  [formatter] line 62: "mode": "DA",
+  [formatter] line 67: dx_data = region_data.get("dx", []) or []
+  [formatter] line 72: "region": str(item.get("region_combo", "")).lower(),
+  [formatter] line 73: "number": str(item.get("number_group", "")).strip(),
+  [formatter] line 74: "mode": "DX",
+  [formatter] line 79: section_3c = region_data.get("3c", {}) or {}
+  [formatter] line 80: for region_code, items in section_3c.items():
+  [formatter] line 82: mode = str(item.get("play_type", "")).upper().strip()
+  [formatter] line 83: key = ("3C", mode)
+  [formatter] line 86: "region": str(region_code).lower(),
+  [formatter] line 87: "number": str(item.get("number", "")).strip(),
+  [formatter] line 88: "mode": mode,
+  [formatter] line 93: section_4c = region_data.get("4c", {}) or {}
+  [formatter] line 94: for region_code, items in section_4c.items():
+  [formatter] line 96: mode = str(item.get("play_type", "")).upper().strip()
+  [formatter] line 97: key = ("4C", mode)
+  [formatter] line 100: "region": str(region_code).lower(),
+  [formatter] line 101: "number": str(item.get("number", "")).strip(),
+  [formatter] line 102: "mode": mode,
+  [formatter] line 108: rows.sort(key=lambda x: (x["region"], x["number"], x["mode"]))
+  [formatter] line 117: <td>{escape(row['region'])}</td>
+  [formatter] line 118: <td>{escape(row['number'])}</td>
+  [formatter] line 119: <td>{escape(row['mode'])}</td>
+  [formatter] line 130: <th>Region</th>
+  [formatter] line 131: <th>Number</th>
+  [formatter] line 132: <th>Mode</th>
+  [formatter] line 150: for region_group in ("MN", "MT", "MB"):
+  [formatter] line 151: region_data = groups.get(region_group, {}) or {}
+  [formatter] line 152: grouped = _collect_region_rows(region_data)
+  [formatter] line 156: for section_name, mode_list in SECTION_ORDER:
+  [formatter] line 157: mode_blocks: list[str] = []
+  [formatter] line 159: for mode in mode_list:
+  [formatter] line 160: rows = grouped.get((section_name, mode), [])
+  [formatter] line 164: mode_blocks.append(
+  [formatter] line 166: <div class="mode-block">
+  [formatter] line 167: <div class="mode-title">{escape(SECTION_TITLE_MAP[(section_name, mode)])}</div>
+  [formatter] line 173: if mode_blocks:
+  [formatter] line 178: {''.join(mode_blocks)}
+  [formatter] line 190: <section class="region-card">
+  [formatter] line 191: <h2>{escape(region_group)}</h2>
+  [prompt] line 208: background: #fff;
+  [formatter] line 217: .region-card {{
+  [formatter] line 229: .mode-block {{
+  [formatter] line 232: .mode-title {{
+  [prompt] line 251: background: #f5f5f5;
+  [prompt] line 267: <div class="meta">Date: {target_date}</div>
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\formatters\report_html_formatter.py
+  [formatter] line 8: from src.modules.report.constants.report_constants import REPORT_REGION_GROUPS
+  [prompt] line 49: background: #f5f7fb;
+  [formatter] line 60: .region-card,
+  [prompt] line 62: background: #ffffff;
+  [formatter] line 87: .region-card {{
+  [formatter] line 92: .region-title {{
+  [prompt] line 101: background: #fafafa;
+  [prompt] line 131: background: #ffffff;
+  [prompt] line 155: background: #f9fafb;
+  [formatter] line 165: .col-region {{
+  [formatter] line 170: .col-number {{
+  [formatter] line 175: .col-mode {{
+  [formatter] line 180: .col-total {{
+  [formatter] line 186: .compact-table .col-region {{
+  [formatter] line 190: .compact-table .col-number {{
+  [formatter] line 194: .compact-table .col-mode {{
+  [formatter] line 198: .compact-table .col-total {{
+  [formatter] line 202: .ticket-total {{
+  [formatter] line 260: .region-card {{
+  [formatter] line 274: .region-title {{
+  [formatter] line 286: .ticket-total,
+  [formatter] line 305: .compact-table .col-region {{
+  [formatter] line 309: .compact-table .col-number {{
+  [formatter] line 313: .compact-table .col-mode {{
+  [formatter] line 317: .compact-table .col-total {{
+  [formatter] line 334: .region-card,
+  [formatter] line 343: .region-card {{
+  [formatter] line 351: .region-title {{
+  [formatter] line 361: .compact-table .col-region {{
+  [formatter] line 365: .compact-table .col-number {{
+  [formatter] line 369: .compact-table .col-mode {{
+  [formatter] line 373: .compact-table .col-total {{
+  [formatter] line 387: def _normalize_mode(mode: str) -> str:
+  [formatter] line 388: value = str(mode or "").strip().upper()
+  [formatter] line 396: mode_code, amount = match.groups()
+  [prompt] line 398: return f"{mode_code}1N"
+  [formatter] line 404: region = str(item.get("region", "")).strip().upper()
+  [formatter] line 405: number = str(item.get("number", "")).strip()
+  [formatter] line 406: mode = _normalize_mode(str(item.get("mode", "")).strip())
+  [formatter] line 407: total = str(item.get("total", "")).strip()
+  [formatter] line 409: if region or number or mode or total:
+  [formatter] line 411: "region": region,
+  [formatter] line 412: "number": number,
+  [formatter] line 413: "mode": mode,
+  [formatter] line 414: "total": total,
+  [prompt] line 422: return {"region": "", "number": "", "mode": "", "total": ""}
+  [prompt] line 426: return {"region": raw.upper(), "number": "", "mode": "", "total": ""}
+  [formatter] line 428: region = parts[0].upper()
+  [formatter] line 429: total = parts[-1]
+  [formatter] line 432: mode = ""
+  [formatter] line 433: number = ""
+  [formatter] line 436: raw_mode = middle[-1]
+  [formatter] line 437: number_parts = middle[:-1]
+  [formatter] line 438: mode = _normalize_mode(raw_mode)
+  [formatter] line 439: number = " ".join(number_parts).strip()
+  [formatter] line 442: "region": region,
+  [formatter] line 443: "number": number,
+  [formatter] line 444: "mode": mode,
+  [formatter] line 445: "total": total,
+  [formatter] line 449: def _bet_type_to_section(bet_type: str, number_key: str) -> tuple[str | None, str]:
+  [formatter] line 459: token = str(number_key or "").strip().split()[0] if str(number_key or "").strip() else ""
+  [formatter] line 471: def _group_number_detail_region_items(region_data: dict[str, Any]) -> dict[tuple[str, str], list[dict[str, str]]]:
+  [formatter] line 473: bet_types = region_data.get("bet_types", {}) or {}
+  [info] line 476: html_items = payload.get("html_items", []) or payload.get("telegram_items", []) or []
+  [formatter] line 479: region_key = str(item.get("region_key", "")).strip().lower()
+  [formatter] line 480: number_key = str(item.get("number_key", "")).strip()
+  [formatter] line 483: section, normalized_bet_type = _bet_type_to_section(bet_type, number_key)
+  [formatter] line 490: "region": region_key,
+  [formatter] line 491: "number": number_key,
+  [formatter] line 492: "mode": normalized_bet_type,
+  [formatter] line 493: "total": amount,
+  [formatter] line 498: rows.sort(key=lambda x: (x["region"], x["number"], x["mode"]))
+  [formatter] line 505: regions = data.get("regions", {}) or {}
+  [prompt] line 511: parts.append(f'<p class="meta">Date: {escape(target_date)}</p>')
+  [formatter] line 515: for region_group in REPORT_REGION_GROUPS:
+  [formatter] line 516: region_data = regions.get(region_group, {}) or {}
+  [formatter] line 517: tickets = region_data.get("tickets", []) or []
+  [formatter] line 519: parts.append('<section class="region-card">')
+  [formatter] line 520: parts.append(f'<h2 class="region-title">{escape(region_group)}</h2>')
+  [formatter] line 530: ticket_total = str(ticket.get("total_amount", "")).strip()
+  [formatter] line 540: <th class="col-region">Region</th>
+  [formatter] line 541: <th class="col-number">Number</th>
+  [formatter] line 542: <th class="col-mode">Mode</th>
+  [formatter] line 543: <th class="col-total">Total</th>
+  [formatter] line 556: <td class="col-region">{escape(line["region"])}</td>
+  [formatter] line 557: <td class="col-number">{escape(line["number"])}</td>
+  [formatter] line 558: <td class="col-mode">{escape(line["mode"])}</td>
+  [formatter] line 559: <td class="col-total">{escape(line["total"])}</td>
+  [formatter] line 568: parts.append(f'<div class="ticket-total">Ticket Total: {escape(ticket_total)}</div>')
+  [formatter] line 580: def build_number_detail_report_html(data: dict) -> str:
+  [formatter] line 582: regions = data.get("regions", {}) or {}
+  [formatter] line 587: parts.append('<h1 class="title">Number Detail Report</h1>')
+  [prompt] line 588: parts.append(f'<p class="meta">Date: {escape(target_date)}</p>')
+  [formatter] line 592: for region_group in REPORT_REGION_GROUPS:
+  [formatter] line 593: region_data = regions.get(region_group, {}) or {}
+  [formatter] line 594: grouped = _group_number_detail_region_items(region_data)
+  [formatter] line 596: parts.append('<section class="region-card">')
+  [formatter] line 597: parts.append(f'<h2 class="region-title">{escape(region_group)}</h2>')
+  [formatter] line 601: for section_name, mode_list in SECTION_ORDER:
+  [formatter] line 604: for mode in mode_list:
+  [formatter] line 605: rows = grouped.get((section_name, mode), [])
+  [formatter] line 613: parts.append(f'<div class="sub-label">{escape(SECTION_TITLE_MAP[(section_name, mode)])}</div>')
+  [formatter] line 620: <th class="col-region">Region</th>
+  [formatter] line 621: <th class="col-number">Number</th>
+  [formatter] line 622: <th class="col-mode">Mode</th>
+  [formatter] line 623: <th class="col-total">Total</th>
+  [formatter] line 634: <td class="col-region">{escape(row["region"])}</td>
+  [formatter] line 635: <td class="col-number">{escape(row["number"])}</td>
+  [formatter] line 636: <td class="col-mode">{escape(row["mode"])}</td>
+  [formatter] line 637: <td class="col-total">{escape(row["total"])}</td>
+  [prompt] line 655: return _html_document("Number Detail Report", "".join(parts))
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\formatters\settlement_report_formatter.py
+  [formatter] line 23: def _winner_mode(item: dict[str, Any]) -> str:
+  [info] line 40: def format_settlement_report_telegram(report: dict[str, Any]) -> str:
+  [formatter] line 43: regions = report.get("regions", {}) or {}
+  [formatter] line 48: lines.append("ðŸ“˜ Settlement Report")
+  [prompt] line 49: lines.append(f"Date: {date_text}")
+  [formatter] line 52: total_settlement_calc = 0.0
+  [formatter] line 54: for region_group in ("MN", "MT", "MB"):
+  [formatter] line 55: region_data = regions.get(region_group, {}) or {}
+  [formatter] line 57: bet_total = float(region_data.get("bet_total", 0) or 0)
+  [formatter] line 58: payout_total = float(region_data.get("payout_total", 0) or 0)
+  [formatter] line 59: commission = float(region_data.get("commission", 0) or 0)
+  [formatter] line 61: settlement = float(region_data.get("settlement", bet_total - payout_total - commission) or 0)
+  [formatter] line 62: total_settlement_calc += settlement
+  [formatter] line 65: lines.append(region_group)
+  [formatter] line 67: lines.append(_kv_line("Bet Total", _fmt_money(bet_total)))
+  [formatter] line 68: lines.append(_kv_line("Payout", _fmt_money(payout_total)))
+  [formatter] line 70: lines.append(_kv_line(f"{region_group} Settlement", _fmt_money(settlement)))
+  [formatter] line 74: total_settlement = summary.get("total_settlement", total_settlement_calc)
+  [formatter] line 75: lines.append(_kv_line("Total Settlement", _fmt_money(total_settlement)))
+  [formatter] line 78: lines.append("Winning Details")
+  [formatter] line 89: current_ticket_total = 0.0
+  [formatter] line 91: def flush_ticket(ticket_no: str | None, rows: list[dict[str, str]], ticket_total: float) -> None:
+  [formatter] line 95: region_w = max(len("Region"), max((len(r["region"]) for r in rows), default=6))
+  [formatter] line 96: number_w = max(len("Number"), max((len(r["number"]) for r in rows), default=6))
+  [formatter] line 97: mode_w = max(len("Mode"), max((len(r["mode"]) for r in rows), default=4))
+  [formatter] line 103: f"{'Region'.ljust(region_w)} | "
+  [formatter] line 104: f"{'Number'.ljust(number_w)} | "
+  [formatter] line 105: f"{'Mode'.ljust(mode_w)} | "
+  [formatter] line 112: f"{row['region'].ljust(region_w)} | "
+  [formatter] line 113: f"{row['number'].ljust(number_w)} | "
+  [formatter] line 114: f"{row['mode'].ljust(mode_w)} | "
+  [formatter] line 120: lines.append(f"Ticket Win: {_fmt_money(ticket_total)}")
+  [formatter] line 126: region = str(item.get("display_region", "") or item.get("region", "")).strip().upper() or "-"
+  [formatter] line 127: number_text = str(item.get("display_number", "")).strip()
+  [formatter] line 128: if not number_text:
+  [formatter] line 129: numbers = item.get("numbers", []) or []
+  [formatter] line 130: number_text = " ".join(str(x) for x in numbers) if numbers else "-"
+  [formatter] line 132: mode_text = _winner_mode(item)
+  [formatter] line 133: bet_text = _fmt_money(item.get("display_bet", item.get("bet_total", 0)))
+  [formatter] line 145: flush_ticket(current_ticket, current_rows, current_ticket_total)
+  [formatter] line 148: current_ticket_total = 0.0
+  [formatter] line 152: "region": region,
+  [formatter] line 153: "number": number_text or "-",
+  [formatter] line 154: "mode": mode_text,
+  [formatter] line 159: current_ticket_total += payout_value
+  [formatter] line 161: flush_ticket(current_ticket, current_rows, current_ticket_total)
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\formatters\settlement_report_html_exporter.py
+  [formatter] line 24: def _winner_mode(item: dict[str, Any]) -> str:
+  [formatter] line 41: regions = report.get("regions", {}) or {}
+  [formatter] line 45: region_blocks: list[str] = []
+  [formatter] line 47: for region_group in ("MN", "MT", "MB"):
+  [formatter] line 48: region_data = regions.get(region_group, {}) or {}
+  [formatter] line 49: bet_total = _fmt_money(region_data.get("bet_total", 0))
+  [formatter] line 50: payout_total = _fmt_money(region_data.get("payout_total", 0))
+  [formatter] line 51: agent_comm = _fmt_money(region_data.get("commission", 0))
+  [formatter] line 52: region_total = _fmt_money(region_data.get("settlement", 0))
+  [formatter] line 54: region_blocks.append(
+  [formatter] line 56: <section class="region-card">
+  [formatter] line 57: <h2>{escape(region_group)}</h2>
+  [formatter] line 59: <div class="kv-row"><span class="label">Bet Total</span><span class="value">{escape(bet_total)}</span></div>
+  [formatter] line 60: <div class="kv-row"><span class="label">Payout</span><span class="value">{escape(payout_total)}</span></div>
+  [formatter] line 62: <div class="kv-row total-row"><span class="label">{escape(region_group)} Settlement</span><span class="value">{escape(region_total)}</span></div>
+  [formatter] line 68: total_settlement = _fmt_money(summary.get("total_settlement", 0))
+  [formatter] line 76: current_ticket_total = 0.0
+  [formatter] line 78: def flush_ticket(ticket_no: str | None, rows_html: list[str], ticket_total: float) -> None:
+  [formatter] line 88: <th>Region</th>
+  [formatter] line 89: <th>Number</th>
+  [formatter] line 90: <th>Mode</th>
+  [formatter] line 99: <div class="ticket-win">Ticket Win: {escape(_fmt_money(ticket_total))}</div>
+  [formatter] line 106: region = escape(str(item.get("region", "")).strip().upper() or "-")
+  [formatter] line 107: numbers = item.get("numbers", []) or []
+  [formatter] line 108: number_text = escape(" ".join(str(x) for x in numbers) if numbers else "-")
+  [formatter] line 109: mode_text = _winner_mode(item)
+  [formatter] line 110: bet_text = escape(_fmt_money(item.get("bet_total", 0)))
+  [formatter] line 122: flush_ticket(current_ticket, current_rows, current_ticket_total)
+  [formatter] line 125: current_ticket_total = 0.0
+  [formatter] line 130: <td>{region}</td>
+  [formatter] line 131: <td>{number_text}</td>
+  [formatter] line 132: <td>{mode_text}</td>
+  [formatter] line 138: current_ticket_total += payout_value
+  [formatter] line 140: flush_ticket(current_ticket, current_rows, current_ticket_total)
+  [formatter] line 147: <title>Settlement Report - {date_text}</title>
+  [prompt] line 153: background: #fff;
+  [formatter] line 163: .region-card, .summary-card, .ticket-card {{
+  [prompt] line 168: background: #fff;
+  [formatter] line 181: .kv-row.total-row {{
+  [prompt] line 193: background: #fafafa;
+  [prompt] line 212: background: #f5f5f5;
+  [formatter] line 235: <h1>Settlement Report</h1>
+  [prompt] line 236: <div class="meta">Date: {date_text}</div>
+  [formatter] line 238: {''.join(region_blocks)}
+  [formatter] line 241: <div class="summary-title">Total Settlement</div>
+  [formatter] line 242: <div class="value">{escape(total_settlement)}</div>
+  [formatter] line 246: <div class="winner-title">Winning Details</div>
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\formatters\transaction_report_formatter.py
+  [formatter] line 6: from src.modules.report.constants.report_constants import REPORT_REGION_GROUPS
+  [formatter] line 9: REGION_WIDTH = 6
+  [formatter] line 10: NUMBER_WIDTH = 9
+  [formatter] line 11: MODE_WIDTH = 5
+  [formatter] line 12: TOTAL_WIDTH = 5
+  [formatter] line 20: def _format_mode(mode_raw: str) -> str:
+  [formatter] line 21: mode_key = (mode_raw or "").strip().lower()
+  [formatter] line 23: dd_match = re.fullmatch(r"dd(\d+)", mode_key)
+  [formatter] line 31: mode_map = {
+  [prompt] line 38: return mode_map.get(mode_key, mode_key.upper())
+  [formatter] line 41: def _format_row(region: str, number: str, mode: str, total: str) -> str:
+  [formatter] line 43: f"{region:<{REGION_WIDTH}} | "
+  [formatter] line 44: f"{number:<{NUMBER_WIDTH}} | "
+  [formatter] line 45: f"{mode:<{MODE_WIDTH}} | "
+  [formatter] line 46: f"{total:>{TOTAL_WIDTH}}"
+  [prompt] line 51: return _format_row("Region", "Number", "Mode", "Total")
+  [formatter] line 62: region = parts[0].upper()
+  [formatter] line 63: number = parts[1]
+  [formatter] line 64: mode = parts[2].upper()
+  [formatter] line 65: total = parts[3]
+  [prompt] line 66: return _format_row(region, number, mode, total)
+  [formatter] line 72: region = tokens[0].upper()
+  [formatter] line 73: number_tokens = tokens[1:-1]
+  [formatter] line 76: mode = ""
+  [formatter] line 77: total = ""
+  [formatter] line 81: mode = _format_mode(tail)
+  [formatter] line 82: total = match.group(2)
+  [formatter] line 84: number_tokens = tokens[1:-2]
+  [formatter] line 85: mode = _format_mode(tokens[-2])
+  [formatter] line 86: total = tokens[-1]
+  [formatter] line 88: mode = tail.upper()
+  [formatter] line 90: number = " ".join(number_tokens)
+  [prompt] line 91: return _format_row(region, number, mode, total)
+  [formatter] line 96: regions = data.get("regions", {}) or {}
+  [formatter] line 107: for region_group in REPORT_REGION_GROUPS:
+  [formatter] line 108: region_data = regions.get(region_group, {}) or {}
+  [formatter] line 109: tickets = region_data.get("tickets", []) or []
+  [formatter] line 112: lines.append(f"ðŸ“ {region_group}")
+  [formatter] line 124: ticket_total = str(ticket.get("total_amount", "")).strip()
+  [formatter] line 137: lines.append(f"Ticket Total: {ticket_total}")
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\formatters\transaction_report_formatter_html.py
+  [formatter] line 6: from src.modules.report.constants.report_constants import REPORT_REGION_GROUPS
+  [formatter] line 14: def _format_mode(mode_raw: str) -> str:
+  [formatter] line 15: mode_key = (mode_raw or "").strip().lower()
+  [formatter] line 17: dd_match = re.fullmatch(r"dd(\d+)", mode_key)
+  [formatter] line 25: mode_map = {
+  [prompt] line 32: return mode_map.get(mode_key, mode_key.upper())
+  [formatter] line 37: regions = data.get("regions", {}) or {}
+  [prompt] line 48: background: #ffffff;
+  [formatter] line 60: .region-title {
+  [formatter] line 84: .ticket-total {
+  [formatter] line 105: for region_group in REPORT_REGION_GROUPS:
+  [formatter] line 106: region_data = regions.get(region_group, {}) or {}
+  [formatter] line 107: tickets = region_data.get("tickets", []) or []
+  [formatter] line 110: html.append(f"<div class='region-title'>ðŸ“ {region_group}</div>")
+  [formatter] line 120: ticket_total = str(ticket.get("total_amount", ""))
+  [formatter] line 129: <th>Region</th>
+  [formatter] line 130: <th>Number</th>
+  [formatter] line 131: <th>Mode</th>
+  [formatter] line 132: <th class="right">Total</th>
+  [formatter] line 142: region = parts[0].upper() if len(parts) > 0 else ""
+  [formatter] line 143: number = parts[1] if len(parts) > 1 else ""
+  [formatter] line 144: mode = _format_mode(parts[2]) if len(parts) > 2 else ""
+  [formatter] line 145: total = parts[-1] if len(parts) > 0 else ""
+  [formatter] line 149: <td>{region}</td>
+  [formatter] line 150: <td>{number}</td>
+  [formatter] line 151: <td>{mode}</td>
+  [formatter] line 152: <td class="right">{total}</td>
+  [formatter] line 164: html.append(f"<div class='ticket-total'>Ticket Total: {ticket_total}</div>")
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\helpers\report_normalizer.py
+  [error] line 2: from decimal import Decimal, InvalidOperation
+  [formatter] line 8: PURE_NUMBER_PATTERN = re.compile(r"^\d+$")
+  [error] line 20: except (InvalidOperation, ValueError):
+  [formatter] line 31: def _clean_region_key(region_code: str | None) -> str:
+  [formatter] line 32: if not region_code:
+  [formatter] line 34: parts = [p.strip().lower() for p in str(region_code).replace(" ", "").split(",") if p.strip()]
+  [formatter] line 38: def _extract_number_key(input_text: str | None) -> str:
+  [formatter] line 43: number_tokens = [t for t in tokens if ReportNormalizer.PURE_NUMBER_PATTERN.match(t)]
+  [prompt] line 44: return ",".join(number_tokens)
+  [formatter] line 60: def normalize_number_detail_item(item: dict[str, Any]) -> dict[str, Any]:
+  [formatter] line 65: region_group = str(item.get("region_group", "")).upper()
+  [formatter] line 66: region_key = ReportNormalizer._clean_region_key(item.get("region_code"))
+  [formatter] line 67: number_key = ReportNormalizer._extract_number_key(item.get("input_text"))
+  [formatter] line 72: "region_group": region_group,
+  [formatter] line 73: "region_key": region_key,
+  [formatter] line 74: "number_key": number_key,
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\repositories\report_repository.py
+  [prompt] line 18: def get_transaction_rows(self, target_date: str) -> list[dict[str, Any]]:
+  [formatter] line 32: bb.region_group,
+  [formatter] line 35: bb.batch_total,
+  [formatter] line 42: bi.region_code,
+  [formatter] line 44: bi.number_mode,
+  [formatter] line 47: bi.total AS item_total,
+  [formatter] line 57: bb.region_group ASC,
+  [prompt] line 70: def get_number_detail_rows(self, target_date: str) -> list[dict[str, Any]]:
+  [formatter] line 72: è¯»å–æŸå¤© accepted number detail rowsã€‚
+  [formatter] line 81: bb.region_group,
+  [formatter] line 88: bi.region_code,
+  [formatter] line 90: bi.number_mode,
+  [formatter] line 93: bi.total AS item_total,
+  [formatter] line 102: bb.region_group ASC,
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\repositories\settlement_report_repository.py
+  [formatter] line 9: REGION_GROUPS = ("MN", "MT", "MB")
+  [prompt] line 44: def get_region_bet_totals(self, target_date: str) -> dict[str, Decimal]:
+  [formatter] line 51: bi.region_group,
+  [formatter] line 52: COALESCE(SUM(CAST(bi.total AS REAL)), 0) AS bet_total
+  [formatter] line 59: GROUP BY bi.region_group
+  [formatter] line 67: result = {region: Decimal("0") for region in self.REGION_GROUPS}
+  [formatter] line 69: region_group = str(row["region_group"]).upper()
+  [formatter] line 70: if region_group in result:
+  [formatter] line 71: result[region_group] = self._to_decimal(row["bet_total"])
+  [prompt] line 75: def get_region_payout_totals(self, target_date: str) -> dict[str, Decimal]:
+  [formatter] line 82: bi.region_group,
+  [formatter] line 83: COALESCE(SUM(CAST(sr.payout AS REAL)), 0) AS payout_total
+  [formatter] line 92: GROUP BY bi.region_group
+  [formatter] line 100: result = {region: Decimal("0") for region in self.REGION_GROUPS}
+  [formatter] line 102: region_group = str(row["region_group"]).upper()
+  [formatter] line 103: if region_group in result:
+  [formatter] line 104: result[region_group] = self._to_decimal(row["payout_total"])
+  [prompt] line 108: def get_region_winner_counts(self, target_date: str) -> dict[str, int]:
+  [formatter] line 115: bi.region_group,
+  [formatter] line 126: GROUP BY bi.region_group
+  [formatter] line 134: result = {region: 0 for region in self.REGION_GROUPS}
+  [formatter] line 136: region_group = str(row["region_group"]).upper()
+  [formatter] line 137: if region_group in result:
+  [formatter] line 138: result[region_group] = int(row["winner_count"] or 0)
+  [formatter] line 144: numbers = self._safe_json_loads(row_dict.get("numbers_json"), [])
+  [formatter] line 145: regions = self._safe_json_loads(row_dict.get("regions_json"), [])
+  [formatter] line 149: base_bet_total = self._to_decimal(row_dict.get("total"))
+  [formatter] line 156: "region_group": str(row_dict.get("region_group", "")).strip().upper(),
+  [formatter] line 157: "region": str(row_dict.get("region", "")).strip(),
+  [formatter] line 158: "region_code": str(row_dict.get("region_code", "")).strip(),
+  [formatter] line 161: "numbers": [str(x).strip() for x in numbers if str(x).strip()],
+  [formatter] line 162: "regions": [str(x).strip().lower() for x in regions if str(x).strip()],
+  [formatter] line 164: "bet_total": base_bet_total,
+  [formatter] line 168: "display_region": str(row_dict.get("region", "")).strip().upper() or "-",
+  [formatter] line 169: "display_number": " ".join(str(x).strip() for x in numbers if str(x).strip()) or "-",
+  [formatter] line 170: "display_bet": base_bet_total,
+  [formatter] line 179: win_region = (
+  [formatter] line 180: str(win.get("region_pair", "")).strip().upper()
+  [formatter] line 181: or str(win.get("region", "")).strip().upper()
+  [formatter] line 182: or base_detail["display_region"]
+  [formatter] line 185: win_number = (
+  [formatter] line 186: str(win.get("number_group", "")).strip()
+  [formatter] line 187: or str(win.get("number", "")).strip()
+  [formatter] line 188: or base_detail["display_number"]
+  [formatter] line 200: row_bet = (base_bet_amount * Decimal(hit_count)) if base_bet_amount > 0 else base_bet_total
+  [formatter] line 206: "region": win_region,
+  [formatter] line 208: "display_region": win_region,
+  [formatter] line 209: "display_number": win_number,
+  [prompt] line 217: def get_winner_details(self, target_date: str) -> list[dict]:
+  [formatter] line 226: sr.region,
+  [formatter] line 232: bi.region_group,
+  [formatter] line 233: bi.region_code,
+  [formatter] line 236: bi.total,
+  [formatter] line 237: bi.numbers_json,
+  [formatter] line 238: bi.regions_json,
+  [formatter] line 268: str(item.get("display_region", "")),
+  [formatter] line 269: str(item.get("display_number", "")),
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\services\number_detail_report_service.py
+  [formatter] line 7: REPORT_REGION_GROUPS,
+  [formatter] line 13: class NumberDetailReportService:
+  [prompt] line 22: def generate_report(self, target_date: str) -> dict[str, Any]:
+  [formatter] line 23: rows = self.repository.get_number_detail_rows(target_date)
+  [formatter] line 26: region: defaultdict(lambda: defaultdict(lambda: Decimal("0")))
+  [formatter] line 27: for region in REPORT_REGION_GROUPS
+  [formatter] line 31: normalized = self.normalizer.normalize_number_detail_item(row)
+  [formatter] line 33: region_group = normalized["region_group"]
+  [formatter] line 35: region_key = normalized["region_key"]
+  [formatter] line 36: number_key = normalized["number_key"]
+  [formatter] line 39: if region_group not in aggregated:
+  [formatter] line 42: if not bet_type or not region_key or not number_key:
+  [formatter] line 45: key = (region_key, number_key)
+  [formatter] line 46: aggregated[region_group][bet_type][key] += amount
+  [formatter] line 48: regions: dict[str, dict[str, Any]] = {}
+  [formatter] line 50: for region_group in REPORT_REGION_GROUPS:
+  [formatter] line 56: set(aggregated[region_group].keys()) - set(REPORT_BET_TYPE_ORDER)
+  [formatter] line 61: raw_items = aggregated[region_group].get(bet_type, {})
+  [formatter] line 67: "region_key": region_key,
+  [formatter] line 68: "number_key": number_key,
+  [formatter] line 72: for (region_key, number_key), amount in raw_items.items()
+  [formatter] line 78: x["region_key"],
+  [formatter] line 79: x["number_key"],
+  [info] line 84: "telegram_items": items[:50],
+  [formatter] line 89: regions[region_group] = {
+  [formatter] line 96: "regions": regions,
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\services\over_limit_report_service.py
+  [menu] line 7: from src.modules.admin.services.admin_settings_service import AdminSettingsService
+  [menu] line 16: admin_settings_service: AdminSettingsService | None = None,
+  [menu] line 19: self.admin_settings_service = admin_settings_service or AdminSettingsService()
+  [prompt] line 21: def generate(self, target_date: str) -> dict[str, Any]:
+  [formatter] line 22: rows = self.repo.get_number_detail_rows(target_date)
+  [formatter] line 34: parsed['region_group'],
+  [formatter] line 36: parsed['region_code'],
+  [formatter] line 38: parsed['number'],
+  [formatter] line 45: parsed['region_group'],
+  [formatter] line 46: parsed['region_code'],
+  [formatter] line 47: parsed['number_group'],
+  [formatter] line 54: parsed['region_group'],
+  [formatter] line 55: parsed['region_combo'],
+  [formatter] line 56: parsed['number_group'],
+  [formatter] line 72: 'total_over_count': 0,
+  [formatter] line 79: result['summary']['total_over_count'] = (
+  [formatter] line 97: for key, total_amount in normal_groups.items():
+  [formatter] line 98: region_group, section, region_code, play_type, number, limit_local_key = key
+  [formatter] line 101: limit_value = Decimal(self.admin_settings_service.get_limit_value(region_group, limit_local_key))
+  [formatter] line 102: over_amount = total_amount - limit_value
+  [formatter] line 105: result['groups'][region_group][section][region_code].append(
+  [formatter] line 107: 'number': number,
+  [formatter] line 110: 'total_amount': total_amount,
+  [formatter] line 116: for region_group in ('MN', 'MT', 'MB'):
+  [formatter] line 118: section_dict = result['groups'][region_group][section]
+  [formatter] line 119: for region_code, items in section_dict.items():
+  [formatter] line 120: items.sort(key=lambda x: (str(x['number']), str(x['play_type']), x['over_amount']))
+  [formatter] line 123: for key, total_amount in da_groups.items():
+  [formatter] line 124: region_group, region_code, number_group, limit_local_key = key
+  [formatter] line 125: limit_value = Decimal(self.admin_settings_service.get_limit_value(region_group, limit_local_key))
+  [formatter] line 126: over_amount = total_amount - limit_value
+  [formatter] line 129: result['groups'][region_group]['da'][region_code].append(
+  [formatter] line 131: 'number_group': number_group,
+  [formatter] line 133: 'total_amount': total_amount,
+  [formatter] line 139: for region_group in ('MN', 'MT', 'MB'):
+  [formatter] line 140: da_dict = result['groups'][region_group]['da']
+  [formatter] line 141: for region_code, items in da_dict.items():
+  [formatter] line 142: items.sort(key=lambda x: str(x['number_group']))
+  [formatter] line 145: for key, total_amount in dx_groups.items():
+  [formatter] line 146: region_group, region_combo, number_group, limit_local_key = key
+  [formatter] line 147: if region_group == 'MB':
+  [formatter] line 149: limit_value = Decimal(self.admin_settings_service.get_limit_value(region_group, limit_local_key))
+  [formatter] line 150: over_amount = total_amount - limit_value
+  [formatter] line 153: result['groups'][region_group]['dx'].append(
+  [formatter] line 155: 'region_combo': region_combo,
+  [formatter] line 156: 'number_group': number_group,
+  [formatter] line 158: 'total_amount': total_amount,
+  [formatter] line 164: for region_group in ('MN', 'MT'):
+  [formatter] line 165: result['groups'][region_group]['dx'].sort(key=lambda x: (str(x['region_combo']), str(x['number_group'])))
+  [formatter] line 168: region_group = str(row.get('region_group', '')).upper()
+  [formatter] line 169: region_code = str(row.get('region_code', '')).strip().lower()
+  [formatter] line 175: number_tokens = [t for t in tokens if t.isdigit()]
+  [formatter] line 180: 'region_group': region_group,
+  [formatter] line 181: 'region_code': region_code,
+  [formatter] line 182: 'number_group': ' '.join(number_tokens),
+  [formatter] line 188: region_combo = ' '.join([p.strip().lower() for p in str(row.get('region_code', '')).split(',') if p.strip()])
+  [formatter] line 191: 'region_group': region_group,
+  [formatter] line 192: 'region_combo': region_combo,
+  [formatter] line 193: 'number_group': ' '.join(number_tokens),
+  [formatter] line 199: region_group=region_group,
+  [formatter] line 200: region_code=region_code,
+  [formatter] line 202: number_tokens=number_tokens,
+  [formatter] line 209: region_group: str,
+  [formatter] line 210: region_code: str,
+  [formatter] line 212: number_tokens: list[str],
+  [formatter] line 215: number = number_tokens[0] if number_tokens else ''
+  [formatter] line 216: digit_len = len(number)
+  [formatter] line 250: 'region_group': region_group,
+  [formatter] line 252: 'region_code': region_code,
+  [formatter] line 254: 'number': number,
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\services\settlement_report_service.py
+  [formatter] line 7: from src.modules.settlement.settlement_service import settle_region
+  [formatter] line 11: REGION_GROUPS = ("MN", "MT", "MB")
+  [prompt] line 34: def _refresh_settlement(self, target_date: str) -> list[dict[str, str]]:
+  [formatter] line 37: for region in self.REGION_GROUPS:
+  [formatter] line 39: settle_region(target_date, region)
+  [formatter] line 43: "region_group": region,
+  [prompt] line 52: target_date: str,
+  [error] line 55: settlement_errors = self._refresh_settlement(target_date)
+  [formatter] line 57: region_bet_totals = self.repository.get_region_bet_totals(target_date)
+  [formatter] line 58: region_payout_totals = self.repository.get_region_payout_totals(target_date)
+  [formatter] line 59: region_winner_counts = self.repository.get_region_winner_counts(target_date)
+  [formatter] line 67: regions: dict[str, dict[str, Any]] = {}
+  [formatter] line 69: total_settlement = Decimal("0")
+  [formatter] line 70: total_bet = Decimal("0")
+  [formatter] line 71: total_payout = Decimal("0")
+  [formatter] line 72: total_commission = Decimal("0")
+  [formatter] line 74: for region in self.REGION_GROUPS:
+  [formatter] line 75: bet_total = region_bet_totals.get(region, Decimal("0"))
+  [formatter] line 76: payout_total = region_payout_totals.get(region, Decimal("0"))
+  [formatter] line 77: winner_count = region_winner_counts.get(region, 0)
+  [formatter] line 79: commission = (bet_total * commission_rate).quantize(
+  [formatter] line 83: settlement = (bet_total - payout_total - commission).quantize(
+  [formatter] line 87: regions[region] = {
+  [formatter] line 88: "bet_total": self._to_float(bet_total),
+  [formatter] line 89: "payout_total": self._to_float(payout_total),
+  [formatter] line 96: total_bet += bet_total
+  [formatter] line 97: total_payout += payout_total
+  [formatter] line 98: total_commission += commission
+  [formatter] line 99: total_settlement += settlement
+  [formatter] line 106: "region_group": item["region_group"],
+  [formatter] line 107: "region": item["region"],
+  [formatter] line 108: "region_code": item["region_code"],
+  [formatter] line 111: "numbers": item["numbers"],
+  [formatter] line 112: "regions": item["regions"],
+  [formatter] line 114: "bet_total": self._to_float(item["bet_total"]),
+  [formatter] line 118: "display_region": item.get("display_region", item["region"]),
+  [formatter] line 119: "display_number": item.get("display_number", " ".join(item["numbers"])),
+  [formatter] line 120: "display_bet": self._to_float(item.get("display_bet", item["bet_total"])),
+  [formatter] line 126: "regions": regions,
+  [formatter] line 129: "total_bet": self._to_float(total_bet),
+  [formatter] line 130: "total_payout": self._to_float(total_payout),
+  [formatter] line 131: "total_commission": self._to_float(total_commission),
+  [formatter] line 132: "total_settlement": self._to_float(total_settlement),
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\report\services\transaction_report_service.py
+  [formatter] line 5: from src.modules.report.constants.report_constants import REPORT_REGION_GROUPS
+  [prompt] line 14: def generate_report(self, target_date: str) -> dict[str, Any]:
+  [formatter] line 17: regions: dict[str, dict[str, Any]] = {
+  [formatter] line 18: region: {
+  [formatter] line 19: "total_amount": Decimal("0"),
+  [formatter] line 23: for region in REPORT_REGION_GROUPS
+  [formatter] line 27: region: OrderedDict() for region in REPORT_REGION_GROUPS
+  [formatter] line 31: region_group = str(row.get("region_group", "")).upper()
+  [formatter] line 32: if region_group not in grouped:
+  [formatter] line 38: if batch_id not in grouped[region_group]:
+  [formatter] line 39: grouped[region_group][batch_id] = {
+  [formatter] line 43: "total_amount": ReportNormalizer.to_decimal(row.get("batch_total")),
+  [formatter] line 47: grouped[region_group][batch_id]["lines"].append(
+  [formatter] line 51: grand_total = Decimal("0")
+  [formatter] line 53: for region_group in REPORT_REGION_GROUPS:
+  [formatter] line 54: tickets = list(grouped[region_group].values())
+  [formatter] line 55: total_amount = sum(
+  [formatter] line 56: (ticket["total_amount"] for ticket in tickets),
+  [formatter] line 60: regions[region_group]["tickets"] = tickets
+  [formatter] line 61: regions[region_group]["total_amount"] = total_amount
+  [formatter] line 62: regions[region_group]["has_data"] = len(tickets) > 0
+  [formatter] line 64: grand_total += total_amount
+  [formatter] line 68: "regions": regions,
+  [formatter] line 69: "grand_total": grand_total,
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\result\constants\result_constants.py
+  [prompt] line 1: # å¸¸é‡å®šä¹‰ï¼Œå¦‚callbackæ ¼å¼ç­‰
+  [prompt] line 3: CALLBACK_RESULT_MENU = "result:menu"
+  [prompt] line 4: CALLBACK_RESULT_DATE_PREFIX = "result:date:"
+  [prompt] line 5: CALLBACK_RESULT_VIEW_PREFIX = "result:view:"
+  [prompt] line 6: CALLBACK_RESULT_REFRESH_PREFIX = "result:refresh:"
+  [prompt] line 7: CALLBACK_RESULT_CHANGE_DATE = "result:change_date"
+  [prompt] line 8: CALLBACK_RESULT_CLOSE = "result:close"
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\result\formatters\result_message_formatter.py
+  [formatter] line 21: region = (meta.get("region_code") or "").upper()
+  [prompt] line 26: return f"ðŸ“Š RESULT | {region}\nðŸ“… Date: {date}\n\nResult not available yet."
+  [prompt] line 29: header = f"ðŸ“Š RESULT | {region}\nðŸ“… Date: {date}{fetched_line}"
+  [formatter] line 31: # Group by sub-region while preserving incoming order
+  [formatter] line 35: sub_code = it["sub_region_code"]
+  [formatter] line 36: sub_name = it["sub_region_name"]
+  [formatter] line 40: number = it["number_value"]
+  [formatter] line 49: (item_order, prize_code, number)
+  [formatter] line 74: numbers = [e[2] for e in entries]
+  [formatter] line 75: lines.append(f"{prize_code} : {'  '.join(numbers)}")
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\result\parsers\xosodaiphat_result_parser.py
+  [formatter] line 11: REGION_PREFIX = {
+  [formatter] line 72: REGION_PROVINCES = {
+  [prompt] line 137: def parse(cls, region_code: str, draw_date: str, html: str) -> List[Dict]:
+  [formatter] line 138: region_code = region_code.upper().strip()
+  [formatter] line 139: if region_code not in cls.REGION_PREFIX:
+  [error] line 140: raise ValueError(f"Unsupported region code: {region_code}")
+  [formatter] line 144: table_items = cls._parse_from_tables(region_code, draw_date, soup)
+  [formatter] line 152: start_index = cls._find_block_start(lines, region_code, draw_date)
+  [formatter] line 160: if region_code == "MB":
+  [prompt] line 163: return cls._parse_mn_mt_block(region_code, block_lines)
+  [prompt] line 166: def _parse_from_tables(cls, region_code: str, draw_date: str, soup: BeautifulSoup) -> List[Dict]:
+  [formatter] line 167: if region_code == "MB":
+  [prompt] line 169: return cls._parse_mn_mt_from_tables(region_code, soup)
+  [formatter] line 172: def _parse_mn_mt_from_tables(cls, region_code: str, soup: BeautifulSoup) -> List[Dict]:
+  [formatter] line 193: expected_subregions = 3 if region_code == "MN" else 2
+  [formatter] line 194: if len(provinces) != expected_subregions:
+  [formatter] line 213: sub_region_code, sub_region_name = province
+  [formatter] line 215: numbers = cls._extract_numbers_exact(cell_text, spec["digits"], spec["count"])
+  [formatter] line 216: if len(numbers) != spec["count"]:
+  [formatter] line 220: for item_order, number_value in enumerate(numbers, start=1):
+  [formatter] line 223: "sub_region_code": sub_region_code,
+  [formatter] line 224: "sub_region_name": sub_region_name,
+  [formatter] line 228: "number_value": number_value,
+  [formatter] line 260: numbers = cls._extract_numbers_exact(cell_text, spec["digits"], spec["count"])
+  [formatter] line 261: if len(numbers) != spec["count"]:
+  [formatter] line 266: for item_order, number_value in enumerate(numbers, start=1):
+  [formatter] line 269: "sub_region_code": "MIENBAC",
+  [formatter] line 270: "sub_region_name": "MIá»€N Báº®C",
+  [formatter] line 274: "number_value": number_value,
+  [formatter] line 289: def _extract_numbers_exact(text: str, digits: int, expected_count: int) -> List[str]:
+  [formatter] line 291: numbers = re.findall(pattern, text)
+  [formatter] line 292: if len(numbers) != expected_count:
+  [prompt] line 294: return numbers
+  [prompt] line 335: def _find_block_start(cls, lines: List[str], region_code: str, draw_date: str) -> Optional[int]:
+  [formatter] line 338: region_token = cls.REGION_PREFIX[region_code]
+  [formatter] line 342: if region_token not in upper_line:
+  [formatter] line 376: def _parse_mn_mt_block(cls, region_code: str, block_lines: List[str]) -> List[Dict]:
+  [formatter] line 377: header_index, provinces = cls._find_header_and_provinces(region_code, block_lines)
+  [formatter] line 398: expected_total_numbers = province_count * spec["count"]
+  [formatter] line 399: expected_total_digits = expected_total_numbers * spec["digits"]
+  [formatter] line 401: if len(digit_stream) != expected_total_digits:
+  [formatter] line 404: all_numbers = cls._chunk_by_digits(digit_stream, spec["digits"])
+  [formatter] line 405: if len(all_numbers) != expected_total_numbers:
+  [formatter] line 410: for province_idx, (sub_region_code, sub_region_name) in enumerate(provinces):
+  [formatter] line 413: province_numbers = all_numbers[start:end]
+  [formatter] line 415: for item_order, number_value in enumerate(province_numbers, start=1):
+  [formatter] line 418: "sub_region_code": sub_region_code,
+  [formatter] line 419: "sub_region_name": sub_region_name,
+  [formatter] line 423: "number_value": number_value,
+  [formatter] line 431: cls, region_code: str, block_lines: List[str]
+  [formatter] line 438: provinces = cls._extract_provinces_from_header_text(line, region_code)
+  [formatter] line 458: provinces = cls._extract_provinces_from_header_text(combined, region_code)
+  [formatter] line 467: cls, header_text: str, region_code: str
+  [formatter] line 475: for raw_name in cls.REGION_PROVINCES[region_code]:
+  [formatter] line 515: expected_total_digits = spec["count"] * spec["digits"]
+  [formatter] line 516: if len(digit_stream) != expected_total_digits:
+  [formatter] line 519: numbers = cls._chunk_by_digits(digit_stream, spec["digits"])
+  [formatter] line 520: if len(numbers) != spec["count"]:
+  [formatter] line 525: for item_order, number_value in enumerate(numbers, start=1):
+  [formatter] line 528: "sub_region_code": "MIENBAC",
+  [formatter] line 529: "sub_region_name": "MIá»€N Báº®C",
+  [formatter] line 533: "number_value": number_value,
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\result\providers\xosodaiphat_provider.py
+  [formatter] line 22: def validate_region(cls, region_code: str):
+  [formatter] line 24: Validate region code.
+  [formatter] line 26: if region_code not in cls.BASE_URLS:
+  [error] line 27: raise ValueError(f"Unsupported region code: {region_code}")
+  [prompt] line 30: def build_url(cls, region_code: str, draw_date: str) -> str:
+  [formatter] line 32: Build the source URL for the given region and date.
+  [prompt] line 39: for future expansion when historical URLs are confirmed.
+  [formatter] line 41: cls.validate_region(region_code)
+  [formatter] line 43: base_url = cls.BASE_URLS[region_code]
+  [prompt] line 50: def fetch_raw_html(cls, region_code: str, draw_date: str) -> dict:
+  [formatter] line 52: Fetch raw HTML for the given region and draw date.
+  [formatter] line 60: url = cls.build_url(region_code, draw_date)
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\result\repositories\draw_result_items_repository.py
+  [formatter] line 17: item["sub_region_code"],
+  [formatter] line 18: item["sub_region_name"],
+  [formatter] line 22: item["number_value"],
+  [formatter] line 32: sub_region_code,
+  [formatter] line 33: sub_region_name,
+  [formatter] line 37: number_value,
+  [formatter] line 53: sub_region_code,
+  [formatter] line 54: sub_region_name,
+  [formatter] line 58: number_value
+  [formatter] line 61: ORDER BY prize_order, sub_region_code, item_order
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\result\repositories\draw_results_repository.py
+  [formatter] line 10: def get_result(self, draw_date, region_code):
+  [formatter] line 19: region_code,
+  [formatter] line 27: WHERE draw_date = ? AND region_code = ?
+  [formatter] line 29: (draw_date, region_code),
+  [formatter] line 39: region_code,
+  [formatter] line 53: region_code,
+  [formatter] line 65: region_code,
+  [formatter] line 117: def exists(self, draw_date, region_code):
+  [formatter] line 124: WHERE draw_date = ? AND region_code = ?
+  [formatter] line 126: (draw_date, region_code),
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\result\services\result_fetch_service.py
+  [formatter] line 15: EXPECTED_SUBREGION_COUNTS = {
+  [formatter] line 34: def _count_distinct_subregions_from_items(self, items: list[dict]) -> int:
+  [formatter] line 35: subregions = {
+  [formatter] line 36: str(item.get("sub_region_code", "")).strip().upper()
+  [formatter] line 38: if str(item.get("sub_region_code", "")).strip()
+  [prompt] line 40: return len(subregions)
+  [formatter] line 42: def _is_items_complete(self, region_code: str, items: list[dict]) -> bool:
+  [formatter] line 43: region = str(region_code).upper().strip()
+  [formatter] line 47: expected_subregions = self.EXPECTED_SUBREGION_COUNTS.get(region, 1)
+  [formatter] line 48: actual_subregions = self._count_distinct_subregions_from_items(items)
+  [formatter] line 49: if actual_subregions != expected_subregions:
+  [formatter] line 52: expected_prize_specs = self.EXPECTED_PRIZE_SPECS.get(region, {})
+  [formatter] line 58: sub_region_code = str(item.get("sub_region_code", "")).strip().upper()
+  [formatter] line 60: if not sub_region_code or not prize_code:
+  [formatter] line 62: prize_map.setdefault(sub_region_code, {})
+  [formatter] line 63: prize_map[sub_region_code][prize_code] = prize_map[sub_region_code].get(prize_code, 0) + 1
+  [formatter] line 65: if len(prize_map) != expected_subregions:
+  [prompt] line 79: def is_result_complete(self, draw_date: str, region_code: str) -> bool:
+  [formatter] line 80: region = region_code.upper().strip()
+  [formatter] line 81: row = self.results_repo.get_result(draw_date, region)
+  [prompt] line 91: return self._is_items_complete(region, items)
+  [prompt] line 93: def fetch_and_store(self, draw_date: str, region_code: str) -> Dict[str, Any]:
+  [formatter] line 103: region = region_code.upper().strip()
+  [formatter] line 105: provider_result = XosodaiphatProvider.fetch_raw_html(region, draw_date)
+  [formatter] line 109: parsed_items = XosodaiphatResultParser.parse(region, draw_date, html)
+  [formatter] line 110: parsed_complete = self._is_items_complete(region, parsed_items)
+  [formatter] line 115: existing = self.results_repo.get_result(draw_date, region)
+  [formatter] line 121: region_code=region,
+  [formatter] line 135: existing_complete = self._is_items_complete(region, existing_items)
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\result\services\result_query_service.py
+  [prompt] line 18: def get_or_fetch(self, draw_date: str, region_code: str) -> Dict[str, Any]:
+  [formatter] line 32: region = region_code.upper().strip()
+  [formatter] line 33: row = self.results_repo.get_result(draw_date, region)
+  [formatter] line 42: elif not self.fetch_service.is_result_complete(draw_date, region):
+  [formatter] line 46: self.fetch_service.fetch_and_store(draw_date, region)
+  [formatter] line 47: row = self.results_repo.get_result(draw_date, region)
+  [formatter] line 55: if self.fetch_service.is_result_complete(draw_date, region):
+FILE: C:\AI_WORKSPACE\M33-Lotto-Bot-VN\src\modules\result\services\test_refresh_result.py
+  [formatter] line 12: region_code = "MN"
+  [formatter] line 19: fetch_result = fetch_service.fetch_and_store(draw_date, region_code)
+  [formatter] line 23: draw_result = results_repo.get_result(draw_date, region_code)
+

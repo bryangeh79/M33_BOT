@@ -1,0 +1,214 @@
+# Vietnamese — keys not defined here fall back to en.py.
+
+STRINGS: dict[str, str] = {
+    # ── Main menu buttons ──────────────────────────────────────────────────
+    "BTN_BET": "Đặt cược",
+    "BTN_REPORT": "Báo cáo",
+    "BTN_RESULT": "Kết quả",
+    "BTN_OTHER_DAY_INPUT": "Nhập ngày khác",
+    "BTN_ADMIN": "Quản trị",
+    "BTN_INFO": "Thông tin",
+
+    # ── Common buttons ─────────────────────────────────────────────────────
+    "BTN_BACK": "⬅ Quay lại",
+    "BTN_CLOSE": "❌ Đóng",
+    "BTN_REFRESH": "🔄 Làm mới",
+    "BTN_CHANGE_DATE": "📅 Đổi ngày",
+    "BTN_EXPORT_HTML": "📄 Xuất HTML",
+    "BTN_SET_CUSTOM_DATE": "Nhập ngày tùy chọn",
+    "BTN_TODAY": "Hôm nay {date}",
+
+    # ── Common prompts ─────────────────────────────────────────────────────
+    "PROMPT_SELECT_REGION": "Chọn khu vực:",
+    "PROMPT_SELECT_DATE": "Chọn ngày:",
+    "PROMPT_SELECT_REPORT_TYPE": "Chọn loại báo cáo:",
+    "PROMPT_SELECT_ADMIN_OPTION": "Vui lòng chọn tùy chọn quản trị.",
+    "PROMPT_RESULT_ACTIONS": "Thao tác kết quả:",
+    "PROMPT_CLOSED": "Đã đóng.",
+    "PROMPT_INVALID_REPORT": "Yêu cầu báo cáo không hợp lệ.",
+    "PROMPT_INVALID_EXPORT": "Yêu cầu xuất không hợp lệ.",
+    "PROMPT_EXPORT_UNAVAILABLE": "Xuất không khả dụng.",
+    "PROMPT_INVALID_RESULT": "Yêu cầu kết quả không hợp lệ.",
+    "PROMPT_INVALID_REFRESH": "Yêu cầu làm mới không hợp lệ.",
+    "PROMPT_INVALID_REGION": "Khu vực không hợp lệ. Vui lòng chọn MN, MT hoặc MB.",
+    "PROMPT_SELECT_REGION_HINT": "Vui lòng chọn khu vực (MN / MT / MB).",
+    "PROMPT_SELECT_DATE_HINT": "Vui lòng chọn ngày.",
+    "PROMPT_SELECT_REPORT_TYPE_HINT": "Vui lòng chọn loại báo cáo.",
+    "PROMPT_INVALID_DATE": "❌ Ngày không hợp lệ.",
+    "PROMPT_ENTER_DATE": "Vui lòng nhập ngày (YYYY-MM-DD):",
+    "PROMPT_CUSTOM_DATE": "Ngày tùy chọn\n\nYYYY-MM-DD",
+    "PROMPT_ACCESS_DENIED": "Bạn không có quyền truy cập chức năng này.",
+    "PROMPT_INVALID_DATE_FORMAT": "❌ Định dạng ngày không hợp lệ. Vui lòng nhập YYYY-MM-DD",
+    "PROMPT_SELECT_REGION_FIRST": "Vui lòng chọn khu vực trước.\nDùng /mn /mt /mb",
+    "BET_MODE_ACTIVE": "Bạn đang ở chế độ đặt cược {region}.",
+    "LABEL_DATE": "Ngày: {date}",
+    "LABEL_TODAY_SUFFIX": "(Hôm nay)",
+
+    # ── Info panel ─────────────────────────────────────────────────────────
+    "INFO_TITLE": "THÔNG TIN",
+    "INFO_REGION_CODE": "MÃ KHU VỰC",
+    "INFO_FURTHER": "ĐỂ BIẾT THÊM THÔNG TIN",
+    "INFO_TELEGRAM": "Telegram: @M33_VN",
+    "INFO_VERSION": "Phiên bản: {version}",
+
+    # ── Language selection ─────────────────────────────────────────────────
+    "LANG_SELECT_PROMPT": "🌐 Select language / 选择语言 / Chọn ngôn ngữ",
+    "LANG_SET_EN": "✅ Language set to English",
+    "LANG_SET_ZH": "✅ 语言已设为中文",
+    "LANG_SET_VI": "✅ Đã chọn Tiếng Việt",
+
+    # ── Admin settings service format_*() output ──────────────────────────
+    "ADMIN_FORMAT_BET_TIME_LIMIT": "Giới hạn giờ đặt cược",
+    "ADMIN_FORMAT_TIMEZONE_LINE": "Múi giờ: {tz}",
+    "ADMIN_FORMAT_SYSTEM_TIME_ZONE": "Múi giờ hệ thống",
+    "ADMIN_FORMAT_CURRENT_LINE": "Hiện tại: {value}",
+    "ADMIN_FORMAT_BONUS_PAYOUT_SETTINGS": "Cài đặt thưởng",
+    "ADMIN_FORMAT_OVER_LIMIT_SETTINGS": "Cài đặt giới hạn",
+    "ADMIN_FORMAT_NOTIFICATIONS": "Thông báo",
+    "ADMIN_FORMAT_CUSTOMER_NOTIF": "Thông báo khách hàng: {status}",
+    "ADMIN_FORMAT_OVER_LIMIT_ACTION": "Hành động vượt giới hạn: {action}",
+
+    # ── Bet delete responses ───────────────────────────────────────────────
+    "BET_DELETE_NOT_FOUND": "❌ Không tìm thấy vé: {ticket_no}",
+    "BET_DELETE_NOT_FOUND_WITH_DATE": "❌ Không tìm thấy vé: {ticket_no}\nNgày: {date}",
+    "BET_DELETE_ALREADY_DELETED": "❌ Vé đã bị xóa: {ticket_no}",
+    "BET_DELETE_ALREADY_DELETED_WITH_DATE": "❌ Vé đã bị xóa: {ticket_no}\nNgày: {date}",
+    "BET_DELETE_SUCCESS": "🗑 Đã xóa · {region} · {ticket_no}",
+    "BET_DELETE_SUCCESS_WITH_DATE": "🗑 Đã xóa · {region} · {ticket_no}\nNgày: {date}",
+
+    # ── Admin panel menu titles ────────────────────────────────────────────
+    "ADMIN_AGENT_COMM_SETTING": "Cài đặt hoa hồng đại lý",
+    "ADMIN_OVER_LIMIT_SETTING": "Cài đặt giới hạn",
+    "ADMIN_NOTIFICATIONS": "Thông báo",
+    "ADMIN_BET_TIME_LIMIT": "Giới hạn giờ đặt cược",
+    "ADMIN_SYSTEM_TIME_ZONE": "Múi giờ hệ thống",
+    "ADMIN_USAGE_DELETE_SLASH": "❌ Cú pháp: /delete N1",
+    "ADMIN_USAGE_DELETE_TEXT": "❌ Cú pháp: delete N1",
+
+    # ── Bet / Other Day menu labels ────────────────────────────────────────
+    "MENU_OTHER_DAY_INPUT": "Nhập ngày khác",
+    "MENU_BET": "Đặt cược",
+
+    # ── Admin panel dynamic templates ─────────────────────────────────────
+    "ADMIN_AGENT_COMM_CURRENT": "Tỷ lệ hoa hồng đại lý\n\nHiện tại: {rate}%",
+    "ADMIN_OVER_LIMIT_CURRENT": "Hành động vượt giới hạn\n\nHiện tại: {action}",
+    "ADMIN_ADDED_USER": "✅ Đã thêm admin\nUser ID: {user_id}",
+    "ADMIN_AGENT_COMM_UPDATED": "✅ Đã cập nhật hoa hồng đại lý\nHiện tại: {value}%",
+
+    # ── Admin panel input validation ──────────────────────────────────────
+    "ADMIN_INVALID_USER_ID": "❌ ID người dùng không hợp lệ. Vui lòng chỉ nhập chữ số.",
+    "ADMIN_INVALID_DATE_FORMAT": "❌ Định dạng ngày không hợp lệ.\nVui lòng dùng YYYY-MM-DD",
+    "ADMIN_ENTER_COMMISSION_RATE": "Vui lòng nhập tỷ lệ hoa hồng mới (%):",
+    "ADMIN_BONUS_PAYOUT_SETTING": "Cài đặt thưởng",
+    "ADMIN_BONUS_PAYOUT_UPDATED": "✅ Đã cập nhật thưởng",
+    "ADMIN_OVER_LIMIT_UPDATED": "✅ Đã cập nhật giới hạn",
+    "ADMIN_CUTOFF_TIME_UPDATED": "✅ Đã cập nhật giờ đóng cửa",
+    "ADMIN_SET_ADMIN": "Thiết lập admin",
+    "ADMIN_VIEW_ADMIN_LIST": "Xem danh sách admin",
+    "ADMIN_ADD_ADMIN": "Thêm admin",
+    "ADMIN_REMOVE_ADMIN": "Xóa admin",
+    "ADMIN_VIEW_CURRENT_AGENT_COMM": "Xem hoa hồng hiện tại",
+    "ADMIN_EDIT_AGENT_COMM": "Sửa hoa hồng đại lý",
+    "ADMIN_VIEW_CURRENT_BONUS_PAYOUT": "Xem thưởng hiện tại",
+    "ADMIN_EDIT_BONUS_PAYOUT": "Sửa thưởng",
+    "ADMIN_VIEW_CURRENT_OVER_LIMIT": "Xem giới hạn hiện tại",
+    "ADMIN_EDIT_OVER_LIMIT": "Sửa giới hạn",
+    "ADMIN_SET_OVER_LIMIT_ACTION": "Đặt hành động vượt giới hạn",
+    "ADMIN_CONTINUE_ACCEPTING": "Tiếp tục chấp nhận",
+    "ADMIN_REJECT_BET": "Từ chối cược",
+    "ADMIN_VIEW_CURRENT_NOTIFICATION_SETTINGS": "Xem cài đặt thông báo hiện tại",
+    "ADMIN_ON": "BẬT",
+    "ADMIN_OFF": "TẮT",
+    "ADMIN_VIEW_CURRENT_CUTOFF_TIME": "Xem giờ giới hạn hiện tại",
+    "ADMIN_EDIT_CUTOFF_TIME": "Sửa giờ giới hạn",
+    "ADMIN_VIEW_CURRENT_TIME_ZONE": "Xem múi giờ hiện tại",
+    "ADMIN_TIMEZONE_KL": "Kuala Lumpur",
+    "ADMIN_TIMEZONE_HCM": "Hồ Chí Minh",
+    "ADMIN_PROMPT_ADD_ADMIN": "Vui lòng nhập user id Telegram để thêm làm ADMIN:",
+    "ADMIN_PROMPT_REMOVE_ADMIN": "Vui lòng nhập user id Telegram để xóa khỏi ADMIN:",
+
+    # ── Admin panel status confirmations ──────────────────────────────────
+    "ADMIN_OVER_LIMIT_SET_ACCEPT": "✅ Hành động vượt giới hạn đặt thành CHẤP NHẬN",
+    "ADMIN_OVER_LIMIT_SET_REJECT": "✅ Hành động vượt giới hạn đặt thành TỪ CHỐI",
+    "ADMIN_NOTIF_SET_ON": "✅ Thông báo khách hàng đặt thành BẬT",
+    "ADMIN_NOTIF_SET_OFF": "✅ Thông báo khách hàng đặt thành TẮT",
+    "ADMIN_TIMEZONE_SET_KL": "✅ Múi giờ hệ thống đặt thành Asia/Kuala_Lumpur",
+    "ADMIN_TIMEZONE_SET_HCM": "✅ Múi giờ hệ thống đặt thành Asia/Ho_Chi_Minh",
+
+    # ── Report menu handler ────────────────────────────────────────────────
+    "REPORT_OVER_LIMIT_TITLE": "⚠️ Báo cáo vượt giới hạn",
+    "REPORT_SELECT_TYPE_TITLE": "📊 Chọn loại báo cáo",
+    "REPORT_GENERATE_FAILED": "❌ Tạo báo cáo thất bại: {error}",
+
+    # ── Report labels (menu layer) ─────────────────────────────────────────
+    "REPORT_MENU_TITLE": "Báo cáo",
+    "REPORT_LABEL_TRANSACTION": "Giao dịch",
+    "REPORT_LABEL_SETTLEMENT": "Quyết toán",
+    "REPORT_LABEL_NUMBER_DETAIL": "Chi tiết số",
+    "REPORT_LABEL_OVER_LIMIT": "Vượt giới hạn",
+    "REPORT_COMING_SOON": "Sắp ra mắt",
+    "REPORT_NO_DATA": "Không có dữ liệu.",
+
+    # ── Shared table column headers (bet + report formatters) ──────────────
+    "COL_REGION": "Khu vực",
+    "COL_NUMBER": "Số",
+    "COL_MODE": "Kiểu",
+    "COL_TOTAL": "Tổng",
+    "COL_BET": "Cược",
+    "COL_WIN": "Thắng",
+
+    # ── Bet formatter ──────────────────────────────────────────────────────
+    "BET_ACCEPTED": "✅ Đặt cược thành công",
+    "BET_TOTAL_LINE": "💰 Tổng: {value}",
+    "BET_INVALID_INPUT": "Đầu vào không hợp lệ",
+    "BET_SCHEDULE_CLOSED": "Khu vực không mở cho ngày đã chọn",
+
+    # ── Bet service — test mode ────────────────────────────────────────────
+    "BET_TEST_MODE_NOTICE": "⚠ CHẾ ĐỘ THỬ · ADMIN ĐẶT CƯỢC LỊCH SỬ",
+
+    # ── Bet service — over-limit notification ──────────────────────────────
+    "BET_OVER_LIMIT_ACCEPT": "⚠️ Vượt giới hạn\nTiếp tục chấp nhận",
+    "BET_OVER_LIMIT_REJECT": "⚠️ Vượt giới hạn\nTừ chối đặt cược",
+    "BET_OVER_LIMIT_INPUT": "Đầu vào: {value}",
+
+    # ── Bet service — cutoff closed ────────────────────────────────────────
+    "BET_CUTOFF_CLOSED": "⚠️ Đã đóng cửa đặt cược",
+    "BET_CUTOFF_REGION_TIME": "{region} đóng lúc {time}",
+
+    # ── Result formatter ───────────────────────────────────────────────────
+    "RESULT_TITLE": "📊 KẾT QUẢ",
+    "RESULT_DATE_LABEL": "📅 Ngày:",
+    "RESULT_NOT_AVAILABLE": "Kết quả chưa có.",
+    "RESULT_FETCHED_LABEL": "🕒 Cập nhật:",
+
+    # ── Report formatters (body text) ──────────────────────────────────────
+    "REPORT_TRANSACTION_TITLE": "📊 Báo cáo giao dịch",
+    "REPORT_SETTLEMENT_TITLE": "📘 Báo cáo quyết toán",
+    "REPORT_NUMBER_DETAIL_TITLE": "🔢 Báo cáo chi tiết số",
+    "REPORT_DATE_LABEL": "Ngày: {date}",
+    "REPORT_REGION_NO_DATA": "Không có dữ liệu",
+    "REPORT_TICKET_NO_DETAIL": "Không có chi tiết",
+    "REPORT_TICKET_TOTAL": "Tổng vé: {value}",
+    "REPORT_TICKET_WIN": "Vé thắng: {value}",
+    "REPORT_BET_TOTAL": "Tổng cược",
+    "REPORT_PAYOUT": "Thanh toán",
+    "REPORT_AGENT_COMM": "Hoa hồng đại lý",
+    "REPORT_REGION_SETTLEMENT": "Quyết toán {region}",
+    "REPORT_TOTAL_SETTLEMENT": "Tổng quyết toán",
+    "REPORT_WINNING_DETAILS": "Chi tiết trúng thưởng",
+    "REPORT_NO_WINNING": "Không có lượt trúng thưởng",
+    "REPORT_GENERATED_AT": "🕒 Tạo lúc: {ts} (UTC+8)",
+    "REPORT_TOO_MANY_RECORDS": "⚠️ Quá nhiều bản ghi: {tickets} vé, {lines} dòng",
+    "REPORT_USE_EXPORT": "📄 Vui lòng sử dụng Xuất HTML để xem báo cáo đầy đủ",
+    "REPORT_REGION_SUMMARY": "📍 {region}: {tickets} vé, {lines} dòng, tổng: {total}",
+    "REPORT_NUMBER_ENTRY_SUMMARY": "{region}: {count} mục số",
+    "REPORT_TRUNCATED": "📝 Báo cáo bị cắt ngắn do giới hạn độ dài",
+    "BOT_SCOPE_PRIVATE_ONLY": "Bot này chỉ khả dụng trong nhóm được ủy quyền.",
+    "BOT_SCOPE_UNAUTHORIZED_GROUP": "Bot này không được ủy quyền sử dụng trong nhóm này.",
+    # ── Telegram command menu descriptions ─────────────────────────────────
+    "CMD_START":      "Menu chính",
+    "CMD_MN":         "Đặt cược MN (Hôm nay)",
+    "CMD_MT":         "Đặt cược MT (Hôm nay)",
+    "CMD_MB":         "Đặt cược MB (Hôm nay)",
+    "CMD_SETTLEMENT": "Báo cáo quyết toán hôm nay",
+}

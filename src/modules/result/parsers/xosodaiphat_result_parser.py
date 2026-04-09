@@ -140,6 +140,12 @@ class XosodaiphatResultParser:
             raise ValueError(f"Unsupported region code: {region_code}")
 
         soup = BeautifulSoup(html, "html.parser")
+
+        if region_code == "MB":
+            table_items = cls._parse_mb_from_tables(soup)
+            if table_items:
+                return table_items
+
         lines = cls._extract_lines(soup)
         if not lines:
             return []
@@ -158,15 +164,143 @@ class XosodaiphatResultParser:
         return cls._parse_mn_mt_block(region_code, block_lines)
 
     @classmethod
+    def _parse_from_tables(cls, region_code: str, draw_date: str, soup: BeautifulSoup) -> List[Dict]:
+        if region_code == "MB":
+            return cls._parse_mb_from_tables(soup)
+        return cls._parse_mn_mt_from_tables(region_code, soup)
+
+    @classmethod
+    def _parse_mn_mt_from_tables(cls, region_code: str, soup: BeautifulSoup) -> List[Dict]:
+        for table in soup.find_all("table"):
+            rows = table.find_all("tr")
+            if len(rows) < 3:
+                continue
+
+            header_cells = rows[0].find_all(["th", "td"])
+            if len(header_cells) < 4:
+                continue
+
+            header_texts = [cls._normalize_line(cell.get_text(" ", strip=True)) for cell in header_cells]
+            first_header = cls._ascii_upper(header_texts[0])
+            if "GIAI" not in first_header:
+                continue
+
+            provinces: List[Tuple[str, str]] = []
+            for cell_text in header_texts[1:]:
+                province = cls._resolve_province(cell_text)
+                if province:
+                    provinces.append(province)
+
+            if region_code == "MN" and len(provinces) != 3:
+                continue
+            if region_code == "MT" and not (2 <= len(provinces) <= 3):
+                continue
+
+            items: List[Dict] = []
+            prize_order = 0
+
+            for row in rows[1:]:
+                cells = row.find_all(["th", "td"])
+                if len(cells) < len(provinces) + 1:
+                    continue
+
+                prize_code = cls._normalize_prize_label(cls._normalize_line(cells[0].get_text(" ", strip=True)))
+                if prize_code not in cls.ALLOWED_PRIZES_MN_MT:
+                    continue
+
+                spec = cls.MN_MT_PRIZE_SPEC[prize_code]
+                prize_order += 1
+
+                for province_idx, province in enumerate(provinces):
+                    sub_region_code, sub_region_name = province
+                    cell_text = cls._normalize_line(cells[province_idx + 1].get_text(" ", strip=True))
+                    numbers = cls._extract_numbers_exact(cell_text, spec["digits"], spec["count"])
+                    if len(numbers) != spec["count"]:
+                        items = []
+                        break
+
+                    for item_order, number_value in enumerate(numbers, start=1):
+                        items.append(
+                            {
+                                "sub_region_code": sub_region_code,
+                                "sub_region_name": sub_region_name,
+                                "prize_code": prize_code,
+                                "prize_order": prize_order,
+                                "item_order": item_order,
+                                "number_value": number_value,
+                            }
+                        )
+                if not items and prize_order > 0:
+                    break
+
+            if items:
+                return items
+
+        return []
+
+    @classmethod
+    def _parse_mb_from_tables(cls, soup: BeautifulSoup) -> List[Dict]:
+        for table in soup.find_all("table"):
+            rows = table.find_all("tr")
+            if len(rows) < 3:
+                continue
+
+            items: List[Dict] = []
+            prize_order = 0
+
+            for row in rows:
+                cells = row.find_all(["th", "td"])
+                if len(cells) < 2:
+                    continue
+
+                prize_code = cls._normalize_prize_label(cls._normalize_line(cells[0].get_text(" ", strip=True)))
+                if prize_code not in cls.ALLOWED_PRIZES_MB:
+                    continue
+
+                spec = cls.MB_PRIZE_SPEC[prize_code]
+                cell_text = cls._normalize_line(cells[1].get_text(" ", strip=True))
+                numbers = cls._extract_numbers_exact(cell_text, spec["digits"], spec["count"])
+                if len(numbers) != spec["count"]:
+                    items = []
+                    break
+
+                prize_order += 1
+                for item_order, number_value in enumerate(numbers, start=1):
+                    items.append(
+                        {
+                            "sub_region_code": "MIENBAC",
+                            "sub_region_name": "MIỀN BẮC",
+                            "prize_code": prize_code,
+                            "prize_order": prize_order,
+                            "item_order": item_order,
+                            "number_value": number_value,
+                        }
+                    )
+
+            if items:
+                return items
+
+        return []
+
+    @classmethod
+    def _resolve_province(cls, text: str) -> Optional[Tuple[str, str]]:
+        province_key = cls._province_key(text)
+        return cls.PROVINCE_CANONICAL.get(province_key)
+
+    @staticmethod
+    def _extract_numbers_exact(text: str, digits: int, expected_count: int) -> List[str]:
+        pattern = rf"\b\d{{{digits}}}\b"
+        numbers = re.findall(pattern, text)
+        if len(numbers) != expected_count:
+            return []
+        return numbers
+
+    @classmethod
     def _extract_lines(cls, soup: BeautifulSoup) -> List[str]:
-        """
-        用空格抽全文，再按奖项/标题重新切逻辑段，避免被 HTML 节点拆碎。
-        """
         text = soup.get_text(" ", strip=True)
         text = text.replace("\xa0", " ")
         text = re.sub(r"\s+", " ", text)
 
-        # 在关键边界前插入换行，方便后续按“逻辑行”切分
         boundary_patterns = [
             r"(XSM[NTB]\s+\d{2}/\d{2}/\d{4})",
             r"(XSM[NTB]\s+\d{4}-\d{2}-\d{2})",
@@ -298,7 +432,6 @@ class XosodaiphatResultParser:
     def _find_header_and_provinces(
         cls, region_code: str, block_lines: List[str]
     ) -> Tuple[Optional[int], List[Tuple[str, str]]]:
-        # case 1: "Giải TPHCM Đồng Tháp Cà Mau" in one logical line
         for idx, line in enumerate(block_lines[:20]):
             upper_ascii = cls._ascii_upper(line)
             if "GIAI" not in upper_ascii:
@@ -308,7 +441,6 @@ class XosodaiphatResultParser:
             if provinces:
                 return idx, provinces
 
-        # case 2: header spread across nearby lines after normalization
         for idx, line in enumerate(block_lines[:20]):
             upper_ascii = cls._ascii_upper(line)
             if "GIAI" not in upper_ascii:
