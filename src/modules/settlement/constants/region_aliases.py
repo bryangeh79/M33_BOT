@@ -52,7 +52,11 @@ MN_REGION_ALIAS_MAP = {
     "hcm": "TPHCM",
     "hcmc": "TPHCM",
     "sg": "TPHCM",
+    "ag": "ANGIANG",
     "bt": "BENTRE",
+    "bth": "BINHTHUAN",
+    "bd": "BINHDUONG",
+    "bp": "BINHPHUOC",
     "vt": "VUNGTAU",
     "bl": "BACLIEU",
     "cm": "CAMAU",
@@ -84,6 +88,8 @@ MT_REGION_ALIAS_MAP = {
     "gl": "GIALAI",
     "kt": "KONTUM",
     "tth": "HUE",
+    "nth": "NINHTHUAN",
+    "qng": "QUANGNGAI",
 }
 
 
