@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import traceback
 from datetime import datetime, timedelta, date, time, timezone
 from html import escape
 from pathlib import Path
@@ -682,6 +683,13 @@ async def enforce_chat_scope(update: Update, context: ContextTypes.DEFAULT_TYPE)
         )
         await _notify_scope_rejection(update, context, "BOT_SCOPE_UNAUTHORIZED_GROUP", lang)
         raise ApplicationHandlerStop
+
+    query = update.callback_query
+    if query and query.data and str(query.data).startswith("result:"):
+        log_step(
+            f"🔎 Result callback received | bot={bot_label} | chat_id={chat_id} "
+            f"| user_id={query.from_user.id if query.from_user else 'N/A'} | data={query.data}"
+        )
 
 
 def validate_environment() -> None:
@@ -2122,6 +2130,7 @@ async def handle_result_menu(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
     await query.answer()
     user_id = query.from_user.id if query.from_user else None
+    log_step(f"🔎 Result menu callback | user_id={user_id if user_id is not None else 'N/A'} | data={query.data}")
     await query.edit_message_text(text=_build_result_menu_text(user_id), reply_markup=_build_result_date_keyboard())
 
 
@@ -2132,6 +2141,10 @@ async def handle_result_date_select(update: Update, context: ContextTypes.DEFAUL
     await query.answer()
     user_id = query.from_user.id if query.from_user else None
     draw_date = query.data.replace(CALLBACK_RESULT_DATE_PREFIX, "", 1)
+    log_step(
+        f"🔎 Result date selected | user_id={user_id if user_id is not None else 'N/A'} "
+        f"| draw_date={draw_date} | data={query.data}"
+    )
     await query.edit_message_text(text=_build_result_region_text(draw_date, user_id), reply_markup=_build_result_region_keyboard(draw_date))
 
 
@@ -2141,19 +2154,40 @@ async def handle_result_view(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
     await query.answer()
     user_id = query.from_user.id if query.from_user else None
+    lang = _get_user_lang(user_id)
     payload = query.data.replace(CALLBACK_RESULT_VIEW_PREFIX, "", 1)
     try:
         draw_date, region_code = payload.split(":")
     except ValueError:
-        await query.edit_message_text(t("PROMPT_INVALID_RESULT"))
+        log_step(f"❌ Result view payload invalid | user_id={user_id if user_id is not None else 'N/A'} | data={query.data}")
+        await query.edit_message_text(t("PROMPT_INVALID_RESULT", lang))
         return
-
-    result_data = result_query_service.get_or_fetch(draw_date, region_code)
-    meta = result_data.get("meta")
-    items = result_data.get("items", [])
-    message_text = format_result_message(meta, items, lang=_get_user_lang(user_id))
-    has_result = bool(meta and meta.get("status") == "available" and items)
-    await query.edit_message_text(text=_as_monospace_html(message_text), reply_markup=_build_result_action_keyboard(draw_date, region_code, has_result), parse_mode="HTML")
+    log_step(
+        f"📊 Result view requested | user_id={user_id if user_id is not None else 'N/A'} "
+        f"| draw_date={draw_date} | region={region_code} | data={query.data}"
+    )
+    try:
+        result_data = result_query_service.get_or_fetch(draw_date, region_code)
+        meta = result_data.get("meta")
+        items = result_data.get("items", [])
+        message_text = format_result_message(meta, items, lang=lang)
+        has_result = bool(meta and meta.get("status") == "available" and items)
+        log_step(
+            f"📊 Result view rendered | draw_date={draw_date} | region={region_code} "
+            f"| status={(meta or {}).get('status', 'none') if meta else 'none'} | items={len(items)}"
+        )
+        await query.edit_message_text(
+            text=_as_monospace_html(message_text),
+            reply_markup=_build_result_action_keyboard(draw_date, region_code, has_result),
+            parse_mode="HTML",
+        )
+    except Exception as exc:
+        log_step(
+            f"❌ Result view failed | user_id={user_id if user_id is not None else 'N/A'} "
+            f"| draw_date={draw_date} | region={region_code} | error={exc}"
+        )
+        log_step(traceback.format_exc())
+        await query.answer(text=t("PROMPT_INVALID_RESULT", lang), show_alert=True)
 
 
 async def handle_result_refresh(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -2162,19 +2196,41 @@ async def handle_result_refresh(update: Update, context: ContextTypes.DEFAULT_TY
         return
     await query.answer()
     user_id = query.from_user.id if query.from_user else None
+    lang = _get_user_lang(user_id)
     payload = query.data.replace(CALLBACK_RESULT_REFRESH_PREFIX, "", 1)
     try:
         draw_date, region_code = payload.split(":")
     except ValueError:
-        await query.edit_message_text(t("PROMPT_INVALID_REFRESH"))
+        log_step(f"❌ Result refresh payload invalid | user_id={user_id if user_id is not None else 'N/A'} | data={query.data}")
+        await query.edit_message_text(t("PROMPT_INVALID_REFRESH", lang))
         return
-    result_fetch_service.fetch_and_store(draw_date, region_code)
-    result_data = result_query_service.get_or_fetch(draw_date, region_code)
-    meta = result_data.get("meta")
-    items = result_data.get("items", [])
-    message_text = format_result_message(meta, items, lang=_get_user_lang(user_id))
-    has_result = bool(meta and meta.get("status") == "available" and items)
-    await query.edit_message_text(text=_as_monospace_html(message_text), reply_markup=_build_result_action_keyboard(draw_date, region_code, has_result), parse_mode="HTML")
+    log_step(
+        f"🔄 Result refresh requested | user_id={user_id if user_id is not None else 'N/A'} "
+        f"| draw_date={draw_date} | region={region_code} | data={query.data}"
+    )
+    try:
+        result_fetch_service.fetch_and_store(draw_date, region_code)
+        result_data = result_query_service.get_or_fetch(draw_date, region_code)
+        meta = result_data.get("meta")
+        items = result_data.get("items", [])
+        message_text = format_result_message(meta, items, lang=lang)
+        has_result = bool(meta and meta.get("status") == "available" and items)
+        log_step(
+            f"🔄 Result refresh rendered | draw_date={draw_date} | region={region_code} "
+            f"| status={(meta or {}).get('status', 'none') if meta else 'none'} | items={len(items)}"
+        )
+        await query.edit_message_text(
+            text=_as_monospace_html(message_text),
+            reply_markup=_build_result_action_keyboard(draw_date, region_code, has_result),
+            parse_mode="HTML",
+        )
+    except Exception as exc:
+        log_step(
+            f"❌ Result refresh failed | user_id={user_id if user_id is not None else 'N/A'} "
+            f"| draw_date={draw_date} | region={region_code} | error={exc}"
+        )
+        log_step(traceback.format_exc())
+        await query.answer(text=t("PROMPT_INVALID_REFRESH", lang), show_alert=True)
 
 
 async def handle_result_change_date(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -2183,6 +2239,7 @@ async def handle_result_change_date(update: Update, context: ContextTypes.DEFAUL
         return
     await query.answer()
     user_id = query.from_user.id if query.from_user else None
+    log_step(f"🔎 Result change date callback | user_id={user_id if user_id is not None else 'N/A'} | data={query.data}")
     await query.edit_message_text(text=_build_result_menu_text(user_id), reply_markup=_build_result_date_keyboard())
 
 
@@ -2199,6 +2256,20 @@ async def handle_result_close(update: Update, context: ContextTypes.DEFAULT_TYPE
             await query.edit_message_text(t("PROMPT_CLOSED"))
         except Exception:
             pass
+
+
+async def handle_application_error(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    callback_data = None
+    if isinstance(update, Update) and update.callback_query:
+        callback_data = update.callback_query.data
+    error_trace = "".join(
+        traceback.format_exception(None, context.error, context.error.__traceback__)
+    ) if context.error else "No traceback available"
+    log_step(
+        f"❌ Unhandled application error | callback_data={callback_data or 'N/A'} "
+        f"| error={context.error}"
+    )
+    log_step(error_trace)
 
 
 async def result_entry_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -2698,6 +2769,7 @@ def build_application() -> Application:
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_router))
 
     log_step("✅ Handlers registered")
+    application.add_error_handler(handle_application_error)
     return application
 
 
