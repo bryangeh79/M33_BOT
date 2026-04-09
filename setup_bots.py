@@ -14,9 +14,14 @@ if hasattr(sys.stdout, "reconfigure"):
 if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-def load_bot_configs():
-    """从 .env.multi 加载所有bot配置"""
-    env_file = Path(".env.multi")
+DEFAULT_ENV_FILE = Path(".env.multi")
+DEFAULT_OUTPUT_DIR = Path("configs")
+DEFAULT_SETTINGS_TEMPLATE = Path("M33-Lotto-Bot-Standard/configs/client_01/settings.json")
+
+
+def load_bot_configs(env_file: str | Path = DEFAULT_ENV_FILE):
+    """从指定 .env.multi 加载所有bot配置"""
+    env_file = Path(env_file)
     if not env_file.exists():
         print(f"❌ 配置文件不存在: {env_file}")
         return {}
@@ -59,9 +64,16 @@ def load_bot_configs():
     
     return bots
 
-def create_bot_config(bot_number, config):
+
+def create_bot_config(
+    bot_number: int,
+    config: dict,
+    output_dir: str | Path = DEFAULT_OUTPUT_DIR,
+    settings_template: str | Path = DEFAULT_SETTINGS_TEMPLATE,
+):
     """为单个bot创建配置目录"""
-    bot_dir = Path(f"configs/bot_{bot_number}")
+    output_dir = Path(output_dir)
+    bot_dir = output_dir / f"bot_{bot_number}"
     bot_dir.mkdir(parents=True, exist_ok=True)
     
     # 创建.env文件
@@ -82,7 +94,7 @@ ALLOWED_GROUP_ID={config.get('ALLOWED_GROUP_ID', '')}
     env_file.write_text(env_content, encoding='utf-8')
     
     # 复制settings.json模板（如果存在）
-    settings_template = Path("M33-Lotto-Bot-Standard/configs/client_01/settings.json")
+    settings_template = Path(settings_template)
     if settings_template.exists():
         shutil.copy(settings_template, bot_dir / "settings.json")
     
@@ -93,18 +105,22 @@ def main():
     parser.add_argument('--list', action='store_true', help='列出所有已配置的bot')
     parser.add_argument('--setup', type=int, nargs='*', help='设置指定编号的bot（不指定则设置所有）')
     parser.add_argument('--clean', action='store_true', help='清理所有配置目录')
+    parser.add_argument('--env-file', default=str(DEFAULT_ENV_FILE), help='指定 .env.multi 路径')
+    parser.add_argument('--output-dir', default=str(DEFAULT_OUTPUT_DIR), help='指定 bot 配置输出目录')
+    parser.add_argument('--settings-template', default=str(DEFAULT_SETTINGS_TEMPLATE), help='指定 settings.json 模板路径')
     args = parser.parse_args()
+
+    output_dir = Path(args.output_dir)
     
     # 清理模式
     if args.clean:
-        configs_dir = Path("configs")
-        if configs_dir.exists():
-            shutil.rmtree(configs_dir)
-            print("✅ 已清理所有配置目录")
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+            print(f"✅ 已清理配置目录: {output_dir}")
         return 0
     
     # 加载配置
-    bots = load_bot_configs()
+    bots = load_bot_configs(args.env_file)
     
     if not bots:
         print("❌ 没有找到任何bot配置")
@@ -147,17 +163,22 @@ def main():
             print(f"⚠️  Bot {bot_num} 的TOKEN未配置，跳过")
             continue
         
-        bot_dir = create_bot_config(bot_num, config)
+        bot_dir = create_bot_config(
+            bot_num,
+            config,
+            output_dir=output_dir,
+            settings_template=args.settings_template,
+        )
         print(f"✅ Bot {bot_num} 配置已创建: {bot_dir}")
     
     print("\n🎉 配置完成!")
     print("\n启动命令:")
     for bot_num in bots_to_setup:
         if bot_num in bots and bots[bot_num].get('TOKEN'):
-            print(f"  Bot {bot_num}: python src/app/main.py --config-dir configs/bot_{bot_num}")
+            print(f"  Bot {bot_num}: python src/app/main.py --config-dir {output_dir / f'bot_{bot_num}'}")
     
     print("\n批量启动所有bot:")
-    print("  python start_all_bots_simple.py")
+    print(f"  python start_all_bots_simple.py --env-file {args.env_file} --config-root {output_dir}")
     
     return 0
 

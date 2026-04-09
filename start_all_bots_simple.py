@@ -8,8 +8,9 @@ import sys
 import subprocess
 import time
 from pathlib import Path
+import argparse
 
-from setup_bots import load_bot_configs, create_bot_config
+from setup_bots import DEFAULT_ENV_FILE, DEFAULT_OUTPUT_DIR, load_bot_configs, create_bot_config
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -17,15 +18,15 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 
-def sync_all_bot_configs() -> None:
+def sync_all_bot_configs(env_file: str | Path, config_root: str | Path) -> None:
     """批量启动前，先把 .env.multi 同步到各 bot 配置目录。"""
-    for bot_num, config in sorted(load_bot_configs().items()):
+    for bot_num, config in sorted(load_bot_configs(env_file).items()):
         if config.get("TOKEN"):
-            create_bot_config(bot_num, config)
+            create_bot_config(bot_num, config, output_dir=config_root)
 
-def get_configured_bots():
+def get_configured_bots(config_root: str | Path):
     """获取所有已配置的bot目录"""
-    configs_dir = Path("configs")
+    configs_dir = Path(config_root)
     if not configs_dir.exists():
         return []
     
@@ -53,13 +54,18 @@ def get_configured_bots():
     return sorted(bots, key=lambda x: x[0])
 
 def main():
-    sync_all_bot_configs()
+    parser = argparse.ArgumentParser(description="批量启动已配置的 bots")
+    parser.add_argument("--env-file", default=str(DEFAULT_ENV_FILE), help="指定 .env.multi 路径")
+    parser.add_argument("--config-root", default=str(DEFAULT_OUTPUT_DIR), help="指定 bot 配置目录根路径")
+    args = parser.parse_args()
+
+    sync_all_bot_configs(args.env_file, args.config_root)
     print("🔍 扫描已配置的Bot...")
-    bots = get_configured_bots()
+    bots = get_configured_bots(args.config_root)
     
     if not bots:
         print("❌ 没有找到已配置的Bot")
-        print("请先运行: python setup_bots.py")
+        print(f"请先运行: python setup_bots.py --env-file {args.env_file} --output-dir {args.config_root}")
         return 1
     
     print(f"✅ 找到 {len(bots)} 个已配置的Bot:")
