@@ -22,7 +22,7 @@ from src.modules.bet.repositories.daily_counter_repository import (
 from src.modules.customer.repositories.agent_customer_repository import AgentCustomerRepository
 
 import os
-SCHEMA_PATH = Path("src/data/schema/create_schema.sql")
+SCHEMA_PATH = Path(__file__).resolve().parents[3] / "data" / "schema" / "create_schema.sql"
 admin_settings_service = AdminSettingsService()
 agent_customer_repository = AgentCustomerRepository()
 DEFAULT_AGENT_ID = AgentCustomerRepository.DEFAULT_AGENT_ID
@@ -52,7 +52,23 @@ def _column_exists(cursor, table_name: str, column_name: str) -> bool:
     return False
 
 
+def _table_exists(cursor, table_name: str) -> bool:
+    cursor.execute(
+        """
+        SELECT name
+        FROM sqlite_master
+        WHERE type = 'table' AND name = ?
+        LIMIT 1
+        """,
+        (table_name,),
+    )
+    return cursor.fetchone() is not None
+
+
 def _ensure_soft_delete_columns(cursor) -> None:
+    if not _table_exists(cursor, "bet_batches") or not _table_exists(cursor, "bet_items"):
+        return
+
     if not _column_exists(cursor, "bet_batches", "deleted_at"):
         cursor.execute("ALTER TABLE bet_batches ADD COLUMN deleted_at TEXT")
 
@@ -61,6 +77,9 @@ def _ensure_soft_delete_columns(cursor) -> None:
 
 
 def _ensure_settlement_bridge_columns(cursor) -> None:
+    if not _table_exists(cursor, "bet_items"):
+        return
+
     if not _column_exists(cursor, "bet_items", "bet_code"):
         cursor.execute("ALTER TABLE bet_items ADD COLUMN bet_code TEXT")
 
@@ -75,6 +94,9 @@ def _ensure_settlement_bridge_columns(cursor) -> None:
 
 
 def _ensure_customer_batch_columns(cursor) -> None:
+    if not _table_exists(cursor, "bet_batches"):
+        return
+
     if not _column_exists(cursor, "bet_batches", "customer_code"):
         cursor.execute("ALTER TABLE bet_batches ADD COLUMN customer_code TEXT")
 
@@ -86,9 +108,11 @@ def init_database():
     conn = _get_connection()
     cursor = conn.cursor()
 
-    if SCHEMA_PATH.exists():
-        schema_sql = SCHEMA_PATH.read_text(encoding="utf-8")
-        cursor.executescript(schema_sql)
+    if not SCHEMA_PATH.exists():
+        raise FileNotFoundError(f"Schema file not found: {SCHEMA_PATH}")
+
+    schema_sql = SCHEMA_PATH.read_text(encoding="utf-8")
+    cursor.executescript(schema_sql)
 
     _ensure_soft_delete_columns(cursor)
     _ensure_settlement_bridge_columns(cursor)
