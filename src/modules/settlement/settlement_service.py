@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from src.modules.bet.services.bet_message_service import init_database
 from src.modules.result.repositories.draw_results_repository import DrawResultsRepository
 from src.modules.result.services.result_fetch_service import ResultFetchService
 from src.modules.settlement.repositories.settlement_repository import SettlementRepository
@@ -9,6 +10,7 @@ from src.modules.settlement.settlement_engine import SettlementEngine
 
 def settle_region(draw_date: str, region_group: str) -> dict:
     region_group = str(region_group).strip().upper()
+    init_database()
 
     settlement_repo = SettlementRepository()
     draw_results_repo = DrawResultsRepository()
