@@ -7,15 +7,22 @@ from pathlib import Path
 from typing import List
 
 from src.modules.settlement.models.settlement_result import SettlementResult
+from src.app.database import get_db_path
 
 
 class SettlementRepository:
     def __init__(self, db_path: Path | None = None):
-        self.db_path = db_path or Path(os.getenv("DB_PATH", "data/m33_lotto.db"))
+        self.db_path = db_path
+
+    def _resolve_db_path(self) -> Path:
+        if self.db_path is not None:
+            return Path(self.db_path)
+        return Path(get_db_path())
 
     def _get_connection(self):
-        self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        conn = sqlite3.connect(str(self.db_path))
+        db_path = self._resolve_db_path()
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        conn = sqlite3.connect(str(db_path))
         conn.row_factory = sqlite3.Row
         return conn
 

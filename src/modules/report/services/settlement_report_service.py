@@ -36,7 +36,14 @@ class SettlementReportService:
 
         for region in self.REGION_GROUPS:
             try:
-                settle_region(target_date, region)
+                result = settle_region(target_date, region)
+                if not result.get("ok", False):
+                    errors.append(
+                        {
+                            "region_group": region,
+                            "message": str(result.get("message", "")).strip() or "Unknown error",
+                        }
+                    )
             except Exception as exc:
                 errors.append(
                     {

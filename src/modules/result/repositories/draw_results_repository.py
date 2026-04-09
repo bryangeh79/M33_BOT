@@ -5,10 +5,13 @@ from datetime import datetime
 
 class DrawResultsRepository:
     def __init__(self, db_path=None):
-        self.db_path = db_path or get_db_path()
+        self.db_path = db_path
+
+    def _get_db_path(self):
+        return self.db_path or get_db_path()
 
     def get_result(self, draw_date, region_code):
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self._get_db_path()) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute(
@@ -42,7 +45,7 @@ class DrawResultsRepository:
         status,
         fetched_at,
     ):
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self._get_db_path()) as conn:
             cursor = conn.cursor()
             now = datetime.utcnow().isoformat(" ")
             cursor.execute(
@@ -75,7 +78,7 @@ class DrawResultsRepository:
             return cursor.lastrowid
 
     def update_result_status(self, draw_result_id, status, fetched_at):
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self._get_db_path()) as conn:
             cursor = conn.cursor()
             now = datetime.utcnow().isoformat(" ")
             cursor.execute(
@@ -96,7 +99,7 @@ class DrawResultsRepository:
         source_name,
         source_url,
     ):
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self._get_db_path()) as conn:
             cursor = conn.cursor()
             now = datetime.utcnow().isoformat(" ")
             cursor.execute(
@@ -115,7 +118,7 @@ class DrawResultsRepository:
             conn.commit()
 
     def exists(self, draw_date, region_code):
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self._get_db_path()) as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """

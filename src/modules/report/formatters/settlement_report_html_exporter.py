@@ -43,8 +43,23 @@ def export_settlement_report_html(report: dict[str, Any], lang: str = "en") -> s
     regions = report.get("regions", {}) or {}
     summary = report.get("summary", {}) or {}
     winner_details = report.get("winner_details", []) or []
+    settlement_errors = report.get("settlement_errors", []) or []
 
     region_blocks: list[str] = []
+    error_block = ""
+
+    if settlement_errors:
+        error_items = "".join(
+            f"<li><strong>{escape(str(error.get('region_group', '')).strip().upper() or '-')}</strong>: "
+            f"{escape(str(error.get('message', '')).strip() or 'Unknown error')}</li>"
+            for error in settlement_errors
+        )
+        error_block = f"""
+        <section class="error-card">
+            <h2>SETTLEMENT ERRORS</h2>
+            <ul>{error_items}</ul>
+        </section>
+        """
 
     for region_group in ("MN", "MT", "MB"):
         region_data = regions.get(region_group, {}) or {}
@@ -169,6 +184,24 @@ def export_settlement_report_html(report: dict[str, Any], lang: str = "en") -> s
             margin-bottom: 16px;
             background: #fff;
         }}
+        .error-card {{
+            border: 1px solid #f1b3b3;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+            background: #fff4f4;
+        }}
+        .error-card h2 {{
+            margin-top: 0;
+            color: #b42318;
+        }}
+        .error-card ul {{
+            margin: 0;
+            padding-left: 20px;
+        }}
+        .error-card li {{
+            margin: 6px 0;
+        }}
         .kv-grid {{
             display: grid;
             gap: 10px;
@@ -236,6 +269,8 @@ def export_settlement_report_html(report: dict[str, Any], lang: str = "en") -> s
 <body>
     <h1>{escape(t('REPORT_SETTLEMENT_TITLE', lang=lang))}</h1>
     <div class="meta">{escape(t('REPORT_DATE_LABEL', lang=lang, date=date_text))}</div>
+
+    {error_block}
 
     {''.join(region_blocks)}
 

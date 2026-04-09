@@ -5,10 +5,13 @@ from datetime import datetime
 
 class DrawResultItemsRepository:
     def __init__(self, db_path=None):
-        self.db_path = db_path or get_db_path()
+        self.db_path = db_path
+
+    def _get_db_path(self):
+        return self.db_path or get_db_path()
 
     def insert_items(self, draw_result_id, items):
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self._get_db_path()) as conn:
             cursor = conn.cursor()
             now = datetime.utcnow().isoformat(" ")
             rows = [
@@ -44,7 +47,7 @@ class DrawResultItemsRepository:
             conn.commit()
 
     def find_by_draw_result_id(self, draw_result_id):
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self._get_db_path()) as conn:
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
             cursor.execute(
@@ -66,7 +69,7 @@ class DrawResultItemsRepository:
             return [dict(row) for row in rows]
 
     def count_by_draw_result_id(self, draw_result_id) -> int:
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self._get_db_path()) as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
@@ -80,7 +83,7 @@ class DrawResultItemsRepository:
             return int(row[0]) if row else 0
 
     def delete_by_draw_result_id(self, draw_result_id):
-        with sqlite3.connect(self.db_path) as conn:
+        with sqlite3.connect(self._get_db_path()) as conn:
             cursor = conn.cursor()
             cursor.execute(
                 """
