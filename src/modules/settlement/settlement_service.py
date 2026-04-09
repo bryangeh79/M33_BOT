@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from src.modules.result.repositories.draw_results_repository import DrawResultsRepository
+from src.modules.result.services.result_fetch_service import ResultFetchService
 from src.modules.settlement.repositories.settlement_repository import SettlementRepository
 from src.modules.settlement.selectors.bet_selector import get_bets_for_settlement
 from src.modules.settlement.settlement_engine import SettlementEngine
@@ -11,8 +12,26 @@ def settle_region(draw_date: str, region_group: str) -> dict:
 
     settlement_repo = SettlementRepository()
     draw_results_repo = DrawResultsRepository()
+    result_fetch_service = ResultFetchService()
 
     draw_result = draw_results_repo.get_result(draw_date, region_group)
+    if draw_result is None or str(draw_result.get("status", "")).lower() != "available":
+        try:
+            result_fetch_service.fetch_and_store(draw_date, region_group)
+            draw_result = draw_results_repo.get_result(draw_date, region_group)
+        except Exception as exc:
+            return {
+                "ok": False,
+                "message": f"Failed to fetch draw result for {region_group} on {draw_date}: {exc}",
+                "draw_date": draw_date,
+                "region_group": region_group,
+                "draw_result_id": draw_result["id"] if draw_result else None,
+                "total_bets": 0,
+                "total_payout": 0,
+                "results": [],
+                "already_settled": False,
+            }
+
     if draw_result is None:
         return {
             "ok": False,

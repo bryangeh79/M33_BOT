@@ -45,11 +45,20 @@ def format_settlement_report_telegram(report: dict[str, Any], lang: str = "en") 
     regions = report.get("regions", {}) or {}
     summary = report.get("summary", {}) or {}
     winner_details = report.get("winner_details", []) or []
+    settlement_errors = report.get("settlement_errors", []) or []
 
     lines: list[str] = []
     lines.append(t("REPORT_SETTLEMENT_TITLE", lang))
     lines.append(t("REPORT_DATE_LABEL", lang, date=date_text))
     lines.append("")
+
+    if settlement_errors:
+        lines.append("SETTLEMENT ERRORS")
+        for error in settlement_errors:
+            region_group = str(error.get("region_group", "")).strip().upper() or "-"
+            message = str(error.get("message", "")).strip() or "Unknown error"
+            lines.append(f"{region_group}: {message}")
+        lines.append("")
 
     total_settlement_calc = 0.0
 
