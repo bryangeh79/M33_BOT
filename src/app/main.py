@@ -355,8 +355,8 @@ async def _clear_transient_messages(update: Update, context: ContextTypes.DEFAUL
     await _delete_last_status_message(context, chat_id, user_id)
 
 
-result_query_service = ResultQueryService()
-result_fetch_service = ResultFetchService()
+result_query_service = None
+result_fetch_service = None
 
 transaction_report_service = TransactionReportService()
 number_detail_report_service = NumberDetailReportService()
@@ -734,6 +734,7 @@ def validate_environment() -> None:
 
 def initialize_database() -> None:
     global admin_auth_service, admin_settings_service, agent_customer_repository, user_pref_repo
+    global result_query_service, result_fetch_service
 
     log_step("🗄 Initializing database ...")
 
@@ -746,6 +747,10 @@ def initialize_database() -> None:
         agent_customer_repository = AgentCustomerRepository()
     if user_pref_repo is None:
         user_pref_repo = UserPreferenceRepository()
+    if result_fetch_service is None:
+        result_fetch_service = ResultFetchService()
+    if result_query_service is None:
+        result_query_service = ResultQueryService()
 
     init_database()
     admin_auth_service.init_and_sync()
