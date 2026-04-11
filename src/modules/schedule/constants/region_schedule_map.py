@@ -34,7 +34,7 @@ REGION_SCHEDULE_MAP = {
         "MB": ["mb"],
     },
     "friday": {
-        "MN": ["vl", "tv", "la"],
+        "MN": ["bd", "tv", "vl"],
         "MT": ["gl", "nth"],
         "MB": ["mb"],
     },
