@@ -191,7 +191,7 @@ class XosodaiphatResultParser:
                 if province:
                     provinces.append(province)
 
-            if region_code == "MN" and len(provinces) != 3:
+            if region_code == "MN" and not (3 <= len(provinces) <= 4):
                 continue
             if region_code == "MT" and not (2 <= len(provinces) <= 3):
                 continue

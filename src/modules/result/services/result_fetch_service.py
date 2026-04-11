@@ -12,10 +12,10 @@ from src.modules.result.repositories.draw_results_repository import DrawResultsR
 
 
 class ResultFetchService:
-    EXPECTED_SUBREGION_COUNTS = {
-        "MN": 3,
-        "MT": 2,
-        "MB": 1,
+    EXPECTED_SUBREGION_RANGES = {
+        "MN": (3, 4),
+        "MT": (2, 3),
+        "MB": (1, 1),
     }
 
     EXPECTED_PRIZE_SPECS = {
@@ -44,12 +44,9 @@ class ResultFetchService:
         if not items:
             return False
 
-        expected_subregions = self.EXPECTED_SUBREGION_COUNTS.get(region, 1)
+        min_subregions, max_subregions = self.EXPECTED_SUBREGION_RANGES.get(region, (1, 1))
         actual_subregions = self._count_distinct_subregions_from_items(items)
-        if region == "MT":
-            if not (2 <= actual_subregions <= 3):
-                return False
-        elif actual_subregions != expected_subregions:
+        if not (min_subregions <= actual_subregions <= max_subregions):
             return False
 
         expected_prize_specs = self.EXPECTED_PRIZE_SPECS.get(region, {})
@@ -65,10 +62,7 @@ class ResultFetchService:
             prize_map.setdefault(sub_region_code, {})
             prize_map[sub_region_code][prize_code] = prize_map[sub_region_code].get(prize_code, 0) + 1
 
-        if region == "MT":
-            if not (2 <= len(prize_map) <= 3):
-                return False
-        elif len(prize_map) != expected_subregions:
+        if not (min_subregions <= len(prize_map) <= max_subregions):
             return False
 
         for _, prize_counts in prize_map.items():
