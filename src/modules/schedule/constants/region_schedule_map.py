@@ -45,7 +45,7 @@ REGION_SCHEDULE_MAP = {
     },
     "sunday": {
         "MN": ["tg", "kg", "dl"],
-        "MT": ["kt", "kh"],
+        "MT": ["kt", "kh", "tth"],
         "MB": ["mb"],
     },
 }

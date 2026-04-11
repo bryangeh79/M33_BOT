@@ -10,6 +10,13 @@ def test_friday_mn_regions_match_live_draw_order():
     assert allowed == ["bd", "tv", "vl"]
 
 
+def test_sunday_mt_regions_include_hue():
+    # 2026-04-12 is Sunday. MT should include Kon Tum, Khanh Hoa, Hue.
+    allowed = get_allowed_regions(date(2026, 4, 12), "MT")
+    assert allowed == ["kt", "kh", "tth"]
+
+
 if __name__ == "__main__":
     test_friday_mn_regions_match_live_draw_order()
+    test_sunday_mt_regions_include_hue()
     print("OK")
