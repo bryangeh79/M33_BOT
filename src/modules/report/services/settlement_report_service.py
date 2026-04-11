@@ -44,6 +44,20 @@ class SettlementReportService:
                             "message": str(result.get("message", "")).strip() or "Unknown error",
                         }
                     )
+                for item in result.get("settlement_errors", []) or []:
+                    ticket_no = str(item.get("ticket_no", "")).strip().upper() or "-"
+                    input_text = str(item.get("input_text", "")).strip()
+                    detail = str(item.get("message", "")).strip() or "Unknown error"
+                    if input_text:
+                        detail = f"{ticket_no} | {input_text} | {detail}"
+                    else:
+                        detail = f"{ticket_no} | {detail}"
+                    errors.append(
+                        {
+                            "region_group": region,
+                            "message": detail,
+                        }
+                    )
             except Exception as exc:
                 errors.append(
                     {

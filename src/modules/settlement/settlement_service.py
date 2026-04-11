@@ -86,7 +86,7 @@ def settle_region(draw_date: str, region_group: str) -> dict:
         }
 
     engine = SettlementEngine()
-    settlement_results = engine.settle(bets, region_group)
+    settlement_results, settlement_errors = engine.settle(bets, region_group)
     total_payout = sum(float(result.payout or 0) for result in settlement_results)
 
     settlement_repo.create_settlement_run(
@@ -97,14 +97,22 @@ def settle_region(draw_date: str, region_group: str) -> dict:
         total_payout=total_payout,
     )
 
+    message = f"Settlement completed for {region_group} on {draw_date}"
+    if settlement_errors:
+        message = (
+            f"Settlement completed for {region_group} on {draw_date} "
+            f"with {len(settlement_errors)} skipped invalid bet(s)"
+        )
+
     return {
         "ok": True,
-        "message": f"Settlement completed for {region_group} on {draw_date}",
+        "message": message,
         "draw_date": draw_date,
         "region_group": region_group,
         "draw_result_id": draw_result["id"],
         "total_bets": len(settlement_results),
         "total_payout": total_payout,
         "results": [result.to_dict() for result in settlement_results],
+        "settlement_errors": settlement_errors,
         "already_settled": False,
     }

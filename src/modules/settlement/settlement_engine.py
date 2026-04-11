@@ -37,8 +37,9 @@ class SettlementEngine:
     def __init__(self):
         self.repository = SettlementRepository()
 
-    def settle(self, bets: List[Dict], region_group: str) -> List[SettlementResult]:
+    def settle(self, bets: List[Dict], region_group: str) -> tuple[List[SettlementResult], list[dict]]:
         results: list[SettlementResult] = []
+        errors: list[dict] = []
 
         normalized_region_group = str(region_group or "").strip().upper()
 
@@ -70,18 +71,30 @@ class SettlementEngine:
 
             draw_results_by_region: dict[str, dict] = {}
 
-            for region_code in lookup_regions:
-                draw_results_by_region[region_code] = get_results_by_region(
-                    draw_date=bet_date,
-                    region_group=normalized_region_group,
-                    sub_region_code=region_code,
-                )
+            try:
+                for region_code in lookup_regions:
+                    draw_results_by_region[region_code] = get_results_by_region(
+                        draw_date=bet_date,
+                        region_group=normalized_region_group,
+                        sub_region_code=region_code,
+                    )
 
-            payout, win_details = calculate_payout(
-                bet=normalized_bet,
-                draw_results_by_region=draw_results_by_region,
-                region_group=normalized_region_group,
-            )
+                payout, win_details = calculate_payout(
+                    bet=normalized_bet,
+                    draw_results_by_region=draw_results_by_region,
+                    region_group=normalized_region_group,
+                )
+            except Exception as exc:
+                errors.append(
+                    {
+                        "bet_id": normalized_bet.get("id"),
+                        "ticket_no": normalized_bet.get("ticket_no"),
+                        "input_text": normalized_bet.get("input_text", ""),
+                        "regions": storage_regions,
+                        "message": str(exc),
+                    }
+                )
+                continue
 
             results.append(
                 SettlementResult(
@@ -96,4 +109,4 @@ class SettlementEngine:
         if results:
             self.repository.save_many(results)
 
-        return results
+        return results, errors
