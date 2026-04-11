@@ -1,4 +1,5 @@
 from src.modules.result.services.result_fetch_service import ResultFetchService
+from src.modules.result.parsers.xosodaiphat_result_parser import XosodaiphatResultParser
 
 
 def build_mn_item(sub_region_code: str, prize_code: str, item_order: int, number_value: str, prize_order: int):
@@ -42,6 +43,17 @@ def test_mn_result_allows_four_subregions_on_saturday():
     assert service._is_items_complete("MN", items) is True
 
 
+def test_parser_splits_combined_g1_db_line():
+    lines = XosodaiphatResultParser._split_combined_prize_line(
+        "G.1 03769 95720 82303 95985 ĐB 812128 169749 307467 104888"
+    )
+    assert lines == [
+        "G.1 03769 95720 82303 95985",
+        "G.DB 812128 169749 307467 104888",
+    ]
+
+
 if __name__ == "__main__":
     test_mn_result_allows_four_subregions_on_saturday()
+    test_parser_splits_combined_g1_db_line()
     print("OK")

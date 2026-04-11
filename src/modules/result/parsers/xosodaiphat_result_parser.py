@@ -383,7 +383,11 @@ class XosodaiphatResultParser:
         items: List[Dict] = []
         prize_order = 0
 
-        for line in block_lines[header_index + 1:]:
+        expanded_lines: List[str] = []
+        for raw_line in block_lines[header_index + 1:]:
+            expanded_lines.extend(cls._split_combined_prize_line(raw_line))
+
+        for line in expanded_lines:
             if cls._is_stop_line(line):
                 break
 
@@ -427,6 +431,25 @@ class XosodaiphatResultParser:
                     )
 
         return items
+
+    @classmethod
+    def _split_combined_prize_line(cls, line: str) -> List[str]:
+        normalized = cls._normalize_line(line)
+        upper_ascii = cls._ascii_upper(normalized).replace("Đ", "D")
+
+        if not upper_ascii.startswith("G.1") and not upper_ascii.startswith("G1"):
+            return [normalized]
+
+        match = re.search(r"\s+(ĐB|DB)\s+", normalized, flags=re.IGNORECASE)
+        if not match:
+            return [normalized]
+
+        left = normalized[: match.start()].strip()
+        right = normalized[match.end() :].strip()
+        if not left or not right:
+            return [normalized]
+
+        return [left, f"G.DB {right}"]
 
     @classmethod
     def _find_header_and_provinces(
