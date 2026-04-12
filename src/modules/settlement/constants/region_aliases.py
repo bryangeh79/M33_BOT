@@ -63,6 +63,7 @@ MN_REGION_ALIAS_MAP = {
     "ct": "CANTHO",
     "dn": "DONGNAI",
     "dnai": "DONGNAI",
+    "dl": "DALAT",
     "dt": "DONGTHAP",
     "hg": "HAUGIANG",
     "kg": "KIENGIANG",
