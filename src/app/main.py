@@ -787,6 +787,9 @@ async def post_init(application: Application) -> None:
             "zh": ("zh", "zh-hans", "zh-cn", "zh-tw"),
             "vi": ("vi",),
         }
+        ALL_COMMAND_LANGUAGE_CODES: tuple[str, ...] = tuple(
+            dict.fromkeys(code for codes in COMMAND_LANGUAGE_CODES.values() for code in codes)
+        )
 
         def _cmd_list(lang: str) -> list[BotCommand]:
             return [
@@ -801,7 +804,10 @@ async def post_init(application: Application) -> None:
             commands = _cmd_list(lang)
             scope = BotCommandScopeChat(chat_id)
             await application.bot.set_my_commands(commands, scope=scope)
-            for forced_lang in COMMAND_LANGUAGE_CODES.get(lang, (lang,)):
+            # A per-chat language selection should override Telegram client locale
+            # variants, so we register the chosen command descriptions for all
+            # supported language codes in this chat scope.
+            for forced_lang in ALL_COMMAND_LANGUAGE_CODES:
                 await application.bot.set_my_commands(
                     commands,
                     scope=scope,
