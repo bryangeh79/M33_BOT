@@ -780,6 +780,14 @@ async def post_init(application: Application) -> None:
         from telegram import BotCommand, BotCommandScopeDefault, BotCommandScopeAllGroupChats, BotCommandScopeChat
         from src.i18n.translator import t
 
+        COMMAND_LANGUAGE_CODES: dict[str, tuple[str, ...]] = {
+            "en": ("en",),
+            # Telegram clients may request Chinese command menus with
+            # locale variants such as zh-hans/zh-cn/zh-tw.
+            "zh": ("zh", "zh-hans", "zh-cn", "zh-tw"),
+            "vi": ("vi",),
+        }
+
         def _cmd_list(lang: str) -> list[BotCommand]:
             return [
                 BotCommand("start",      t("CMD_START",      lang)),
@@ -793,7 +801,7 @@ async def post_init(application: Application) -> None:
             commands = _cmd_list(lang)
             scope = BotCommandScopeChat(chat_id)
             await application.bot.set_my_commands(commands, scope=scope)
-            for forced_lang in ("en", "zh", "vi"):
+            for forced_lang in COMMAND_LANGUAGE_CODES.get(lang, (lang,)):
                 await application.bot.set_my_commands(
                     commands,
                     scope=scope,
@@ -805,19 +813,23 @@ async def post_init(application: Application) -> None:
         # fallback (no language_code) — shown when user's device lang has no match
         await application.bot.set_my_commands(_cmd_list("en"))
         # per-language overrides (Default scope — private chats + fallback)
-        for lang, tg_lang in (("en", "en"), ("zh", "zh"), ("vi", "vi")):
-            await application.bot.set_my_commands(
-                _cmd_list(lang),
-                language_code=tg_lang,
-            )
+        for lang, tg_langs in COMMAND_LANGUAGE_CODES.items():
+            commands = _cmd_list(lang)
+            for tg_lang in tg_langs:
+                await application.bot.set_my_commands(
+                    commands,
+                    language_code=tg_lang,
+                )
         # AllGroupChats scope — ensures blue Menu button appears in group chats
         await application.bot.set_my_commands(_cmd_list("en"), scope=BotCommandScopeAllGroupChats())
-        for lang, tg_lang in (("en", "en"), ("zh", "zh"), ("vi", "vi")):
-            await application.bot.set_my_commands(
-                _cmd_list(lang),
-                scope=BotCommandScopeAllGroupChats(),
-                language_code=tg_lang,
-            )
+        for lang, tg_langs in COMMAND_LANGUAGE_CODES.items():
+            commands = _cmd_list(lang)
+            for tg_lang in tg_langs:
+                await application.bot.set_my_commands(
+                    commands,
+                    scope=BotCommandScopeAllGroupChats(),
+                    language_code=tg_lang,
+                )
         log_step("✅ Command menu registered (en / zh / vi) — Default + AllGroupChats")
     except Exception as e:
         log_step(f"⚠ Failed to register command menu: {e}")
