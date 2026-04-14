@@ -777,7 +777,13 @@ async def post_init(application: Application) -> None:
     log_step(f"🚀 M33 Lotto Bot started at {_now_local().strftime('%Y-%m-%d %H:%M:%S')}")
 
     try:
-        from telegram import BotCommand, BotCommandScopeDefault, BotCommandScopeAllGroupChats, BotCommandScopeChat
+        from telegram import (
+            BotCommand,
+            BotCommandScopeAllGroupChats,
+            BotCommandScopeChat,
+            BotCommandScopeChatMember,
+            BotCommandScopeDefault,
+        )
         from src.i18n.translator import t
 
         COMMAND_LANGUAGE_CODES: dict[str, tuple[str, ...]] = {
@@ -800,7 +806,7 @@ async def post_init(application: Application) -> None:
                 BotCommand("settlement", t("CMD_SETTLEMENT", lang)),
             ]
 
-        async def _register_chat_commands(chat_id: int, lang: str) -> None:
+        async def _register_chat_commands(chat_id: int, lang: str, user_id: int | None = None) -> None:
             commands = _cmd_list(lang)
             scope = BotCommandScopeChat(chat_id)
             await application.bot.set_my_commands(commands, scope=scope)
@@ -813,6 +819,15 @@ async def post_init(application: Application) -> None:
                     scope=scope,
                     language_code=forced_lang,
                 )
+            if user_id is not None:
+                member_scope = BotCommandScopeChatMember(chat_id, user_id)
+                await application.bot.set_my_commands(commands, scope=member_scope)
+                for forced_lang in ALL_COMMAND_LANGUAGE_CODES:
+                    await application.bot.set_my_commands(
+                        commands,
+                        scope=member_scope,
+                        language_code=forced_lang,
+                    )
 
         application.bot_data["register_chat_commands"] = _register_chat_commands
 
@@ -1403,7 +1418,7 @@ async def handle_lang_select(update: Update, context: ContextTypes.DEFAULT_TYPE)
     register_chat_commands = context.application.bot_data.get("register_chat_commands")
     if callable(register_chat_commands) and query.message:
         try:
-            await register_chat_commands(query.message.chat_id, lang_code)
+            await register_chat_commands(query.message.chat_id, lang_code, user_id)
         except Exception as exc:
             log_step(f"? Failed to refresh command menu for chat {query.message.chat_id}: {exc}")
     key_map = {"en": "LANG_SET_EN", "zh": "LANG_SET_ZH", "vi": "LANG_SET_VI"}
@@ -1452,7 +1467,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     register_chat_commands = context.application.bot_data.get("register_chat_commands")
     if callable(register_chat_commands) and update.effective_chat:
         try:
-            await register_chat_commands(update.effective_chat.id, _get_user_lang(user_id))
+            await register_chat_commands(update.effective_chat.id, _get_user_lang(user_id), user_id)
         except Exception as exc:
             log_step(f"? Failed to sync command menu for chat {update.effective_chat.id}: {exc}")
     await show_main_menu(update, context)
