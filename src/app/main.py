@@ -1360,6 +1360,7 @@ async def mn_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     user_id = update.effective_user.id
     _set_user_target_date(user_id, _today_iso())
     _set_user_region(user_id, "MN")
+    _set_user_state(user_id, UserState.BET_INPUT)
     await _clear_transient_messages(update, context)
     await _send_status_message(update, context, _build_env_region_message(user_id, "MN"), reply_markup=ReplyKeyboardRemove())
 
@@ -1370,6 +1371,7 @@ async def mt_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     user_id = update.effective_user.id
     _set_user_target_date(user_id, _today_iso())
     _set_user_region(user_id, "MT")
+    _set_user_state(user_id, UserState.BET_INPUT)
     await _clear_transient_messages(update, context)
     await _send_status_message(update, context, _build_env_region_message(user_id, "MT"), reply_markup=ReplyKeyboardRemove())
 
@@ -1380,6 +1382,7 @@ async def mb_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     user_id = update.effective_user.id
     _set_user_target_date(user_id, _today_iso())
     _set_user_region(user_id, "MB")
+    _set_user_state(user_id, UserState.BET_INPUT)
     await _clear_transient_messages(update, context)
     await _send_status_message(update, context, _build_env_region_message(user_id, "MB"), reply_markup=ReplyKeyboardRemove())
 
