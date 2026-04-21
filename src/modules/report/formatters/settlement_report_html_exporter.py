@@ -56,7 +56,7 @@ def export_settlement_report_html(report: dict[str, Any], lang: str = "en") -> s
         )
         error_block = f"""
         <section class="error-card">
-            <h2>SETTLEMENT ERRORS</h2>
+            <h2>{escape(t('REPORT_SYSTEM_UPDATES', lang=lang))}</h2>
             <ul>{error_items}</ul>
         </section>
         """
@@ -185,15 +185,15 @@ def export_settlement_report_html(report: dict[str, Any], lang: str = "en") -> s
             background: #fff;
         }}
         .error-card {{
-            border: 1px solid #f1b3b3;
+            border: 1px solid #b6d4fe;
             border-radius: 10px;
             padding: 16px;
             margin-bottom: 16px;
-            background: #fff4f4;
+            background: #f4f8ff;
         }}
         .error-card h2 {{
             margin-top: 0;
-            color: #b42318;
+            color: #1d4ed8;
         }}
         .error-card ul {{
             margin: 0;

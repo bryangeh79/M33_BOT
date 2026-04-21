@@ -206,6 +206,7 @@ STRINGS: dict[str, str] = {
     # â”€â”€ Report formatters (body text) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     "REPORT_TRANSACTION_TITLE": "📊 Transaction Report",
     "REPORT_SETTLEMENT_TITLE": "📘 Settlement Report",
+    "REPORT_SYSTEM_UPDATES": "SYSTEM UPDATES",
     "REPORT_NUMBER_DETAIL_TITLE": "🔢 Number Detail Report",
     # {date} is replaced at runtime
     "REPORT_DATE_LABEL": "Date: {date}",

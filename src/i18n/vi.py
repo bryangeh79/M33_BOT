@@ -143,6 +143,7 @@ STRINGS: dict[str, str] = {
     "RESULT_FETCHED_LABEL": "🕒 Cập nhật:",
     "REPORT_TRANSACTION_TITLE": "📊 Báo cáo giao dịch",
     "REPORT_SETTLEMENT_TITLE": "📘 Báo cáo quyết toán",
+    "REPORT_SYSTEM_UPDATES": "CẬP NHẬT HỆ THỐNG",
     "REPORT_NUMBER_DETAIL_TITLE": "🔢 Báo cáo chi tiết số",
     "REPORT_DATE_LABEL": "Ngày: {date}",
     "REPORT_REGION_NO_DATA": "Không có dữ liệu",

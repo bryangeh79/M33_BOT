@@ -53,7 +53,7 @@ def format_settlement_report_telegram(report: dict[str, Any], lang: str = "en") 
     lines.append("")
 
     if settlement_errors:
-        lines.append("SETTLEMENT ERRORS")
+        lines.append(t("REPORT_SYSTEM_UPDATES", lang))
         for error in settlement_errors:
             region_group = str(error.get("region_group", "")).strip().upper() or "-"
             message = str(error.get("message", "")).strip() or "Unknown error"

@@ -143,6 +143,7 @@ STRINGS: dict[str, str] = {
     "RESULT_FETCHED_LABEL": "🕒 获取时间：",
     "REPORT_TRANSACTION_TITLE": "📊 交易报表",
     "REPORT_SETTLEMENT_TITLE": "📘 结算报表",
+    "REPORT_SYSTEM_UPDATES": "系统更新",
     "REPORT_NUMBER_DETAIL_TITLE": "🔢 号码明细报表",
     "REPORT_DATE_LABEL": "日期：{date}",
     "REPORT_REGION_NO_DATA": "无数据",

@@ -50,9 +50,7 @@ class SettlementReportRepository:
             SELECT
                 bi.region_group,
                 COALESCE(SUM(CAST(bi.total AS REAL)), 0) AS bet_total
-            FROM settlement_results sr
-            INNER JOIN bet_items bi
-                ON bi.id = sr.bet_id
+            FROM bet_items bi
             INNER JOIN bet_batches bb
                 ON bb.id = bi.batch_id
             WHERE bb.bet_date = ?
